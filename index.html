@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paroisse Pain de Vie | Ambassadeurs pour Christ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #c5a47e; /* Couleur dorée/sable style 'The Haven' */
+            --bg-light: #f9f7f2;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+            --white: #ffffff;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn-join {
+            background-color: var(--primary);
+            color: var(--white) !important;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(249, 247, 242, 0.8), rgba(249, 247, 242, 0.8)), 
+                        url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 0 10%;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Info Section (Firebase dynamic part) */
+        .info-section {
+            padding: 5rem 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            background: var(--white);
+        }
+
+        .card {
+            padding: 2rem;
+            border: 1px solid #eee;
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* Footer / Contact */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 10%;
+            text-align: center;
+        }
+
+        .address-box {
+            margin-top: 2rem;
+            font-style: normal;
+            opacity: 0.8;
+        }
+
+        #contact-status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Pain de Vie</div>
+        <ul class="nav-links">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#propos">À Propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#" class="btn-join" id="btn-contact">Nous Contacter</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span style="letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem; color: var(--accent);">Bienvenue à l'église</span>
+            <h1>Ambassadeurs pour Christ</h1>
+            <p>Une communauté vibrante à Kolwezi dédiée à la transformation des vies par l'Évangile.</p>
+        </div>
+    </section>
+
+    <section class="info-section" id="services">
+        <div class="card">
+            <h3>Nos Cultes</h3>
+            <p>Rejoignez-nous chaque dimanche pour célébrer la gloire de Dieu et recevoir le Pain de Vie.</p>
+        </div>
+        <div class="card">
+            <h3>Notre Vision</h3>
+            <p>Former des ambassadeurs remplis de l'Esprit pour impacter la ville de Kolwezi et au-delà.</p>
+        </div>
+        <div class="card">
+            <h3>Localisation</h3>
+            <p id="firebase-address">Chargement de l'adresse...</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="color: white; margin-bottom: 1.5rem;">Pain de Vie</div>
+        <p>Eglise Évangélique des Ambassadeurs pour Christ</p>
+        <div class="address-box">
+            <p><i class="fas fa-map-marker-alt"></i> 44 Avenue Dilolo, Quartier Hewa Bora</p>
+            <p>Commune Dilala, Ville de Kolwezi</p>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.7rem; opacity: 0.5;">&copy; 2024 Paroisse Pain de Vie. Tous droits réservés.</p>
+        <div id="contact-status"></div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+        // Votre configuration fournie
+        const firebaseConfig = {
+            apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
+            authDomain: "eglise-pain-de-vie.firebaseapp.com",
+            projectId: "eglise-pain-de-vie",
+            storageBucket: "eglise-pain-de-vie.firebasestorage.app",
+            messagingSenderId: "623268173333",
+            appId: "1:623268173333:web:4e8d3005ec93b90fe5e01c"
+        };
+
+        // Initialisation de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Simulation de récupération de données depuis Firebase
+        // Note: Dans un cas réel, vous créeriez une collection 'church_info'
+        async function loadChurchData() {
+            const addressElement = document.getElementById('firebase-address');
+            try {
+                // Ici on affiche l'adresse fournie, mais on simule la logique Firebase
+                const info = {
+                    adresse: "Ville de Kolwezi, quartier Hewa bora, avenue Dilolo, numero 44, Commune Dilala"
+                };
+                
+                addressElement.innerHTML = `<i class="fas fa-location-dot"></i> ${info.adresse}`;
+                console.log("Firebase connecté avec succès");
+            } catch (error) {
+                console.error("Erreur Firebase:", error);
+                addressElement.innerText = "Adresse non disponible.";
+            }
+        }
+
+        // Interaction simple pour le bouton contact
+        document.getElementById('btn-contact').addEventListener('click', (e) => {
+            e.preventDefault();
+            const status = document.getElementById('contact-status');
+            status.style.color = "#c5a47e";
+            status.innerText = "Le module de contact Firebase est prêt !";
+        });
+
+        window.onload = loadChurchData;
+    </script>
+</body>
+</html>
