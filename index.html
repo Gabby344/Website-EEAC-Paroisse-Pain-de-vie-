@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ambassadeurs pour Christ | Pain de Vie</title>
+    <title>Pain de Vie | Ambassadeurs pour Christ</title>
     
     <!-- Polices premium -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet">
@@ -1419,10 +1419,26 @@
     <div id="admin-panel">
         <div class="admin-modal">
             <h2>⚡ Accès Administrateur</h2>
-            <input type="email" id="admin-email" placeholder="Email" value="adminpaindevie@gmail.com">
-            <input type="password" id="admin-password" placeholder="Mot de passe" value="Admin12345678">
+            <input type="email" id="admin-email" placeholder="Email" value="admin@paindevie.org">
+            <input type="password" id="admin-password" placeholder="Mot de passe" value="Admin123!">
             <button onclick="handleAdminLogin()">Se connecter</button>
             <button onclick="hideAdminLogin()" style="background: #666;">Annuler</button>
+            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+                <a href="#" onclick="showRegisterForm()">Créer un compte admin</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Register Modal -->
+    <div id="admin-register" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 5001; align-items: center; justify-content: center;">
+        <div class="admin-modal">
+            <h2>📝 Créer un compte admin</h2>
+            <input type="email" id="reg-email" placeholder="Email" value="newadmin@paindevie.org">
+            <input type="password" id="reg-password" placeholder="Mot de passe (min. 6 caractères)" value="Admin123!">
+            <input type="password" id="reg-confirm" placeholder="Confirmer le mot de passe" value="Admin123!">
+            <input type="text" id="reg-name" placeholder="Nom complet" value="Administrateur">
+            <button onclick="handleAdminRegister()" class="btn-success">Créer le compte</button>
+            <button onclick="hideRegisterForm()" style="background: #666;">Annuler</button>
         </div>
     </div>
 
@@ -1470,7 +1486,7 @@
                 <input type="text" id="news-title" placeholder="Titre">
                 <textarea id="news-content" placeholder="Contenu..." rows="4"></textarea>
                 <input type="file" id="news-image" accept="image/*">
-                <input type="text" id="news-author" placeholder="Auteur" value="Pasteur Obed Kahozi">
+                <input type="text" id="news-author" placeholder="Auteur (optionnel)" value="Pasteur Obed Kahozi">
                 <button onclick="addNews()" class="btn-admin btn-success"><i class="fas fa-plus"></i> Publier</button>
                 
                 <h4 style="margin-top: 30px;">Actualités publiées</h4>
@@ -1485,7 +1501,7 @@
                 
                 <h4>Ajouter des images</h4>
                 <input type="file" id="gallery-upload" accept="image/*" multiple>
-                <input type="text" id="gallery-caption" placeholder="Légende">
+                <input type="text" id="gallery-caption" placeholder="Légende (optionnel)">
                 <button onclick="uploadGalleryImages()" class="btn-admin btn-success"><i class="fas fa-upload"></i> Uploader</button>
                 
                 <h4 style="margin-top: 30px;">Images de la galerie</h4>
@@ -1499,15 +1515,15 @@
                 <h3><i class="fas fa-calendar-alt" style="color: var(--accent); margin-right: 10px;"></i>Programmes</h3>
                 
                 <h4>Culte Matinal</h4>
-                <input type="text" id="program-morning" placeholder="Ex: Lundi-Vendredi: 05h30-06h30" value="Lundi-Vendredi: 05h30-06h30">
+                <input type="text" id="program-morning" placeholder="Horaires" value="Lundi-Vendredi: 05h30-06h30">
                 
                 <h4>Enseignement & Prière</h4>
-                <input type="text" id="program-teaching" placeholder="Ex: Mardi & Vendredi: 16h00-18h00" value="Mardi & Vendredi: 16h00-18h00">
+                <input type="text" id="program-teaching" placeholder="Horaires" value="Mardi & Vendredi: 16h00-18h00">
                 
                 <h4>Culte du Dimanche</h4>
-                <input type="text" id="program-sunday" placeholder="Ex: Dimanche: 08h30-11h00" value="Dimanche: 08h30-11h00">
+                <input type="text" id="program-sunday" placeholder="Horaires" value="Dimanche: 08h30-11h00">
                 
-                <button onclick="savePrograms()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                <button onclick="savePrograms()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les programmes</button>
             </div>
 
             <!-- Gestion Contacts -->
@@ -1529,7 +1545,21 @@
                 <input type="text" id="social-instagram" placeholder="Instagram URL" value="https://instagram.com/paindevie">
                 <input type="text" id="social-tiktok" placeholder="TikTok URL" value="https://tiktok.com/@paindevie">
                 
-                <button onclick="saveContacts()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                <button onclick="saveContacts()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les contacts</button>
+            </div>
+
+            <!-- Gestion des administrateurs -->
+            <div class="admin-card">
+                <h3><i class="fas fa-user-shield" style="color: var(--accent); margin-right: 10px;"></i>Gestion des admins</h3>
+                
+                <h4>Ajouter un administrateur</h4>
+                <input type="email" id="new-admin-email" placeholder="Email du nouvel admin">
+                <button onclick="addAdmin()" class="btn-admin btn-success"><i class="fas fa-user-plus"></i> Ajouter</button>
+                
+                <h4 style="margin-top: 30px;">Administrateurs actuels</h4>
+                <div class="publications-list" id="admins-list">
+                    <!-- Liste des admins -->
+                </div>
             </div>
 
             <!-- Statistiques -->
@@ -1537,6 +1567,7 @@
                 <h3><i class="fas fa-chart-line" style="color: var(--accent); margin-right: 10px;"></i>Statistiques</h3>
                 <p><i class="fas fa-image"></i> Images en galerie: <span id="stats-images">0</span></p>
                 <p><i class="fas fa-newspaper"></i> Actualités: <span id="stats-news">0</span></p>
+                <p><i class="fas fa-users"></i> Admins: <span id="stats-admins">1</span></p>
                 <p><i class="fas fa-calendar"></i> Dernière mise à jour: <span id="last-update">Jamais</span></p>
                 <button onclick="refreshData()" class="btn-admin"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
             </div>
@@ -1558,66 +1589,37 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
-    <!-- Firebase SDK (moderne) -->
-    <script type="module">
-        // Import Firebase (version modulaire)
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword, 
-            signOut, 
-            onAuthStateChanged 
-        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc, 
-            updateDoc,
-            collection, 
-            addDoc, 
-            getDocs, 
-            deleteDoc,
-            query, 
-            orderBy,
-            serverTimestamp,
-            enableIndexedDbPersistence
-        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { 
-            getStorage, 
-            ref, 
-            uploadBytes, 
-            getDownloadURL 
-        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
-        // Configuration Firebase
+    <script>
+        // Configuration Firebase (gardez la même)
         const firebaseConfig = {
             apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
             authDomain: "eglise-pain-de-vie.firebaseapp.com",
             projectId: "eglise-pain-de-vie",
-            storageBucket: "eglise-pain-de-vie.firebasestorage.app",
-            messagingSenderId: "623268173333",
+            storageBucket: "eglise-pain-de-vie.appspot.com",
             appId: "1:623268173333:web:4e8d3005ec93b90fe5e01c"
         };
 
         // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore(); // Passage à Firestore
+        const storage = firebase.storage();
 
         // Activer la persistance hors ligne
-        try {
-            await enableIndexedDbPersistence(db);
-            console.log('Persistance activée');
-        } catch (err) {
-            console.log('Erreur persistance:', err);
-        }
-
-        // Rendre les objets globaux pour les fonctions du DOM
-        window.auth = auth;
-        window.db = db;
-        window.storage = storage;
+        db.enablePersistence()
+            .catch((err) => {
+                if (err.code == 'failed-precondition') {
+                    console.log('Persistance échouée');
+                } else if (err.code == 'unimplemented') {
+                    console.log('Persistance non disponible');
+                }
+            });
 
         // Données par défaut
         const defaultData = {
@@ -1630,6 +1632,7 @@
             mission: "Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.",
             values: "Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.",
             pasteurMessage: "Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine.",
+            pasteurName: "Pasteur Obed Kahozi",
             pasteurTitle: "Fondateur de la Paroisse Pain de Vie",
             programs: {
                 morning: "Lundi-Vendredi: 05h30-06h30",
@@ -1649,15 +1652,53 @@
             }
         };
 
-        // Images par défaut pour le carrousel
+        // Images par défaut
         const defaultImages = [
-            'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1920',
-            'https://images.unsplash.com/photo-1524850011238-e3d235c7d4c9?w=1920',
-            'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=1920'
+            'Seance de cilte 1.jpeg',
+            'Seance de cilte 2.jpeg',
+            'Seance de cilte 3.jpeg',
+            'Seance de cilte 4.jpeg',
+            'Seance de cilte 5.jpeg',
+            'Seance de cilte 6.jpeg',
+            'Seance de cilte 7.jpeg',
+            'Seance de cilte 8.jpeg',
+            'Seance de cilte 9.jpeg',
+            'Seance de cilte 10.jpeg',
+            'Seance de cilte 11.jpeg',
+            'Seance de cilte 12.jpeg',
+            'Seance de cilte 13.jpeg'
+        ];
+
+        // Actualités par défaut
+        const defaultNews = [
+            {
+                title: 'Grande Conférence sur le Réveil',
+                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                image: 'Seance de cilte 1.jpeg',
+                author: 'Pasteur Obed Kahozi',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now()
+            },
+            {
+                title: 'Camp de Jeunesse 2025',
+                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                image: 'Seance de cilte 5.jpeg',
+                author: 'Département Jeunesse',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now() - 86400000
+            },
+            {
+                title: 'Baptême Collectif',
+                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                image: 'Seance de cilte 8.jpeg',
+                author: 'Pasteur Obed Kahozi',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now() - 172800000
+            }
         ];
 
         // ===== FONCTIONS UTILITAIRES =====
-        window.showNotification = (message, type = 'success') => {
+        function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.style.background = type === 'success' ? 'var(--accent)' : '#dc3545';
@@ -1667,7 +1708,7 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
-        };
+        }
 
         // ===== INITIALISATION AOS =====
         AOS.init({
@@ -1709,7 +1750,7 @@
             defaultImages.forEach(img => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
-                slide.innerHTML = `<img src="${img}" class="slide-bg" alt="Culte">`;
+                slide.innerHTML = `<img src="${img}" class="slide-bg" alt="Culte" onerror="this.src='https://via.placeholder.com/1920x1080?text=Image+non+trouvée'">`;
                 swiperWrapper.appendChild(slide);
             });
 
@@ -1730,41 +1771,44 @@
         // ===== CHARGEMENT DES DONNÉES =====
         async function loadAllContent() {
             try {
+                // Mettre à jour la date
                 document.getElementById('last-update').textContent = new Date().toLocaleString();
 
                 // Charger l'historique
-                const historyDoc = await getDoc(doc(db, 'content', 'history'));
-                if (historyDoc.exists()) {
+                const historyDoc = await db.collection('content').doc('history').get();
+                if (historyDoc.exists) {
                     const historyData = historyDoc.data();
                     const historyHtml = historyData.texts.map(text => `<p>${text}</p>`).join('');
                     document.getElementById('history-content').innerHTML = historyHtml;
                     document.getElementById('edit-history').value = historyData.texts.join('\n\n');
                 } else {
+                    // Données par défaut
                     const historyHtml = defaultData.history.map(text => `<p>${text}</p>`).join('');
                     document.getElementById('history-content').innerHTML = historyHtml;
                     document.getElementById('edit-history').value = defaultData.history.join('\n\n');
                 }
 
                 // Charger la vision/mission
-                const visionDoc = await getDoc(doc(db, 'content', 'vision'));
-                if (visionDoc.exists()) {
+                const visionDoc = await db.collection('content').doc('vision').get();
+                if (visionDoc.exists) {
                     const data = visionDoc.data();
                     document.getElementById('edit-vision').value = data.vision || '';
                     document.getElementById('edit-mission').value = data.mission || '';
                     document.getElementById('edit-values').value = data.values || '';
                     
+                    // Afficher sur la page
                     document.getElementById('vision-content').innerHTML = `
-                        <div class="v-card" data-aos="flip-left">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
                             <i class="fas fa-eye"></i>
                             <h3>Vision</h3>
                             <p>${data.vision || defaultData.vision}</p>
                         </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-delay="100">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
                             <i class="fas fa-scroll"></i>
                             <h3>Mission</h3>
                             <p>${data.mission || defaultData.mission}</p>
                         </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-delay="200">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
                             <i class="fas fa-star"></i>
                             <h3>Valeurs</h3>
                             <p>${data.values || defaultData.values}</p>
@@ -1776,17 +1820,17 @@
                     document.getElementById('edit-values').value = defaultData.values;
                     
                     document.getElementById('vision-content').innerHTML = `
-                        <div class="v-card" data-aos="flip-left">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
                             <i class="fas fa-eye"></i>
                             <h3>Vision</h3>
                             <p>${defaultData.vision}</p>
                         </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-delay="100">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
                             <i class="fas fa-scroll"></i>
                             <h3>Mission</h3>
                             <p>${defaultData.mission}</p>
                         </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-delay="200">
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
                             <i class="fas fa-star"></i>
                             <h3>Valeurs</h3>
                             <p>${defaultData.values}</p>
@@ -1795,13 +1839,14 @@
                 }
 
                 // Charger les programmes
-                const programsDoc = await getDoc(doc(db, 'content', 'programs'));
-                if (programsDoc.exists()) {
+                const programsDoc = await db.collection('content').doc('programs').get();
+                if (programsDoc.exists) {
                     const data = programsDoc.data();
                     document.getElementById('program-morning').value = data.morning || defaultData.programs.morning;
                     document.getElementById('program-teaching').value = data.teaching || defaultData.programs.teaching;
                     document.getElementById('program-sunday').value = data.sunday || defaultData.programs.sunday;
                     
+                    // Afficher les programmes
                     document.getElementById('programmes-content').innerHTML = `
                         <div class="programme-card" data-aos="fade-up">
                             <div class="programme-icon"><i class="fas fa-sun"></i></div>
@@ -1856,8 +1901,8 @@
                 }
 
                 // Charger les contacts
-                const contactsDoc = await getDoc(doc(db, 'content', 'contacts'));
-                if (contactsDoc.exists()) {
+                const contactsDoc = await db.collection('content').doc('contacts').get();
+                if (contactsDoc.exists) {
                     const data = contactsDoc.data();
                     document.getElementById('contact-address').value = data.address || defaultData.contacts.address;
                     document.getElementById('contact-phone').value = data.phone || defaultData.contacts.phone;
@@ -1867,10 +1912,12 @@
                     document.getElementById('social-instagram').value = data.social?.instagram || '';
                     document.getElementById('social-tiktok').value = data.social?.tiktok || '';
                     
+                    // Afficher les contacts
                     document.getElementById('address').textContent = data.address || defaultData.contacts.address;
                     document.getElementById('phone').textContent = data.phone || defaultData.contacts.phone;
                     document.getElementById('email').textContent = data.email || defaultData.contacts.email;
                     
+                    // Afficher les horaires
                     const schedulesHtml = `
                         <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.morning || defaultData.programs.morning}</p>
                         <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.teaching || defaultData.programs.teaching}</p>
@@ -1878,6 +1925,7 @@
                     `;
                     document.getElementById('schedules').innerHTML = schedulesHtml;
                     
+                    // Afficher les liens sociaux
                     const socialLinks = data.social || defaultData.contacts.social;
                     const socialHtml = `
                         ${socialLinks.facebook ? `<a href="${socialLinks.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
@@ -1916,8 +1964,8 @@
                 }
 
                 // Charger le message du pasteur
-                const pasteurDoc = await getDoc(doc(db, 'content', 'pasteur'));
-                if (pasteurDoc.exists()) {
+                const pasteurDoc = await db.collection('content').doc('pasteur').get();
+                if (pasteurDoc.exists) {
                     const data = pasteurDoc.data();
                     document.getElementById('edit-pasteur-message').value = data.message || defaultData.pasteurMessage;
                     
@@ -1954,13 +2002,20 @@
                     `;
                 }
 
-                // Images par défaut pour le pasteur (placeholders)
-                document.getElementById('pasteur-image').src = 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=800';
-                document.getElementById('pasteur-preaching').src = 'https://images.unsplash.com/photo-1524850011238-e3d235c7d4c9?w=800';
+                // Charger les images par défaut
+                document.getElementById('pasteur-image').src = 'Pasteur Obed Kahozi.jpeg';
+                document.getElementById('pasteur-preaching').src = 'Pasteur Obed Kahozi entrain de precher.jpeg';
 
-                // Charger la galerie et les actualités
+                // Charger la galerie
                 await loadGallery();
+                
+                // Charger les actualités
                 await loadNews();
+                
+                // Charger la liste des admins (si connecté)
+                if (auth.currentUser) {
+                    await loadAdminsList();
+                }
                 
             } catch (error) {
                 console.error('Erreur chargement contenu:', error);
@@ -1978,34 +2033,58 @@
             galleryAdminList.innerHTML = '';
             
             try {
-                const q = query(collection(db, 'gallery'), orderBy('timestamp', 'desc'));
-                const snapshot = await getDocs(q);
+                // Charger les images de Firestore
+                const snapshot = await db.collection('gallery')
+                    .orderBy('timestamp', 'desc')
+                    .get();
                 
-                let imageCount = 0;
+                let imageCount = snapshot.size;
                 
-                snapshot.forEach(doc => {
-                    displayGalleryItem({
-                        id: doc.id,
-                        ...doc.data()
+                if (snapshot.empty) {
+                    // Utiliser les images par défaut
+                    defaultImages.forEach((img, index) => {
+                        displayGalleryItem({
+                            id: 'default_' + index,
+                            url: img,
+                            title: `Culte ${index + 1}`,
+                            date: new Date().toLocaleDateString()
+                        }, false);
+                        imageCount++;
                     });
-                    imageCount++;
-                });
+                } else {
+                    snapshot.forEach(doc => {
+                        displayGalleryItem({
+                            id: doc.id,
+                            ...doc.data()
+                        }, true);
+                    });
+                }
                 
                 statsImages.textContent = imageCount;
                 
             } catch (error) {
                 console.error('Erreur chargement galerie:', error);
-                statsImages.textContent = '0';
+                // Fallback aux images par défaut
+                defaultImages.forEach((img, index) => {
+                    displayGalleryItem({
+                        id: 'default_' + index,
+                        url: img,
+                        title: `Culte ${index + 1}`,
+                        date: new Date().toLocaleDateString()
+                    }, false);
+                });
+                statsImages.textContent = defaultImages.length;
             }
         }
 
-        function displayGalleryItem(item) {
+        function displayGalleryItem(item, isAdmin) {
             // Afficher dans la galerie principale
             const galleryGrid = document.getElementById('gallery-grid');
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
+            galleryItem.setAttribute('data-src', item.url);
             galleryItem.innerHTML = `
-                <img src="${item.url}" alt="${item.title || 'Image galerie'}">
+                <img src="${item.url}" alt="${item.title || 'Image galerie'}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
                 <div class="gallery-caption">
                     <h4>${item.title || 'Moment de culte'}</h4>
                     <p>${item.date || ''}</p>
@@ -2016,8 +2095,8 @@
             `;
             galleryGrid.appendChild(galleryItem);
 
-            // Si admin connecté, afficher dans la liste admin
-            if (auth.currentUser) {
+            // Si admin, afficher dans la liste admin
+            if (isAdmin && auth.currentUser) {
                 const adminList = document.getElementById('gallery-admin-list');
                 const adminItem = document.createElement('div');
                 adminItem.className = 'publication-item';
@@ -2047,28 +2126,45 @@
             newsAdminList.innerHTML = '';
             
             try {
-                const q = query(collection(db, 'news'), orderBy('timestamp', 'desc'));
-                const snapshot = await getDocs(q);
+                const snapshot = await db.collection('news')
+                    .orderBy('timestamp', 'desc')
+                    .get();
                 
-                let newsCount = 0;
+                let newsCount = snapshot.size;
                 
-                snapshot.forEach(doc => {
-                    displayNewsItem({
-                        id: doc.id,
-                        ...doc.data()
+                if (snapshot.empty) {
+                    // Utiliser les actualités par défaut
+                    defaultNews.forEach((item, index) => {
+                        displayNewsItem({
+                            id: 'default_' + index,
+                            ...item
+                        }, false);
+                        newsCount++;
                     });
-                    newsCount++;
-                });
+                } else {
+                    snapshot.forEach(doc => {
+                        displayNewsItem({
+                            id: doc.id,
+                            ...doc.data()
+                        }, true);
+                    });
+                }
                 
                 statsNews.textContent = newsCount;
                 
             } catch (error) {
                 console.error('Erreur chargement actualités:', error);
-                statsNews.textContent = '0';
+                defaultNews.forEach((item, index) => {
+                    displayNewsItem({
+                        id: 'default_' + index,
+                        ...item
+                    }, false);
+                });
+                statsNews.textContent = defaultNews.length;
             }
         }
 
-        function displayNewsItem(item) {
+        function displayNewsItem(item, isAdmin) {
             // Afficher dans la grille principale
             const newsGrid = document.getElementById('actualites-grid');
             const card = document.createElement('div');
@@ -2076,7 +2172,7 @@
             card.setAttribute('onclick', `openNewsModal('${item.id}')`);
             card.innerHTML = `
                 <div class="actualite-image">
-                    <img src="${item.image}" alt="${item.title}">
+                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
                     <div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div>
                 </div>
                 <div class="actualite-content">
@@ -2093,8 +2189,8 @@
             `;
             newsGrid.appendChild(card);
 
-            // Si admin connecté, afficher dans la liste admin
-            if (auth.currentUser) {
+            // Si admin, afficher dans la liste admin
+            if (isAdmin && auth.currentUser) {
                 const adminList = document.getElementById('news-admin-list');
                 const adminItem = document.createElement('div');
                 adminItem.className = 'publication-item';
@@ -2121,12 +2217,21 @@
             document.getElementById('admin-panel').style.display = 'none';
         };
 
+        window.showRegisterForm = () => {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-register').style.display = 'flex';
+        };
+
+        window.hideRegisterForm = () => {
+            document.getElementById('admin-register').style.display = 'none';
+        };
+
         window.handleAdminLogin = async () => {
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
             
             try {
-                await signInWithEmailAndPassword(auth, email, password);
+                await auth.signInWithEmailAndPassword(email, password);
                 hideAdminLogin();
                 showNotification('Connexion réussie !');
             } catch (error) {
@@ -2135,8 +2240,40 @@
             }
         };
 
-        window.logout = async () => {
-            await signOut(auth);
+        window.handleAdminRegister = async () => {
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            const name = document.getElementById('reg-name').value;
+            
+            if (password !== confirm) {
+                showNotification('Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Ajouter aux admins
+                await db.collection('admins').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    createdAt: new Date().toISOString(),
+                    createdBy: auth.currentUser?.uid || 'system'
+                });
+                
+                showNotification('Compte admin créé avec succès !');
+                hideRegisterForm();
+                
+            } catch (error) {
+                console.error('Erreur inscription:', error);
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        window.logout = () => {
+            auth.signOut();
             document.getElementById('admin-dash').style.display = 'none';
             showNotification('Déconnexion réussie');
         };
@@ -2148,12 +2285,13 @@
                     case 'history':
                         const historyText = document.getElementById('edit-history').value;
                         const historyParagraphs = historyText.split('\n\n').filter(p => p.trim());
-                        await setDoc(doc(db, 'content', 'history'), {
+                        await db.collection('content').doc('history').set({
                             texts: historyParagraphs,
-                            updatedAt: serverTimestamp(),
+                            updatedAt: new Date().toISOString(),
                             updatedBy: auth.currentUser?.email
                         });
                         
+                        // Mettre à jour l'affichage
                         const historyHtml = historyParagraphs.map(p => `<p>${p}</p>`).join('');
                         document.getElementById('history-content').innerHTML = historyHtml;
                         showNotification('Historique mis à jour !');
@@ -2164,24 +2302,24 @@
                         const mission = document.getElementById('edit-mission').value;
                         const values = document.getElementById('edit-values').value;
                         
-                        await setDoc(doc(db, 'content', 'vision'), {
+                        await db.collection('content').doc('vision').set({
                             vision, mission, values,
-                            updatedAt: serverTimestamp(),
+                            updatedAt: new Date().toISOString(),
                             updatedBy: auth.currentUser?.email
                         });
                         
                         document.getElementById('vision-content').innerHTML = `
-                            <div class="v-card" data-aos="flip-left">
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800">
                                 <i class="fas fa-eye"></i>
                                 <h3>Vision</h3>
                                 <p>${vision}</p>
                             </div>
-                            <div class="v-card" data-aos="flip-left" data-aos-delay="100">
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
                                 <i class="fas fa-scroll"></i>
                                 <h3>Mission</h3>
                                 <p>${mission}</p>
                             </div>
-                            <div class="v-card" data-aos="flip-left" data-aos-delay="200">
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
                                 <i class="fas fa-star"></i>
                                 <h3>Valeurs</h3>
                                 <p>${values}</p>
@@ -2192,10 +2330,10 @@
                         
                     case 'pasteur-message':
                         const message = document.getElementById('edit-pasteur-message').value;
-                        await setDoc(doc(db, 'content', 'pasteur'), {
+                        await db.collection('content').doc('pasteur').update({
                             message: message,
-                            updatedAt: serverTimestamp()
-                        }, { merge: true });
+                            updatedAt: new Date().toISOString()
+                        });
                         
                         const pasteurDiv = document.querySelector('.pasteur-quote');
                         if (pasteurDiv) {
@@ -2217,12 +2355,13 @@
                 const teaching = document.getElementById('program-teaching').value;
                 const sunday = document.getElementById('program-sunday').value;
                 
-                await setDoc(doc(db, 'content', 'programs'), {
+                await db.collection('content').doc('programs').set({
                     morning, teaching, sunday,
-                    updatedAt: serverTimestamp(),
+                    updatedAt: new Date().toISOString(),
                     updatedBy: auth.currentUser?.email
                 });
                 
+                // Mettre à jour l'affichage
                 document.getElementById('programmes-content').innerHTML = `
                     <div class="programme-card" data-aos="fade-up">
                         <div class="programme-icon"><i class="fas fa-sun"></i></div>
@@ -2267,12 +2406,13 @@
                     tiktok: document.getElementById('social-tiktok').value
                 };
                 
-                await setDoc(doc(db, 'content', 'contacts'), {
+                await db.collection('content').doc('contacts').set({
                     address, phone, email, social,
-                    updatedAt: serverTimestamp(),
+                    updatedAt: new Date().toISOString(),
                     updatedBy: auth.currentUser?.email
                 });
                 
+                // Mettre à jour l'affichage
                 document.getElementById('address').textContent = address;
                 document.getElementById('phone').textContent = phone;
                 document.getElementById('email').textContent = email;
@@ -2305,13 +2445,13 @@
             
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const storageRef = ref(storage, 'gallery/' + Date.now() + '_' + file.name);
+                const storageRef = storage.ref('gallery/' + Date.now() + '_' + file.name);
                 
                 try {
-                    await uploadBytes(storageRef, file);
-                    const url = await getDownloadURL(storageRef);
+                    const snapshot = await storageRef.put(file);
+                    const url = await snapshot.ref.getDownloadURL();
                     
-                    await addDoc(collection(db, 'gallery'), {
+                    await db.collection('gallery').add({
                         url: url,
                         title: caption || file.name.split('.')[0],
                         date: new Date().toLocaleDateString(),
@@ -2330,7 +2470,7 @@
                 showNotification(`${uploaded} image(s) uploadée(s) avec succès !`);
                 document.getElementById('gallery-upload').value = '';
                 document.getElementById('gallery-caption').value = '';
-                await loadGallery();
+                await loadGallery(); // Recharger la galerie
             }
         };
 
@@ -2339,7 +2479,7 @@
             if (!confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) return;
             
             try {
-                await deleteDoc(doc(db, 'gallery', id));
+                await db.collection('gallery').doc(id).delete();
                 showNotification('Image supprimée');
                 await loadGallery();
             } catch (error) {
@@ -2360,15 +2500,15 @@
             }
             
             try {
-                let imageUrl = defaultImages[0];
+                let imageUrl = 'Seance de cilte 1.jpeg';
                 
                 if (file) {
-                    const storageRef = ref(storage, 'news/' + Date.now() + '_' + file.name);
-                    await uploadBytes(storageRef, file);
-                    imageUrl = await getDownloadURL(storageRef);
+                    const storageRef = storage.ref('news/' + Date.now() + '_' + file.name);
+                    const snapshot = await storageRef.put(file);
+                    imageUrl = await snapshot.ref.getDownloadURL();
                 }
                 
-                await addDoc(collection(db, 'news'), {
+                await db.collection('news').add({
                     title,
                     content,
                     image: imageUrl,
@@ -2396,11 +2536,11 @@
             
             if (newTitle && newContent) {
                 try {
-                    await setDoc(doc(db, 'news', id), {
+                    await db.collection('news').doc(id).update({
                         title: newTitle,
                         content: newContent,
-                        edited: serverTimestamp()
-                    }, { merge: true });
+                        edited: new Date().toISOString()
+                    });
                     showNotification('Actualité modifiée');
                     await loadNews();
                 } catch (error) {
@@ -2414,9 +2554,81 @@
             if (!confirm('Supprimer cette actualité ?')) return;
             
             try {
-                await deleteDoc(doc(db, 'news', id));
+                await db.collection('news').doc(id).delete();
                 showNotification('Actualité supprimée');
                 await loadNews();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Ajouter un admin
+        window.addAdmin = async () => {
+            const email = document.getElementById('new-admin-email').value;
+            
+            if (!email) {
+                showNotification('Veuillez entrer un email', 'error');
+                return;
+            }
+            
+            try {
+                // Note: Cette fonction nécessite Firebase Functions pour envoyer un email d'invitation
+                // Pour l'instant, on ajoute juste une entrée dans Firestore
+                await db.collection('adminInvites').add({
+                    email: email,
+                    invitedBy: auth.currentUser?.email,
+                    invitedAt: new Date().toISOString(),
+                    status: 'pending'
+                });
+                
+                showNotification('Invitation envoyée à ' + email);
+                document.getElementById('new-admin-email').value = '';
+                await loadAdminsList();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Charger la liste des admins
+        async function loadAdminsList() {
+            const adminsList = document.getElementById('admins-list');
+            const statsAdmins = document.getElementById('stats-admins');
+            
+            try {
+                const snapshot = await db.collection('admins').get();
+                adminsList.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const admin = doc.data();
+                    const adminItem = document.createElement('div');
+                    adminItem.className = 'publication-item';
+                    adminItem.innerHTML = `
+                        <div>
+                            <strong>${admin.name || 'Admin'}</strong>
+                            <p style="font-size: 0.8rem; color: #666;">${admin.email}</p>
+                        </div>
+                        ${auth.currentUser?.uid !== doc.id ? `
+                            <button onclick="removeAdmin('${doc.id}')" class="btn-danger" style="padding: 5px 10px;">Retirer</button>
+                        ` : '<span style="color: var(--accent);">(vous)</span>'}
+                    `;
+                    adminsList.appendChild(adminItem);
+                });
+                
+                statsAdmins.textContent = snapshot.size;
+                
+            } catch (error) {
+                console.error('Erreur chargement admins:', error);
+            }
+        }
+
+        // Retirer un admin
+        window.removeAdmin = async (id) => {
+            if (!confirm('Retirer cet administrateur ?')) return;
+            
+            try {
+                await db.collection('admins').doc(id).delete();
+                showNotification('Administrateur retiré');
+                await loadAdminsList();
             } catch (error) {
                 showNotification('Erreur: ' + error.message, 'error');
             }
@@ -2430,20 +2642,30 @@
 
         // ===== MODAL POUR ACTUALITÉS =====
         window.openNewsModal = async (id) => {
-            try {
-                const docRef = doc(db, 'news', id);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists()) {
-                    const news = docSnap.data();
+            if (id.startsWith('default_')) {
+                const index = parseInt(id.split('_')[1]);
+                const news = defaultNews[index];
+                if (news) {
                     document.getElementById('modal-title').textContent = news.title;
                     document.getElementById('modal-date').textContent = news.date;
-                    document.getElementById('modal-image').src = news.image || defaultImages[0];
+                    document.getElementById('modal-image').src = news.image;
                     document.getElementById('modal-content').textContent = news.content;
                     document.getElementById('news-modal').style.display = 'flex';
                 }
-            } catch (error) {
-                console.error('Erreur ouverture modal:', error);
+            } else {
+                try {
+                    const doc = await db.collection('news').doc(id).get();
+                    if (doc.exists) {
+                        const news = doc.data();
+                        document.getElementById('modal-title').textContent = news.title;
+                        document.getElementById('modal-date').textContent = news.date;
+                        document.getElementById('modal-image').src = news.image || 'Seance de cilte 1.jpeg';
+                        document.getElementById('modal-content').textContent = news.content;
+                        document.getElementById('news-modal').style.display = 'flex';
+                    }
+                } catch (error) {
+                    console.error('Erreur ouverture modal:', error);
+                }
             }
         };
 
@@ -2452,7 +2674,7 @@
         };
 
         // ===== GESTION DE L'AUTHENTIFICATION =====
-        onAuthStateChanged(auth, (user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('admin-dash').style.display = 'block';
                 document.getElementById('admin-email-display').textContent = user.email;
@@ -2474,6 +2696,9 @@
                 }
                 if (event.target.id === 'admin-panel') {
                     hideAdminLogin();
+                }
+                if (event.target.id === 'admin-register') {
+                    hideRegisterForm();
                 }
             };
         });
