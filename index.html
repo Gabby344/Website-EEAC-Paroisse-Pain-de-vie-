@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eglise Ambassadeurs pour Christ | Paroisse Pain de Vie</title>
+    <title>Ambassadeurs pour Christ | Paroisse Pain de Vie</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -12,7 +12,7 @@
     <style>
         :root {
             --primary: #0f0f0f;
-            --accent: #c5a47e; /* Or élégant */
+            --accent: #c5a47e;
             --white: #ffffff;
             --light-bg: #f9f8f5;
             --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
@@ -25,19 +25,16 @@
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 5%; position: fixed; width: 100%; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.4rem; color: var(--primary); }
+        .logo { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.4rem; letter-spacing: 1px; }
 
-        /* --- HAMBURGER MENU --- */
-        .nav-toggle {
-            cursor: pointer; display: flex; flex-direction: column; gap: 7px; z-index: 2001; background: none; border: none;
-        }
+        .nav-toggle { cursor: pointer; display: flex; flex-direction: column; gap: 7px; z-index: 2001; background: none; border: none; }
         .nav-toggle span { width: 30px; height: 2px; background: var(--primary); transition: var(--transition); }
-        .nav-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
+        .nav-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
         .nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .nav-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
+        .nav-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
         .menu-overlay {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
@@ -45,58 +42,53 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         .menu-overlay.active { right: 0; }
-        .menu-overlay a { 
-            color: var(--white); font-family: 'Playfair Display', serif; font-size: 2.5rem; 
-            text-decoration: none; margin: 1rem 0; transition: 0.3s; 
-        }
-        .menu-overlay a:hover { color: var(--accent); transform: scale(1.1); }
+        .menu-overlay a { color: var(--white); font-family: 'Playfair Display', serif; font-size: 2.5rem; text-decoration: none; margin: 1rem 0; transition: 0.3s; }
+        .menu-overlay a:hover { color: var(--accent); }
 
         /* --- HERO --- */
-        #accueil {
-            height: 100vh; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white);
-        }
-        .hero-bg {
-            position: absolute; inset: 0; background-size: cover; background-position: center;
-            z-index: -2; opacity: 0; transition: opacity 1.5s ease;
-        }
+        #accueil { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -2; opacity: 0; transition: opacity 1.5s ease; filter: brightness(0.6); }
         .hero-bg.active { opacity: 1; }
-        .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: -1; }
-
-        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--accent); }
-        .hero-content p { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 0.5rem; opacity: 0.9; }
+        
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 6rem); color: var(--accent); margin-top: 10px; }
+        .hero-content p { font-size: 1rem; text-transform: uppercase; letter-spacing: 5px; opacity: 0.9; }
 
         /* --- SECTIONS --- */
-        section { padding: 120px 8%; }
-        .section-tag { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; display: block; margin-bottom: 10px; text-align: center; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; text-align: center; margin-bottom: 4rem; }
-
-        /* --- GALERIE CAROUSEL --- */
-        .carousel-container { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 20px 0; scrollbar-width: none; }
-        .carousel-container::-webkit-scrollbar { display: none; }
-        .carousel-item { flex: 0 0 350px; height: 450px; scroll-snap-align: center; border-radius: 8px; overflow: hidden; position: relative; }
-        .carousel-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .carousel-item:hover img { transform: scale(1.15); filter: brightness(0.7); }
-
-        /* --- FOOTER & CONTACTS --- */
-        footer { background: var(--primary); color: #999; padding: 100px 8% 40px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 60px; text-align: left; }
-        .footer-grid h3 { color: var(--white); font-family: 'Playfair Display', serif; margin-bottom: 20px; font-size: 1.5rem; }
-        .footer-grid p { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.6; }
+        section { padding: 120px 10%; }
+        .section-tag { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; display: block; margin-bottom: 15px; text-align: center; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; text-align: center; margin-bottom: 50px; }
         
-        .social-icons { display: flex; gap: 20px; margin-top: 20px; }
-        .social-icons a { color: var(--white); font-size: 1.5rem; transition: 0.3s; }
-        .social-icons a:hover { color: var(--accent); transform: translateY(-5px); }
+        .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .history-text p { font-size: 1.05rem; line-height: 2; color: #444; margin-bottom: 20px; text-align: justify; }
 
-        .contact-btn {
-            display: inline-block; padding: 15px 35px; background: var(--accent); color: white;
-            text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 20px; transition: 0.3s;
+        /* --- CARDS (VISION/MISSION) --- */
+        .vision-mission { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        .v-card { background: var(--white); padding: 40px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); transition: 0.4s; }
+        .v-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .v-card i { color: var(--accent); font-size: 2rem; margin-bottom: 20px; }
+        .v-card h3 { font-family: 'Playfair Display'; margin-bottom: 15px; }
+
+        /* --- GALERIE --- */
+        .carousel-container { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; cursor: grab; }
+        .carousel-item { flex: 0 0 350px; height: 500px; border-radius: 10px; overflow: hidden; }
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
+        .carousel-item:hover img { transform: scale(1.1); }
+
+        /* --- FOOTER --- */
+        footer { background: var(--primary); color: #888; padding: 100px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; }
+        .footer-grid h4 { color: var(--white); font-family: 'Playfair Display'; margin-bottom: 25px; }
+        .social-links a { color: var(--white); font-size: 1.2rem; margin-right: 20px; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent); }
+
+        /* --- ADMIN DASHBOARD --- */
+        #admin-dash { display: none; position: fixed; inset: 0; background: #fff; z-index: 4000; padding: 40px; overflow-y: auto; }
+        .admin-header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 30px; }
+        
+        @media (max-width: 900px) {
+            .history-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2.2rem; }
         }
-        .contact-btn:hover { background: #b08d65; box-shadow: 0 10px 20px rgba(197, 164, 126, 0.3); }
-
-        /* --- ADMIN PANEL --- */
-        #admin-panel { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 2rem; color: white; text-align: center; }
-        .admin-box { max-width: 400px; margin: 100px auto; background: #1a1a1a; padding: 3rem; border: 1px solid var(--accent); }
     </style>
 </head>
 <body>
@@ -104,123 +96,170 @@
     <nav>
         <div class="logo">PAIN DE VIE</div>
         <button class="nav-toggle" id="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </button>
     </nav>
 
     <div class="menu-overlay" id="menu-overlay">
         <a href="#accueil" onclick="closeMenu()">Accueil</a>
-        <a href="#historique" onclick="closeMenu()">Historique</a>
+        <a href="#historique" onclick="closeMenu()">Notre Histoire</a>
+        <a href="#vision" onclick="closeMenu()">Vision & Mission</a>
         <a href="#galerie" onclick="closeMenu()">Galerie</a>
         <a href="#contacts" onclick="closeMenu()">Contacts</a>
-        <a href="#" onclick="showAdmin(); closeMenu()" style="font-size: 1.2rem; color: var(--accent);">Accès Admin</a>
+        <a href="javascript:void(0)" onclick="showAdmin()" style="font-size: 1.2rem; color: var(--accent);">Portail Admin</a>
     </div>
 
     <section id="accueil">
         <div class="hero-bg active" style="background-image: url('Seance de cilte 6.jpeg');"></div>
         <div class="hero-bg" style="background-image: url('Pasteur Obed Kahozi entrain de precher.jpeg');"></div>
         <div class="hero-bg" style="background-image: url('Seance de cilte 1.jpeg');"></div>
-        <div class="hero-overlay"></div>
-
-        <div class="hero-content" data-aos="zoom-in">
+        
+        <div class="hero-content" data-aos="fade-up">
             <p>Bienvenue à la Paroisse</p>
-            <h1>Pain de Vie</h1>
-            <p style="opacity: 0.7; letter-spacing: 2px;">Ambassadeurs pour Christ</p>
+            <h1>Ambassadeurs pour Christ</h1>
+            <p style="color: var(--accent); letter-spacing: 2px;">Pain de Vie (Bread of Life)</p>
         </div>
     </section>
 
-    <section id="historique" data-aos="fade-up">
-        <span class="section-tag">Notre Histoire</span>
-        <h2 class="section-title">Porter la Lumière à Kolwezi</h2>
-        <div style="display: flex; gap: 50px; flex-wrap: wrap; align-items: center;">
-            <div style="flex: 1; min-width: 300px;">
-                <p style="font-size: 1.1rem; line-height: 1.9; color: #555;">
-                    Depuis sa fondation, l'Église Évangélique des Ambassadeurs pour Christ, Paroisse Pain de Vie, s'est donnée pour mission d'apporter le message de transformation et d'espoir. Située au cœur de Dilala, nous sommes une famille unie par la foi et l'amour de Dieu.
+    <section id="historique">
+        <span class="section-tag">Genèse de l'œuvre</span>
+        <h2 class="section-title">Une Vision, Un Parcours</h2>
+        <div class="history-grid">
+            <div class="history-text" data-aos="fade-right">
+                <p>
+                    L’histoire de l’Église Évangélique des Ambassadeurs pour Christ – Paroisse <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.
+                </p>
+                <p>
+                    Ce ministère s'est forgé à travers un parcours de patience et de consécration intense. De 2004 à 2008 à Kamina, les fondations furent posées. Entre 2008 et 2015 à Kolwezi, une période de formation spirituelle rigoureuse a permis l'éclosion de l'appel, confirmée plus tard au sein de l'EEAC sous la direction du Révérend Pasteur Théophile Mpoyi.
+                </p>
+                <p>
+                    Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ.
                 </p>
             </div>
-            <div style="flex: 1; min-width: 300px;">
-                <img src="Pasteur Obed Kahozi.jpeg" style="width: 100%; border-radius: 15px; box-shadow: 20px 20px 0 var(--accent);" alt="Historique">
+            <div class="history-image" data-aos="fade-left">
+                <img src="Pasteur Obed Kahozi.jpeg" style="width: 100%; border-radius: 4px; box-shadow: 30px 30px 0 var(--accent);" alt="Pasteur Obed Kahozi">
+            </div>
+        </div>
+    </section>
+
+    <section id="vision" style="background: #f0ede8;">
+        <span class="section-tag">Nos Fondements</span>
+        <h2 class="section-title">Vision & Mission</h2>
+        <div class="vision-mission">
+            <div class="v-card" data-aos="fade-up">
+                <i class="fas fa-eye"></i>
+                <h3>Vision</h3>
+                <p>Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.</p>
+            </div>
+            <div class="v-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-scroll"></i>
+                <h3>Mission</h3>
+                <p>Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.</p>
+            </div>
+            <div class="v-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-star"></i>
+                <h3>Valeurs</h3>
+                <p>Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.</p>
             </div>
         </div>
     </section>
 
     <section id="galerie">
-        <span class="section-tag">Visuels</span>
-        <h2 class="section-title">Moments de Gloire</h2>
-        <div class="carousel-container">
+        <span class="section-tag">Médiathèque</span>
+        <h2 class="section-title">Instantanés de Foi</h2>
+        <div class="carousel-container" id="gallery-scroller">
             <div class="carousel-item"><img src="Seance de cilte 1.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 2.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 3.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 4.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 5.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 8.jpeg"></div>
+            <div class="carousel-item"><img src="Seance de cilte 10.jpeg"></div>
         </div>
     </section>
 
     <footer id="contacts">
         <div class="footer-grid">
-            <div data-aos="fade-right">
-                <h3>PAIN DE VIE</h3>
-                <p>44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi<br>Lualaba, RDC</p>
-                <a href="tel:+243974402959" class="contact-btn">Appeler Nous</a>
+            <div>
+                <h4>PAIN DE VIE</h4>
+                <p>44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi, RDC</p>
             </div>
-            
-            <div data-aos="fade-up">
-                <h3>Suivez-Nous</h3>
-                <p>Rejoignez notre communauté en ligne pour ne rien rater des cultes et enseignements.</p>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/share/1G4yqBgThQ/?mibextid=qi2Omg" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/eeac_paroisse_pain_de_vie?igsh=MTBqaDU0bjFrdndjZw==" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@eeacparoissepaindeviekolwezi?si=4qAtbCZiZ3nf1Tkp" target="_blank"><i class="fab fa-youtube"></i></a>
-                    <a href="https://www.tiktok.com/@eeac.paroisse.pai?_r=1&_t=ZS-94jktAjDIQa" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://wa.me/243974402959" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <div>
+                <h4>Cultes</h4>
+                <p>Dimanche : 08h00 - 11h30<br>Mercredi & Vendredi : 16h00</p>
+            </div>
+            <div>
+                <h4>Réseaux Sociaux</h4>
+                <div class="social-links">
+                    <a href="https://facebook.com/..."><i class="fab fa-facebook"></i></a>
+                    <a href="https://youtube.com/..."><i class="fab fa-youtube"></i></a>
+                    <a href="https://tiktok.com/..."><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
-
-            <div data-aos="fade-left">
-                <h3>Nos Cultes</h3>
-                <p><strong>Dimanche :</strong> 08h00 - 11h30</p>
-                <p><strong>Mercredi :</strong> 16h00 - 18h00</p>
-                <p><strong>Vendredi :</strong> 16h00 - 18h00</p>
-            </div>
         </div>
-        
-        <div style="text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid #222; font-size: 0.8rem; opacity: 0.5;">
-            &copy; 2026 Eglise Ambassadeurs pour Christ - Paroisse Pain de Vie. Tous droits réservés.
+        <div style="text-align:center; margin-top:80px; font-size:0.8rem; border-top:1px solid #222; padding-top:40px;">
+            &copy; 2026 EEAC Pain de Vie. Développé pour la gloire de Dieu.
         </div>
     </footer>
 
-    <div id="admin-panel">
-        <div class="admin-box">
-            <span style="float:right; cursor:pointer;" onclick="hideAdmin()">&times;</span>
-            <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Admin Login</h2>
-            <input type="email" style="width:100%; padding:10px; margin-bottom:10px;" id="admin-mail" placeholder="Email">
-            <input type="password" style="width:100%; padding:10px; margin-bottom:10px;" id="admin-pass" placeholder="Password">
-            <button class="contact-btn" style="border:none; width:100%;">Se Connecter</button>
+    <div id="admin-panel" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:5000; display:none; align-items:center; justify-content:center;">
+        <div style="background:white; padding:40px; width:350px; border-radius:8px;">
+            <h2 style="margin-bottom:20px;">Connexion Admin</h2>
+            <input type="email" id="adm-email" placeholder="Email" style="width:100%; padding:12px; margin-bottom:15px;">
+            <input type="password" id="adm-pass" placeholder="Mot de passe" style="width:100%; padding:12px; margin-bottom:15px;">
+            <button onclick="handleLogin()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; cursor:pointer;">Entrer</button>
+            <button onclick="hideAdmin()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer;">Annuler</button>
+        </div>
+    </div>
+
+    <div id="admin-dash">
+        <div class="admin-header">
+            <h2>Tableau de Bord Administrateur</h2>
+            <button onclick="logout()" style="padding:10px 20px;">Déconnexion</button>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+            <div style="background:#f4f4f4; padding:25px;">
+                <h3>Mettre à jour l'Historique</h3>
+                <textarea id="edit-history" style="width:100%; height:200px; margin:15px 0;"></textarea>
+                <button onclick="saveContent('history')" style="background:var(--accent); color:white; border:none; padding:10px 20px;">Publier</button>
+            </div>
+            <div style="background:#f4f4f4; padding:25px;">
+                <h3>Gestion Galerie</h3>
+                <input type="file" id="new-photo" style="margin-bottom:15px;">
+                <button style="background:var(--primary); color:white; border:none; padding:10px 20px;">Uploader l'image</button>
+            </div>
         </div>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // CONFIGURATION FIREBASE PRO
+        const firebaseConfig = {
+            apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
+            authDomain: "eglise-pain-de-vie.firebaseapp.com",
+            databaseURL: "https://eglise-pain-de-vie-default-rtdb.firebaseio.com",
+            projectId: "eglise-pain-de-vie",
+            storageBucket: "eglise-pain-de-vie.appspot.com",
+            appId: "1:623268173333:web:4e8d3005ec93b90fe5e01c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // INITIALISATION AOS
         AOS.init({ duration: 1000, once: true });
 
-        // Navigation Toggle
+        // NAVIGATION LOGIC
         const toggle = document.getElementById('nav-toggle');
         const overlay = document.getElementById('menu-overlay');
-        
-        toggle.addEventListener('click', () => {
-            toggle.classList.toggle('active');
-            overlay.classList.toggle('active');
-        });
+        toggle.onclick = () => { toggle.classList.toggle('active'); overlay.classList.toggle('active'); };
+        window.closeMenu = () => { toggle.classList.remove('active'); overlay.classList.remove('active'); };
 
-        function closeMenu() {
-            toggle.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-
-        // Hero Slideshow
+        // HERO SLIDER
         let slideIdx = 0;
         const slides = document.querySelectorAll('.hero-bg');
         setInterval(() => {
@@ -229,9 +268,38 @@
             slides[slideIdx].classList.add('active');
         }, 5000);
 
-        // Admin Modals
-        function showAdmin() { document.getElementById('admin-panel').style.display = 'block'; }
-        function hideAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
+        // ADMIN FUNCTIONS
+        window.showAdmin = () => document.getElementById('admin-panel').style.display = 'flex';
+        window.hideAdmin = () => document.getElementById('admin-panel').style.display = 'none';
+
+        window.handleLogin = () => {
+            const email = document.getElementById('adm-email').value;
+            const pass = document.getElementById('adm-pass').value;
+            signInWithEmailAndPassword(auth, email, pass)
+                .then(() => { hideAdmin(); })
+                .catch(err => alert("Accès refusé. Vérifiez vos identifiants."));
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('admin-dash').style.display = 'block';
+                // Charger le contenu actuel pour édition
+                onValue(ref(db, 'content/history'), (snapshot) => {
+                    document.getElementById('edit-history').value = snapshot.val();
+                });
+            } else {
+                document.getElementById('admin-dash').style.display = 'none';
+            }
+        });
+
+        window.logout = () => signOut(auth);
+
+        window.saveContent = (path) => {
+            const content = document.getElementById('edit-history').value;
+            set(ref(db, 'content/' + path), content)
+                .then(() => alert("Contenu mis à jour avec succès !"))
+                .catch(e => alert("Erreur de permission."));
+        };
     </script>
 </body>
 </html>
