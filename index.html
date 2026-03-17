@@ -32,9 +32,9 @@
 
         .nav-toggle { cursor: pointer; display: flex; flex-direction: column; gap: 7px; z-index: 2001; background: none; border: none; }
         .nav-toggle span { width: 30px; height: 2px; background: var(--primary); transition: var(--transition); }
-        .nav-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .nav-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
         .nav-toggle.active span:nth-child(2) { opacity: 0; }
-        .nav-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .nav-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
 
         .menu-overlay {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
@@ -43,7 +43,7 @@
         }
         .menu-overlay.active { right: 0; }
         .menu-overlay a { color: var(--white); font-family: 'Playfair Display', serif; font-size: 2.5rem; text-decoration: none; margin: 1rem 0; transition: 0.3s; }
-        .menu-overlay a:hover { color: var(--accent); }
+        .menu-overlay a:hover { color: var(--accent); transform: scale(1.1); }
 
         /* --- HERO --- */
         #accueil { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); overflow: hidden; }
@@ -59,36 +59,28 @@
         .section-title { font-family: 'Playfair Display', serif; font-size: 3rem; text-align: center; margin-bottom: 50px; }
         
         .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .history-text p { font-size: 1.05rem; line-height: 2; color: #444; margin-bottom: 20px; text-align: justify; }
-
-        /* --- CARDS (VISION/MISSION) --- */
-        .vision-mission { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-        .v-card { background: var(--white); padding: 40px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.05); transition: 0.4s; }
-        .v-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .v-card i { color: var(--accent); font-size: 2rem; margin-bottom: 20px; }
-        .v-card h3 { font-family: 'Playfair Display'; margin-bottom: 15px; }
+        #display-history { font-size: 1.05rem; line-height: 2; color: #444; text-align: justify; white-space: pre-line; }
 
         /* --- GALERIE --- */
-        .carousel-container { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; cursor: grab; }
-        .carousel-item { flex: 0 0 350px; height: 500px; border-radius: 10px; overflow: hidden; }
-        .carousel-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s; }
-        .carousel-item:hover img { transform: scale(1.1); }
+        .carousel-container { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; }
+        .carousel-item { flex: 0 0 350px; height: 500px; border-radius: 8px; overflow: hidden; }
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- ADMIN INTERFACE --- */
+        #admin-panel { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 5000; padding: 50px; overflow-y: auto; }
+        .admin-card { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border: 1px solid var(--accent); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 300px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; margin: 20px 0; }
+        .btn-gold { background: var(--accent); color: white; border: none; padding: 12px 30px; cursor: pointer; font-weight: bold; border-radius: 50px; transition: 0.3s; }
+        .btn-gold:hover { background: #b08d65; transform: translateY(-2px); }
 
         /* --- FOOTER --- */
         footer { background: var(--primary); color: #888; padding: 100px 10% 40px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; }
-        .footer-grid h4 { color: var(--white); font-family: 'Playfair Display'; margin-bottom: 25px; }
-        .social-links a { color: var(--white); font-size: 1.2rem; margin-right: 20px; transition: 0.3s; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .footer-grid h4 { color: white; margin-bottom: 20px; font-family: 'Playfair Display'; }
+        .social-links a { color: white; font-size: 1.5rem; margin-right: 20px; transition: 0.3s; }
         .social-links a:hover { color: var(--accent); }
 
-        /* --- ADMIN DASHBOARD --- */
-        #admin-dash { display: none; position: fixed; inset: 0; background: #fff; z-index: 4000; padding: 40px; overflow-y: auto; }
-        .admin-header { display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 30px; }
-        
-        @media (max-width: 900px) {
-            .history-grid { grid-template-columns: 1fr; }
-            .section-title { font-size: 2.2rem; }
-        }
+        @media (max-width: 900px) { .history-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -103,84 +95,44 @@
     <div class="menu-overlay" id="menu-overlay">
         <a href="#accueil" onclick="closeMenu()">Accueil</a>
         <a href="#historique" onclick="closeMenu()">Notre Histoire</a>
-        <a href="#vision" onclick="closeMenu()">Vision & Mission</a>
         <a href="#galerie" onclick="closeMenu()">Galerie</a>
         <a href="#contacts" onclick="closeMenu()">Contacts</a>
-        <a href="javascript:void(0)" onclick="showAdmin()" style="font-size: 1.2rem; color: var(--accent);">Portail Admin</a>
+        <a href="javascript:void(0)" onclick="showLogin()" style="font-size: 1.1rem; color: var(--accent);">Portail Admin</a>
     </div>
 
     <section id="accueil">
         <div class="hero-bg active" style="background-image: url('Seance de cilte 6.jpeg');"></div>
         <div class="hero-bg" style="background-image: url('Pasteur Obed Kahozi entrain de precher.jpeg');"></div>
         <div class="hero-bg" style="background-image: url('Seance de cilte 1.jpeg');"></div>
-        
         <div class="hero-content" data-aos="fade-up">
-            <p>Bienvenue à la Paroisse</p>
+            <p>Paroisse de Kolwezi</p>
             <h1>Ambassadeurs pour Christ</h1>
-            <p style="color: var(--accent); letter-spacing: 2px;">Pain de Vie (Bread of Life)</p>
+            <p style="color: var(--accent); letter-spacing: 3px;">Pain de Vie (Bread of Life)</p>
         </div>
     </section>
 
     <section id="historique">
-        <span class="section-tag">Genèse de l'œuvre</span>
-        <h2 class="section-title">Une Vision, Un Parcours</h2>
+        <span class="section-tag">Notre Parcours</span>
+        <h2 class="section-title">L'Héritage de la Foi</h2>
         <div class="history-grid">
             <div class="history-text" data-aos="fade-right">
-                <p>
-                    L’histoire de l’Église Évangélique des Ambassadeurs pour Christ – Paroisse <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.
-                </p>
-                <p>
-                    Ce ministère s'est forgé à travers un parcours de patience et de consécration intense. De 2004 à 2008 à Kamina, les fondations furent posées. Entre 2008 et 2015 à Kolwezi, une période de formation spirituelle rigoureuse a permis l'éclosion de l'appel, confirmée plus tard au sein de l'EEAC sous la direction du Révérend Pasteur Théophile Mpoyi.
-                </p>
-                <p>
-                    Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ.
-                </p>
+                <div id="display-history">Chargement de l'histoire...</div>
             </div>
             <div class="history-image" data-aos="fade-left">
-                <img src="Pasteur Obed Kahozi.jpeg" style="width: 100%; border-radius: 4px; box-shadow: 30px 30px 0 var(--accent);" alt="Pasteur Obed Kahozi">
-            </div>
-        </div>
-    </section>
-
-    <section id="vision" style="background: #f0ede8;">
-        <span class="section-tag">Nos Fondements</span>
-        <h2 class="section-title">Vision & Mission</h2>
-        <div class="vision-mission">
-            <div class="v-card" data-aos="fade-up">
-                <i class="fas fa-eye"></i>
-                <h3>Vision</h3>
-                <p>Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.</p>
-            </div>
-            <div class="v-card" data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-scroll"></i>
-                <h3>Mission</h3>
-                <p>Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.</p>
-            </div>
-            <div class="v-card" data-aos="fade-up" data-aos-delay="200">
-                <i class="fas fa-star"></i>
-                <h3>Valeurs</h3>
-                <p>Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.</p>
+                <img src="Pasteur Obed Kahozi.jpeg" style="width: 100%; border-radius: 4px; box-shadow: 20px 20px 0 var(--accent);" alt="Pasteur Principal">
             </div>
         </div>
     </section>
 
     <section id="galerie">
         <span class="section-tag">Médiathèque</span>
-        <h2 class="section-title">Instantanés de Foi</h2>
-        <div class="carousel-container" id="gallery-scroller">
+        <h2 class="section-title">En Images</h2>
+        <div class="carousel-container">
             <div class="carousel-item"><img src="Seance de cilte 1.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 2.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 3.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 4.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 6.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 7.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 8.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 9.jpeg"></div>
             <div class="carousel-item"><img src="Seance de cilte 5.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 10.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 11.jpeg"></div>
-            <div class="carousel-item"><img src="Seance de cilte 12.jpeg"></div>
-
         </div>
     </section>
 
@@ -188,52 +140,47 @@
         <div class="footer-grid">
             <div>
                 <h4>PAIN DE VIE</h4>
-                <p>44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi, RDC</p>
+                <p>44 Avenue Dilolo, Hewa Bora<br>Commune Dilala, Kolwezi, RDC</p>
+                <br>
+                <a href="tel:+243974402959" class="btn-gold" style="text-decoration:none; display:inline-block; font-size:0.8rem;">Appeler le Bureau</a>
+            </div>
+            <div>
+                <h4>Suivez-nous</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/share/1G4yqBgThQ/?mibextid=qi2Omg" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://youtube.com/@eeacparoissepaindeviekolwezi?si=4qAtbCZiZ3nf1Tkp" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@eeac.paroisse.pai?_r=1&_t=ZS-94jktAjDIQa" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/243974402959" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
             <div>
                 <h4>Cultes</h4>
-                <p>Dimanche : 08h00 - 11h30<br>Mercredi & Vendredi : 16h00</p>
+                <p><strong>Dimanche:</strong> 08h00 - 11h30</p>
+                <p><strong>Mercredi:</strong> 16h00 - 18h00</p>
+                <p><strong>Vendredi:</strong> 16h00 - 18h00</p>
             </div>
-            <div>
-                <h4>Réseaux Sociaux</h4>
-                <div class="social-links">
-                    <a href="https://facebook.com/..."><i class="fab fa-facebook"></i></a>
-                    <a href="https://youtube.com/..."><i class="fab fa-youtube"></i></a>
-                    <a href="https://tiktok.com/..."><i class="fab fa-tiktok"></i></a>
-                </div>
-            </div>
-        </div>
-        <div style="text-align:center; margin-top:80px; font-size:0.8rem; border-top:1px solid #222; padding-top:40px;">
-            &copy; 2026 EEAC Pain de Vie. Développé pour la gloire de Dieu.
         </div>
     </footer>
 
-    <div id="admin-panel" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:5000; display:none; align-items:center; justify-content:center;">
-        <div style="background:white; padding:40px; width:350px; border-radius:8px;">
-            <h2 style="margin-bottom:20px;">Connexion Admin</h2>
-            <input type="email" id="adm-email" placeholder="Email" style="width:100%; padding:12px; margin-bottom:15px;">
-            <input type="password" id="adm-pass" placeholder="Mot de passe" style="width:100%; padding:12px; margin-bottom:15px;">
-            <button onclick="handleLogin()" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; cursor:pointer;">Entrer</button>
-            <button onclick="hideAdmin()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer;">Annuler</button>
+    <div id="login-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:6000; align-items:center; justify-content:center;">
+        <div class="admin-card" style="width:350px; text-align:center;">
+            <h3>Connexion Admin</h3><br>
+            <input type="email" id="email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input type="password" id="pass" placeholder="Mot de passe" style="width:100%; padding:10px; margin-bottom:20px;">
+            <button class="btn-gold" onclick="login()">Se Connecter</button>
+            <button onclick="hideLogin()" style="background:none; border:none; color:grey; cursor:pointer; margin-top:10px; display:block; width:100%;">Fermer</button>
         </div>
     </div>
 
-    <div id="admin-dash">
-        <div class="admin-header">
-            <h2>Tableau de Bord Administrateur</h2>
-            <button onclick="logout()" style="padding:10px 20px;">Déconnexion</button>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
-            <div style="background:#f4f4f4; padding:25px;">
-                <h3>Mettre à jour l'Historique</h3>
-                <textarea id="edit-history" style="width:100%; height:200px; margin:15px 0;"></textarea>
-                <button onclick="saveContent('history')" style="background:var(--accent); color:white; border:none; padding:10px 20px;">Publier</button>
+    <div id="admin-panel">
+        <div class="admin-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>Gestion du contenu</h2>
+                <button onclick="logout()" style="cursor:pointer; background:none; border:1px solid red; color:red; padding:5px 10px;">Déconnexion</button>
             </div>
-            <div style="background:#f4f4f4; padding:25px;">
-                <h3>Gestion Galerie</h3>
-                <input type="file" id="new-photo" style="margin-bottom:15px;">
-                <button style="background:var(--primary); color:white; border:none; padding:10px 20px;">Uploader l'image</button>
-            </div>
+            <p style="margin-top:20px;"><strong>Éditer l'Historique de l'Église :</strong></p>
+            <textarea id="edit-history-area"></textarea>
+            <button class="btn-gold" onclick="updateHistory()">Publier les modifications</button>
         </div>
     </div>
 
@@ -243,7 +190,7 @@
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // CONFIGURATION FIREBASE PRO
+        // FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
             authDomain: "eglise-pain-de-vie.firebaseapp.com",
@@ -257,16 +204,15 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // INITIALISATION AOS
         AOS.init({ duration: 1000, once: true });
 
-        // NAVIGATION LOGIC
+        // NAVIGATION
         const toggle = document.getElementById('nav-toggle');
         const overlay = document.getElementById('menu-overlay');
         toggle.onclick = () => { toggle.classList.toggle('active'); overlay.classList.toggle('active'); };
         window.closeMenu = () => { toggle.classList.remove('active'); overlay.classList.remove('active'); };
 
-        // HERO SLIDER
+        // HERO SLIDESHOW
         let slideIdx = 0;
         const slides = document.querySelectorAll('.hero-bg');
         setInterval(() => {
@@ -275,37 +221,39 @@
             slides[slideIdx].classList.add('active');
         }, 5000);
 
-        // ADMIN FUNCTIONS
-        window.showAdmin = () => document.getElementById('admin-panel').style.display = 'flex';
-        window.hideAdmin = () => document.getElementById('admin-panel').style.display = 'none';
-
-        window.handleLogin = () => {
-            const email = document.getElementById('adm-email').value;
-            const pass = document.getElementById('adm-pass').value;
-            signInWithEmailAndPassword(auth, email, pass)
-                .then(() => { hideAdmin(); })
-                .catch(err => alert("Accès refusé. Vérifiez vos identifiants."));
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('admin-dash').style.display = 'block';
-                // Charger le contenu actuel pour édition
-                onValue(ref(db, 'content/history'), (snapshot) => {
-                    document.getElementById('edit-history').value = snapshot.val();
-                });
-            } else {
-                document.getElementById('admin-dash').style.display = 'none';
+        // SYNC HISTORIQUE (LECTURE)
+        onValue(ref(db, 'content/history'), (snapshot) => {
+            const data = snapshot.val();
+            if(data) {
+                document.getElementById('display-history').innerText = data;
+                document.getElementById('edit-history-area').value = data;
             }
         });
 
+        // AUTH LOGIC
+        window.showLogin = () => { document.getElementById('login-modal').style.display = 'flex'; closeMenu(); };
+        window.hideLogin = () => document.getElementById('login-modal').style.display = 'none';
+
+        window.login = () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            signInWithEmailAndPassword(auth, e, p)
+                .then(() => hideLogin())
+                .catch(() => alert("Identifiants incorrects."));
+        };
+
         window.logout = () => signOut(auth);
 
-        window.saveContent = (path) => {
-            const content = document.getElementById('edit-history').value;
-            set(ref(db, 'content/' + path), content)
-                .then(() => alert("Contenu mis à jour avec succès !"))
-                .catch(e => alert("Erreur de permission."));
+        onAuthStateChanged(auth, (user) => {
+            document.getElementById('admin-panel').style.display = user ? 'block' : 'none';
+        });
+
+        // UPDATE LOGIC (ECRITURE)
+        window.updateHistory = () => {
+            const newText = document.getElementById('edit-history-area').value;
+            set(ref(db, 'content/history'), newText)
+                .then(() => alert("Historique mis à jour sur le site !"))
+                .catch(() => alert("Erreur : Vérifiez vos règles Firebase."));
         };
     </script>
 </body>
