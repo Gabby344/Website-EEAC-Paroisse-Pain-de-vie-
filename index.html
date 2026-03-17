@@ -14,14 +14,14 @@
     <!-- Swiper.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
-    <!-- LightGallery pour galerie lightbox -->
+    <!-- LightGallery -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css">
     
     <!-- AOS animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ===== VARIABLES DE LUXE ===== */
+        /* ===== VARIABLES ===== */
         :root {
             --primary: #0a0a0a;
             --secondary: #1a1a1a;
@@ -372,6 +372,96 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* ===== PROGRAMMES ===== */
+        #programmes {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+        }
+
+        #programmes .section-title {
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .programmes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .programme-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .programme-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .programme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-gradient);
+        }
+
+        .programme-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+
+        .programme-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .programme-days {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .programme-time {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .programme-desc {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        .special-programme {
+            background: var(--accent-gradient);
+            color: var(--primary);
+            grid-column: span 2;
+        }
+
+        .special-programme .programme-icon,
+        .special-programme .programme-days,
+        .special-programme h3 {
+            color: var(--primary);
+        }
+
         /* ===== HISTORIQUE ===== */
         .history-grid {
             display: grid;
@@ -517,6 +607,7 @@
             transition: var(--transition);
             position: relative;
             border: 1px solid rgba(212, 175, 55, 0.1);
+            cursor: pointer;
         }
 
         .actualite-card:hover {
@@ -716,6 +807,65 @@
         .gallery-item:hover .gallery-icon {
             opacity: 1;
             transform: scale(1);
+        }
+
+        /* ===== PASTEUR SECTION ===== */
+        #pasteur {
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--white) 100%);
+        }
+
+        .pasteur-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .pasteur-image {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pasteur-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.2s ease;
+        }
+
+        .pasteur-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .pasteur-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .pasteur-content h4 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .pasteur-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .pasteur-quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 20px;
+            border-left: 5px solid var(--accent);
+            box-shadow: var(--shadow-sm);
         }
 
         /* ===== FOOTER ===== */
@@ -925,17 +1075,7 @@
             font-size: 1.5rem;
         }
 
-        .admin-card textarea {
-            width: 100%;
-            height: 200px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            resize: vertical;
-        }
-
+        .admin-card textarea,
         .admin-card input[type="text"],
         .admin-card input[type="file"] {
             width: 100%;
@@ -1023,7 +1163,8 @@
             section {
                 padding: 100px 5%;
             }
-            .history-grid {
+            .history-grid,
+            .pasteur-grid {
                 gap: 50px;
             }
         }
@@ -1032,14 +1173,15 @@
             .section-title {
                 font-size: 2.8rem;
             }
-            .history-grid {
+            .history-grid,
+            .pasteur-grid {
                 grid-template-columns: 1fr;
             }
             .menu-overlay a {
                 font-size: 2rem;
             }
-            .actualites-grid {
-                grid-template-columns: 1fr;
+            .special-programme {
+                grid-column: span 1;
             }
         }
 
@@ -1070,7 +1212,9 @@
         <a href="#accueil" onclick="closeMenu()">Accueil</a>
         <a href="#historique" onclick="closeMenu()">Notre Histoire</a>
         <a href="#vision" onclick="closeMenu()">Vision & Mission</a>
+        <a href="#programmes" onclick="closeMenu()">Programmes</a>
         <a href="#actualites" onclick="closeMenu()">Actualités</a>
+        <a href="#pasteur" onclick="closeMenu()">Notre Pasteur</a>
         <a href="#galerie" onclick="closeMenu()">Galerie</a>
         <a href="#contacts" onclick="closeMenu()">Contacts</a>
         <a href="javascript:void(0)" onclick="showAdmin()" style="font-size: 1.5rem; color: var(--accent);">⚡ Portail Admin</a>
@@ -1081,16 +1225,43 @@
         <div class="swiper-hero swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80" class="slide-bg" alt="Culte 1">
+                    <img src="Seance de cilte 1.jpeg" class="slide-bg" alt="Culte 1">
                 </div>
                 <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1548625149-fc4a29cf7092?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" class="slide-bg" alt="Pasteur prêchant">
+                    <img src="Seance de cilte 2.jpeg" class="slide-bg" alt="Culte 2">
                 </div>
                 <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80" class="slide-bg" alt="Culte 2">
+                    <img src="Seance de cilte 3.jpeg" class="slide-bg" alt="Culte 3">
                 </div>
                 <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" class="slide-bg" alt="Culte 3">
+                    <img src="Seance de cilte 4.jpeg" class="slide-bg" alt="Culte 4">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 5.jpeg" class="slide-bg" alt="Culte 5">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 6.jpeg" class="slide-bg" alt="Culte 6">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 7.jpeg" class="slide-bg" alt="Culte 7">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 8.jpeg" class="slide-bg" alt="Culte 8">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 9.jpeg" class="slide-bg" alt="Culte 9">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 10.jpeg" class="slide-bg" alt="Culte 10">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 11.jpeg" class="slide-bg" alt="Culte 11">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 12.jpeg" class="slide-bg" alt="Culte 12">
+                </div>
+                <div class="swiper-slide">
+                    <img src="Seance de cilte 13.jpeg" class="slide-bg" alt="Culte 13">
                 </div>
             </div>
         </div>
@@ -1123,7 +1294,7 @@
                 </p>
             </div>
             <div class="history-image" data-aos="fade-left" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1545454677-6c3c4e0b44b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Pasteur">
+                <img src="Pasteur Obed Kahozi.jpeg" alt="Pasteur Obed Kahozi">
             </div>
         </div>
     </section>
@@ -1151,6 +1322,44 @@
         </div>
     </section>
 
+    <!-- Section Programmes -->
+    <section id="programmes">
+        <span class="section-tag" data-aos="fade-up">Nos Rendez-vous</span>
+        <h2 class="section-title" data-aos="fade-up">Programmes des Cultes</h2>
+        
+        <div class="programmes-grid">
+            <div class="programme-card" data-aos="fade-up">
+                <div class="programme-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <h3>Culte Matinal</h3>
+                <div class="programme-days">LUNDI au VENDREDI</div>
+                <div class="programme-time">05h30 - 06h30</div>
+                <p class="programme-desc">Commencez votre journée dans la présence de Dieu. Un moment d'intimité et de consécration avant le début des activités.</p>
+            </div>
+
+            <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="programme-icon">
+                    <i class="fas fa-book-bible"></i>
+                </div>
+                <h3>Enseignement & Prière</h3>
+                <div class="programme-days">MARDI et VENDREDI</div>
+                <div class="programme-time">16h00 - 18h00</div>
+                <p class="programme-desc">Des enseignements profonds de la Parole de Dieu suivis d'un temps de prière intense pour les besoins de l'église et de la nation.</p>
+            </div>
+
+            <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
+                <div class="programme-icon">
+                    <i class="fas fa-church"></i>
+                </div>
+                <h3>Culte d'Adoration</h3>
+                <div class="programme-days">DIMANCHE</div>
+                <div class="programme-time">08h30 - 11h00</div>
+                <p class="programme-desc">Le grand rassemblement de la famille de Dieu. Louange, adoration, enseignement de la Parole et communion fraternelle.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Section Actualités -->
     <section id="actualites">
         <span class="section-tag" data-aos="fade-up">Restez Informés</span>
@@ -1158,6 +1367,32 @@
         
         <div class="actualites-grid" id="actualites-grid">
             <!-- Les actualités seront chargées dynamiquement -->
+        </div>
+    </section>
+
+    <!-- Section Pasteur -->
+    <section id="pasteur">
+        <span class="section-tag" data-aos="fade-up">Notre Berger</span>
+        <h2 class="section-title" data-aos="fade-up">Pasteur Obed Kahozi</h2>
+        
+        <div class="pasteur-grid">
+            <div class="pasteur-image" data-aos="fade-right">
+                <img src="Pasteur Obed Kahozi entrain de precher.jpeg" alt="Pasteur Obed Kahozi en train de prêcher">
+            </div>
+            <div class="pasteur-content" data-aos="fade-left">
+                <h3>Un homme selon le cœur de Dieu</h3>
+                <h4>Fondateur de la Paroisse Pain de Vie</h4>
+                <p>
+                    Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
+                </p>
+                <p>
+                    Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
+                </p>
+                <div class="pasteur-quote">
+                    <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>
+                    Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine.
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1182,9 +1417,9 @@
             </div>
             <div data-aos="fade-up" data-aos-delay="100">
                 <h4>Horaires des Cultes</h4>
-                <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> Dimanche : 08h00 - 11h30</p>
-                <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> Mercredi : 16h00 - 18h00</p>
-                <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> Vendredi : 16h00 - 18h00</p>
+                <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> Lundi-Vendredi : 05h30 - 06h30</p>
+                <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> Mardi & Vendredi : 16h00 - 18h00</p>
+                <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> Dimanche : 08h30 - 11h00</p>
             </div>
             <div data-aos="fade-up" data-aos-delay="200">
                 <h4>Suivez-nous</h4>
@@ -1341,7 +1576,7 @@
         const heroSwiper = new Swiper('.swiper-hero', {
             loop: true,
             autoplay: {
-                delay: 5000,
+                delay: 4000,
                 disableOnInteraction: false,
             },
             effect: 'fade',
@@ -1351,111 +1586,45 @@
             speed: 1500,
         });
 
-        // ===== GALERIE D'IMAGES PAR DÉFAUT =====
-        const defaultGalleryImages = [
-            {
-                url: 'https://images.unsplash.com/photo-1545454677-6c3c4e0b44b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Culte du Dimanche',
-                date: '2025-03-15'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
-                title: 'Groupe de Louange',
-                date: '2025-03-10'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Étude Biblique',
-                date: '2025-03-05'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80',
-                title: 'Conférence',
-                date: '2025-02-28'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
-                title: 'Baptême',
-                date: '2025-02-20'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1490126125528-a0c8ebf1e0f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Jeunesse en Prière',
-                date: '2025-02-15'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Mariage',
-                date: '2025-02-10'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                title: 'Camp de Jeunes',
-                date: '2025-02-01'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Culte de Louange',
-                date: '2025-01-25'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1508672019048-805af876b754?ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80',
-                title: 'Formation des Leaders',
-                date: '2025-01-20'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Évangélisation',
-                date: '2025-01-15'
-            },
-            {
-                url: 'https://images.unsplash.com/photo-1507692049790-de58290c433e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                title: 'Réveil Spirituel',
-                date: '2025-01-10'
-            }
+        // ===== LISTE DES IMAGES DE LA GALERIE =====
+        const galleryImages = [
+            { file: 'Seance de cilte 1.jpeg', title: 'Séance de Culte 1' },
+            { file: 'Seance de cilte 2.jpeg', title: 'Séance de Culte 2' },
+            { file: 'Seance de cilte 3.jpeg', title: 'Séance de Culte 3' },
+            { file: 'Seance de cilte 4.jpeg', title: 'Séance de Culte 4' },
+            { file: 'Seance de cilte 5.jpeg', title: 'Séance de Culte 5' },
+            { file: 'Seance de cilte 6.jpeg', title: 'Séance de Culte 6' },
+            { file: 'Seance de cilte 7.jpeg', title: 'Séance de Culte 7' },
+            { file: 'Seance de cilte 8.jpeg', title: 'Séance de Culte 8' },
+            { file: 'Seance de cilte 9.jpeg', title: 'Séance de Culte 9' },
+            { file: 'Seance de cilte 10.jpeg', title: 'Séance de Culte 10' },
+            { file: 'Seance de cilte 11.jpeg', title: 'Séance de Culte 11' },
+            { file: 'Seance de cilte 12.jpeg', title: 'Séance de Culte 12' },
+            { file: 'Seance de cilte 13.jpeg', title: 'Séance de Culte 13' }
         ];
 
         // ===== ACTUALITÉS PAR DÉFAUT =====
         const defaultNews = [
             {
                 title: 'Grande Conférence sur le Réveil',
-                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester !',
-                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
+                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                image: 'Seance de cilte 1.jpeg',
                 author: 'Pasteur Obed Kahozi',
-                date: '2025-03-20',
-                timestamp: Date.now() - 86400000
+                date: '2025-03-20'
             },
             {
                 title: 'Camp de Jeunesse 2025',
-                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans.',
-                image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
+                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                image: 'Seance de cilte 5.jpeg',
                 author: 'Département Jeunesse',
-                date: '2025-03-18',
-                timestamp: Date.now() - 172800000
+                date: '2025-03-18'
             },
             {
                 title: 'Baptême Collectif',
-                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ.',
-                image: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
+                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                image: 'Seance de cilte 8.jpeg',
                 author: 'Pasteur Obed Kahozi',
-                date: '2025-03-15',
-                timestamp: Date.now() - 259200000
-            },
-            {
-                title: 'Séminaire sur le Mariage',
-                content: 'Séminaire "Fonder un Foyer Selon Dieu" pour les couples mariés et fiancés. Thèmes abordés : communication, finances, éducation des enfants. Inscription obligatoire.',
-                image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                author: 'Département Famille',
-                date: '2025-03-12',
-                timestamp: Date.now() - 345600000
-            },
-            {
-                title: 'Nouveau Groupe de Louange',
-                content: 'Recrutement de musiciens et choristes pour le nouveau groupe de louange. Auditions ouvertes à tous. Si vous avez un talent musical, venez le mettre au service du Seigneur.',
-                image: 'https://images.unsplash.com/photo-1508672019048-805af876b754?ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80',
-                author: 'Département Musique',
-                date: '2025-03-10',
-                timestamp: Date.now() - 432000000
+                date: '2025-03-15'
             }
         ];
 
@@ -1483,20 +1652,23 @@
                 
                 let imageCount = 0;
                 
-                // Si pas d'images, utiliser les images par défaut
-                if (Object.keys(images).length === 0) {
-                    defaultGalleryImages.forEach((img, index) => {
-                        const key = 'default_' + index;
-                        displayGalleryImage(key, img, galleryGrid, galleryAdminList);
-                        imageCount++;
-                    });
-                } else {
-                    Object.keys(images).forEach(key => {
-                        const image = images[key];
-                        displayGalleryImage(key, image, galleryGrid, galleryAdminList);
-                        imageCount++;
-                    });
-                }
+                // Utiliser les images locales
+                galleryImages.forEach((img, index) => {
+                    const key = 'local_' + index;
+                    displayGalleryImage(key, {
+                        url: img.file,
+                        title: img.title,
+                        date: new Date().toLocaleDateString()
+                    }, galleryGrid, galleryAdminList);
+                    imageCount++;
+                });
+                
+                // Ajouter aussi les images Firebase s'il y en a
+                Object.keys(images).forEach(key => {
+                    const image = images[key];
+                    displayGalleryImage(key, image, galleryGrid, galleryAdminList);
+                    imageCount++;
+                });
                 
                 document.getElementById('stats-images').textContent = imageCount;
             });
@@ -1512,20 +1684,19 @@
                 
                 let newsCount = 0;
                 
-                // Si pas d'actualités, utiliser les actualités par défaut
-                if (Object.keys(news).length === 0) {
-                    defaultNews.forEach((item, index) => {
-                        const key = 'default_' + index;
-                        displayNewsItem(key, item, newsGrid, newsAdminList);
-                        newsCount++;
-                    });
-                } else {
-                    Object.keys(news).sort((a, b) => news[b].timestamp - news[a].timestamp).forEach(key => {
-                        const item = news[key];
-                        displayNewsItem(key, item, newsGrid, newsAdminList);
-                        newsCount++;
-                    });
-                }
+                // Afficher les actualités par défaut
+                defaultNews.forEach((item, index) => {
+                    const key = 'default_' + index;
+                    displayNewsItem(key, item, newsGrid, newsAdminList);
+                    newsCount++;
+                });
+                
+                // Ajouter les actualités Firebase
+                Object.keys(news).forEach(key => {
+                    const item = news[key];
+                    displayNewsItem(key, item, newsGrid, newsAdminList);
+                    newsCount++;
+                });
                 
                 document.getElementById('stats-news').textContent = newsCount;
             });
@@ -1548,19 +1719,21 @@
             `;
             galleryGrid.appendChild(item);
 
-            // Ajouter à la liste admin
-            const adminItem = document.createElement('div');
-            adminItem.className = 'publication-item';
-            adminItem.innerHTML = `
-                <div style="display: flex; align-items: center;">
-                    <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
-                    <span>${image.title || 'Sans titre'}</span>
-                </div>
-                <div>
-                    <button onclick="deleteImage('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                </div>
-            `;
-            galleryAdminList.appendChild(adminItem);
+            // Ajouter à la liste admin si ce n'est pas une image locale
+            if (!key.startsWith('local_')) {
+                const adminItem = document.createElement('div');
+                adminItem.className = 'publication-item';
+                adminItem.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+                        <span>${image.title || 'Sans titre'}</span>
+                    </div>
+                    <div>
+                        <button onclick="deleteImage('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                    </div>
+                `;
+                galleryAdminList.appendChild(adminItem);
+            }
         }
 
         function displayNewsItem(key, item, newsGrid, newsAdminList) {
@@ -1570,8 +1743,8 @@
             card.setAttribute('onclick', `openNewsModal('${key}')`);
             card.innerHTML = `
                 <div class="actualite-image">
-                    <img src="${item.image || 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80'}" alt="${item.title}">
-                    <div class="actualite-date">${item.date || new Date(item.timestamp).toLocaleDateString()}</div>
+                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}">
+                    <div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div>
                 </div>
                 <div class="actualite-content">
                     <h3>${item.title}</h3>
@@ -1587,20 +1760,22 @@
             `;
             newsGrid.appendChild(card);
 
-            // Ajouter à la liste admin
-            const adminItem = document.createElement('div');
-            adminItem.className = 'publication-item';
-            adminItem.innerHTML = `
-                <div>
-                    <strong>${item.title}</strong>
-                    <p style="font-size: 0.9rem; color: #666;">${item.date || new Date(item.timestamp).toLocaleDateString()}</p>
-                </div>
-                <div>
-                    <button onclick="editNews('${key}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
-                    <button onclick="deleteNews('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                </div>
-            `;
-            newsAdminList.appendChild(adminItem);
+            // Ajouter à la liste admin si ce n'est pas une actualité par défaut
+            if (!key.startsWith('default_')) {
+                const adminItem = document.createElement('div');
+                adminItem.className = 'publication-item';
+                adminItem.innerHTML = `
+                    <div>
+                        <strong>${item.title}</strong>
+                        <p style="font-size: 0.9rem; color: #666;">${item.date || new Date().toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                        <button onclick="editNews('${key}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
+                        <button onclick="deleteNews('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                    </div>
+                `;
+                newsAdminList.appendChild(adminItem);
+            }
         }
 
         // ===== FONCTIONS ADMIN =====
@@ -1723,7 +1898,7 @@
                 db.ref('news').push({
                     title: title,
                     content: content,
-                    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
+                    image: 'Seance de cilte 1.jpeg',
                     author: author,
                     date: new Date().toLocaleDateString(),
                     timestamp: Date.now()
@@ -1737,8 +1912,8 @@
 
         window.deleteImage = (key) => {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
-                if (key.startsWith('default_')) {
-                    alert('Les images par défaut ne peuvent pas être supprimées via cette interface. Utilisez l\'upload d\'images pour ajouter vos propres images.');
+                if (key.startsWith('local_')) {
+                    alert('Les images locales ne peuvent pas être supprimées. Utilisez l\'upload pour ajouter vos propres images.');
                     return;
                 }
                 db.ref('gallery/' + key).remove()
@@ -1784,16 +1959,28 @@
 
         // ===== MODAL POUR ACTUALITÉS =====
         window.openNewsModal = (key) => {
-            db.ref('news/' + key).once('value', (snapshot) => {
-                const news = snapshot.val();
+            if (key.startsWith('default_')) {
+                const index = parseInt(key.split('_')[1]);
+                const news = defaultNews[index];
                 if (news) {
                     document.getElementById('modal-title').textContent = news.title;
-                    document.getElementById('modal-date').textContent = news.date || new Date(news.timestamp).toLocaleDateString();
-                    document.getElementById('modal-image').src = news.image || 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80';
+                    document.getElementById('modal-date').textContent = news.date;
+                    document.getElementById('modal-image').src = news.image;
                     document.getElementById('modal-content').textContent = news.content;
                     document.getElementById('news-modal').style.display = 'flex';
                 }
-            });
+            } else {
+                db.ref('news/' + key).once('value', (snapshot) => {
+                    const news = snapshot.val();
+                    if (news) {
+                        document.getElementById('modal-title').textContent = news.title;
+                        document.getElementById('modal-date').textContent = news.date;
+                        document.getElementById('modal-image').src = news.image || 'Seance de cilte 1.jpeg';
+                        document.getElementById('modal-content').textContent = news.content;
+                        document.getElementById('news-modal').style.display = 'flex';
+                    }
+                });
+            }
         };
 
         window.closeModal = () => {
