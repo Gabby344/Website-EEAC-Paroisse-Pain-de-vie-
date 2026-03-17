@@ -12,38 +12,989 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Swiper.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
-    <!-- LightGallery -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- AOS animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ===== MÊME STYLE QUE PRÉCÉDEMMENT ===== */
-        /* Je conserve tout le CSS précédent pour la beauté du site */
-        /* ... (tout le CSS que nous avions déjà) ... */
-        
-        /* ===== STYLES SUPPLEMENTAIRES POUR L'ADMIN ===== */
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 40px;
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--accent);
+        /* ===== VARIABLES ===== */
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #1a1a1a;
+            --accent: #d4af37;
+            --accent-light: #e9c469;
+            --accent-gradient: linear-gradient(135deg, #d4af37 0%, #f5d742 50%, #d4af37 100%);
+            --white: #ffffff;
+            --off-white: #faf9f7;
+            --light-bg: #f5f3f0;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow-sm: 0 10px 30px -15px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 20px 40px -20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
+            --transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition-fast: all 0.4s ease;
         }
 
-        .login-container h2 {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--off-white);
+            color: var(--primary);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--light-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b8960c;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition-fast);
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo {
             font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s ease;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* ===== MENU BURGER ===== */
+        .nav-toggle {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 2001;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        .nav-toggle span {
+            width: 35px;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+            background: var(--accent);
+        }
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        .nav-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+            background: var(--accent);
+        }
+
+        /* ===== MENU OVERLAY ===== */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-overlay a {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-decoration: none;
+            margin: 1rem 0;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-overlay a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .menu-overlay a:hover {
+            color: var(--accent);
+            transform: translateX(20px);
+        }
+
+        .menu-overlay a:hover::before {
+            left: 0;
+        }
+
+        .admin-link {
+            font-size: 1.5rem !important;
+            color: var(--accent) !important;
+            margin-top: 20px !important;
+            border: 1px solid var(--accent);
+            padding: 10px 30px !important;
+            border-radius: 50px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        #accueil {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-bottom: 30px;
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .swiper-hero {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .swiper-slide {
+            position: relative;
+        }
+
+        .swiper-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+            z-index: 1;
+        }
+
+        .slide-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 8s ease;
+        }
+
+        .swiper-slide-active .slide-bg {
+            transform: scale(1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.8s;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1.1s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            color: var(--white);
+            font-size: 2rem;
+            opacity: 0.7;
+            transition: var(--transition-fast);
+        }
+
+        .scroll-indicator:hover i {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-30px);}
+            60% {transform: translateX(-50%) translateY(-15px);}
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 140px 10%;
+            position: relative;
+        }
+
+        .section-tag {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 1px;
+            background: var(--accent-gradient);
+        }
+
+        .section-tag::before {
+            left: calc(50% - 120px);
+        }
+
+        .section-tag::after {
+            right: calc(50% - 120px);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ===== PROGRAMMES ===== */
+        #programmes {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+        }
+
+        #programmes .section-title {
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .programmes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .programme-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .programme-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .programme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-gradient);
+        }
+
+        .programme-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+
+        .programme-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .programme-days {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .programme-time {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .programme-desc {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        .special-programme {
+            background: var(--accent-gradient);
+            color: var(--primary);
+            grid-column: span 2;
+        }
+
+        .special-programme .programme-icon,
+        .special-programme .programme-days,
+        .special-programme h3 {
             color: var(--primary);
         }
 
-        .login-container input {
+        /* ===== HISTORIQUE ===== */
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .history-text p {
+            font-size: 1.1rem;
+            line-height: 2.2;
+            color: #444;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 30px;
+            border-left: 3px solid transparent;
+            border-image: var(--accent-gradient);
+            border-image-slice: 1;
+            transition: var(--transition-fast);
+        }
+
+        .history-text p:hover {
+            transform: translateX(10px);
+        }
+
+        .history-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.2s ease;
+        }
+
+        .history-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .history-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, var(--accent) 0%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .history-image:hover::before {
+            opacity: 0.3;
+        }
+
+        /* ===== CARTES VISION ===== */
+        .vision-mission {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .v-card {
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .v-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .v-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .v-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .v-card i {
+            color: var(--accent);
+            font-size: 3rem;
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .v-card:hover i {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .v-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .v-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* ===== ACTUALITÉS ===== */
+        #actualites {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-bg) 100%);
+        }
+
+        .actualites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .actualite-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            cursor: pointer;
+        }
+
+        .actualite-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .actualite-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .actualite-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+
+        .actualite-card:hover .actualite-image img {
+            transform: scale(1.1);
+        }
+
+        .actualite-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .actualite-card:hover .actualite-image::after {
+            opacity: 1;
+        }
+
+        .actualite-date {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .actualite-content {
+            padding: 30px;
+        }
+
+        .actualite-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .actualite-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .actualite-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .actualite-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .actualite-author i {
+            color: var(--accent);
+        }
+
+        .actualite-lire-plus {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+
+        .actualite-lire-plus:hover {
+            transform: translateX(10px);
+        }
+
+        /* ===== GALERIE ===== */
+        #galerie {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+        }
+
+        #galerie .section-title {
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            color: var(--white);
+            transform: translateY(100%);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .gallery-caption h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .gallery-caption p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .gallery-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--white);
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===== PASTEUR SECTION ===== */
+        #pasteur {
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--white) 100%);
+        }
+
+        .pasteur-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .pasteur-image {
+            position: relative;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pasteur-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.2s ease;
+        }
+
+        .pasteur-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .pasteur-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .pasteur-content h4 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .pasteur-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .pasteur-quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 20px;
+            border-left: 5px solid var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a1a1a 100%);
+            color: #aaa;
+            padding: 120px 10% 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid h4 {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .footer-grid h4::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-gradient);
+        }
+
+        .footer-grid p {
+            line-height: 2;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: var(--transition-fast);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-5px) rotate(360deg);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-size: 0.9rem;
+        }
+
+        /* ===== ADMIN PANEL ===== */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 5000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal {
+            background: linear-gradient(135deg, #fff 0%, var(--light-bg) 100%);
+            padding: 60px;
+            width: 450px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--accent);
+            transform: scale(0.9);
+            animation: modalAppear 0.5s ease forwards;
+        }
+
+        @keyframes modalAppear {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .admin-modal h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 2.2rem;
+        }
+
+        .admin-modal input {
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
@@ -53,12 +1004,13 @@
             transition: var(--transition-fast);
         }
 
-        .login-container input:focus {
+        .admin-modal input:focus {
             border-color: var(--accent);
             outline: none;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
-        .login-container button {
+        .admin-modal button {
             width: 100%;
             padding: 15px;
             background: var(--accent-gradient);
@@ -69,259 +1021,103 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition-fast);
+            margin-bottom: 10px;
         }
 
-        .login-container button:hover {
+        .admin-modal button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
         }
 
-        .login-status {
-            text-align: center;
-            margin-top: 15px;
-            color: #666;
-        }
-
-        .login-status a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .admin-badge {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition-fast);
-            z-index: 999;
-        }
-
-        .admin-badge:hover {
-            transform: scale(1.1) rotate(360deg);
-        }
-
-        .admin-badge.logged-in {
-            background: linear-gradient(135deg, #28a745, #20c997);
-        }
-
-        /* ===== MODAL STYLES ===== */
-        .modal {
+        /* ===== DASHBOARD ADMIN ===== */
+        #admin-dash {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--white);
-            border-radius: 30px;
-            max-width: 800px;
-            width: 90%;
-            max-height: 80vh;
+            inset: 0;
+            background: var(--light-bg);
+            z-index: 4000;
             overflow-y: auto;
-            position: relative;
-            animation: modalSlideIn 0.4s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            padding: 30px 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            border-radius: 30px 30px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-        }
-
-        .modal-close {
-            font-size: 2rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-
-        .modal-close:hover {
-            transform: rotate(90deg);
-            color: var(--accent);
-        }
-
-        .modal-body {
             padding: 40px;
         }
 
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .admin-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: var(--transition-fast);
-            font-weight: 600;
-        }
-
-        .admin-tab:hover {
-            background: #f0f0f0;
-        }
-
-        .admin-tab.active {
-            background: var(--accent);
-            color: var(--white);
-        }
-
-        .admin-panel {
-            display: none;
-        }
-
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-form-group {
-            margin-bottom: 20px;
-        }
-
-        .admin-form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .admin-form-group input,
-        .admin-form-group textarea,
-        .admin-form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition-fast);
-        }
-
-        .admin-form-group input:focus,
-        .admin-form-group textarea:focus,
-        .admin-form-group select:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-
-        .admin-form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .admin-items-list {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-        }
-
-        .admin-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+        .admin-header {
+            background: var(--white);
+            padding: 30px 40px;
+            border-radius: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #e0e0e0;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .admin-item-info h4 {
-            margin-bottom: 5px;
-            color: var(--primary);
+        .admin-header h2 {
+            font-family: 'Playfair Display', serif;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
         }
 
-        .admin-item-info p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .admin-item-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        .admin-header button {
+            background: #dc3545;
+            color: white;
             border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition-fast);
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+            gap: 10px;
         }
 
-        .btn-edit {
-            background: var(--accent);
-            color: var(--white);
-        }
-
-        .btn-edit:hover {
-            background: #b8960c;
-            transform: scale(1.1);
-        }
-
-        .btn-delete {
-            background: #dc3545;
-            color: var(--white);
-        }
-
-        .btn-delete:hover {
+        .admin-header button:hover {
             background: #c82333;
-            transform: scale(1.1);
+            transform: translateY(-3px);
         }
 
-        .btn-success {
-            background: #28a745;
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .admin-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .admin-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .admin-card h4 {
+            margin: 20px 0 15px;
+            color: var(--accent);
+        }
+
+        .admin-card textarea,
+        .admin-card input[type="text"],
+        .admin-card input[type="file"] {
+            width: 100%;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-admin {
+            background: var(--accent);
             color: var(--white);
             padding: 12px 30px;
             border: none;
@@ -329,108 +1125,160 @@
             cursor: pointer;
             font-weight: 600;
             transition: var(--transition-fast);
+            margin-right: 10px;
+        }
+
+        .btn-admin:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
         }
 
         .btn-success:hover {
             background: #218838;
-            transform: translateY(-3px);
         }
 
-        .image-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
+        .publications-list {
             margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
         }
 
-        .image-preview-item {
-            position: relative;
-            aspect-ratio: 1;
+        .publication-item {
+            background: #f5f5f5;
+            padding: 15px;
             border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #e0e0e0;
-        }
-
-        .image-preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .image-preview-item .remove-image {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 25px;
-            height: 25px;
-            background: rgba(220, 53, 69, 0.9);
-            color: var(--white);
-            border-radius: 50%;
+            margin-bottom: 10px;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .publication-item button {
+            padding: 5px 15px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .default-badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 6000;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            font-size: 0.8rem;
         }
 
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
         }
 
-        .stat-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--accent);
+        /* ===== NOTIFICATIONS ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            display: none;
+            animation: slideIn 0.3s ease;
         }
 
-        .stat-card .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .stat-card .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .modal-header h2 {
-                font-size: 1.5rem;
+        @media (max-width: 1200px) {
+            section {
+                padding: 100px 5%;
             }
-            
-            .modal-body {
-                padding: 20px;
+            .history-grid,
+            .pasteur-grid {
+                gap: 50px;
             }
-            
-            .admin-tabs {
-                flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .section-title {
+                font-size: 2.8rem;
             }
-            
-            .admin-item {
-                flex-direction: column;
-                text-align: center;
+            .history-grid,
+            .pasteur-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .admin-item-actions {
-                margin-top: 10px;
+            .menu-overlay a {
+                font-size: 2rem;
+            }
+            .special-programme {
+                grid-column: span 1;
+            }
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
     <!-- Navigation -->
     <nav id="navbar">
         <div class="logo">PAIN DE VIE</div>
@@ -451,33 +1299,21 @@
         <a href="#pasteur" onclick="closeMenu()">Notre Pasteur</a>
         <a href="#galerie" onclick="closeMenu()">Galerie</a>
         <a href="#contacts" onclick="closeMenu()">Contacts</a>
-        <a href="#" onclick="openAdminLogin()" style="font-size: 1.5rem; color: var(--accent);">⚡ Administration</a>
+        <a href="javascript:void(0)" onclick="showAdminLogin()" class="admin-link">⚡ Administration</a>
     </div>
 
     <!-- Hero avec carrousel -->
     <section id="accueil">
         <div class="swiper-hero swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="Seance de cilte 1.jpeg" class="slide-bg" alt="Culte 1"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 2.jpeg" class="slide-bg" alt="Culte 2"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 3.jpeg" class="slide-bg" alt="Culte 3"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 4.jpeg" class="slide-bg" alt="Culte 4"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 5.jpeg" class="slide-bg" alt="Culte 5"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 6.jpeg" class="slide-bg" alt="Culte 6"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 7.jpeg" class="slide-bg" alt="Culte 7"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 8.jpeg" class="slide-bg" alt="Culte 8"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 9.jpeg" class="slide-bg" alt="Culte 9"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 10.jpeg" class="slide-bg" alt="Culte 10"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 11.jpeg" class="slide-bg" alt="Culte 11"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 12.jpeg" class="slide-bg" alt="Culte 12"></div>
-                <div class="swiper-slide"><img src="Seance de cilte 13.jpeg" class="slide-bg" alt="Culte 13"></div>
+            <div class="swiper-wrapper" id="hero-slides">
+                <!-- Slides will be populated by JavaScript -->
             </div>
         </div>
 
         <div class="hero-content">
-            <p data-aos="fade-up">Bienvenue à la Paroisse</p>
-            <h1 data-aos="fade-up" data-aos-delay="200">Ambassadeurs pour Christ</h1>
-            <p class="subtitle" data-aos="fade-up" data-aos-delay="400">Pain de Vie (Bread of Life)</p>
+            <p data-aos="fade-up" data-aos-duration="1000">Bienvenue à la Paroisse</p>
+            <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Ambassadeurs pour Christ</h1>
+            <p class="subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">Pain de Vie (Bread of Life)</p>
         </div>
 
         <a href="#historique" class="scroll-indicator">
@@ -487,272 +1323,280 @@
 
     <!-- Section Historique -->
     <section id="historique">
-        <span class="section-tag">Genèse de l'œuvre</span>
-        <h2 class="section-title">Une Vision, Un Parcours</h2>
+        <span class="section-tag" data-aos="fade-up">Genèse de l'œuvre</span>
+        <h2 class="section-title" data-aos="fade-up">Une Vision, Un Parcours</h2>
         <div class="history-grid">
             <div class="history-text">
-                <p id="history-content">
-                    L'histoire de l'Église Évangélique des Ambassadeurs pour Christ – Paroisse <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.
-                </p>
-                <p>
-                    Ce ministère s'est forgé à travers un parcours de patience et de consécration intense. De 2004 à 2008 à Kamina, les fondations furent posées. Entre 2008 et 2015 à Kolwezi, une période de formation spirituelle rigoureuse a permis l'éclosion de l'appel, confirmée plus tard au sein de l'EEAC sous la direction du Révérend Pasteur Théophile Mpoyi.
-                </p>
-                <p>
-                    Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ.
-                </p>
+                <div id="history-content" data-aos="fade-right"></div>
             </div>
-            <div class="history-image">
-                <img src="Pasteur Obed Kahozi.jpeg" alt="Pasteur Obed Kahozi">
+            <div class="history-image" data-aos="fade-left" data-aos-delay="200">
+                <img src="" alt="Pasteur Obed Kahozi" id="pasteur-image">
             </div>
         </div>
     </section>
 
     <!-- Section Vision & Mission -->
-    <section id="vision">
-        <span class="section-tag">Nos Fondements</span>
-        <h2 class="section-title">Vision & Mission</h2>
-        <div class="vision-mission">
-            <div class="v-card">
-                <i class="fas fa-eye"></i>
-                <h3>Vision</h3>
-                <p>Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.</p>
-            </div>
-            <div class="v-card">
-                <i class="fas fa-scroll"></i>
-                <h3>Mission</h3>
-                <p>Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.</p>
-            </div>
-            <div class="v-card">
-                <i class="fas fa-star"></i>
-                <h3>Valeurs</h3>
-                <p>Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.</p>
-            </div>
+    <section id="vision" style="background: linear-gradient(135deg, #f0ede8 0%, #e8e1d8 100%);">
+        <span class="section-tag" data-aos="fade-up">Nos Fondements</span>
+        <h2 class="section-title" data-aos="fade-up">Vision & Mission</h2>
+        <div class="vision-mission" id="vision-content">
+            <!-- Will be populated by JavaScript -->
         </div>
     </section>
 
     <!-- Section Programmes -->
     <section id="programmes">
-        <span class="section-tag">Nos Rendez-vous</span>
-        <h2 class="section-title">Programmes des Cultes</h2>
+        <span class="section-tag" data-aos="fade-up">Nos Rendez-vous</span>
+        <h2 class="section-title" data-aos="fade-up">Programmes des Cultes</h2>
         
-        <div class="programmes-grid" id="programmes-container">
-            <!-- Programmes chargés dynamiquement -->
+        <div class="programmes-grid" id="programmes-content">
+            <!-- Will be populated by JavaScript -->
         </div>
     </section>
 
     <!-- Section Actualités -->
     <section id="actualites">
-        <span class="section-tag">Restez Informés</span>
-        <h2 class="section-title">Dernières Actualités</h2>
+        <span class="section-tag" data-aos="fade-up">Restez Informés</span>
+        <h2 class="section-title" data-aos="fade-up">Dernières Actualités</h2>
         
         <div class="actualites-grid" id="actualites-grid">
-            <!-- Actualités chargées dynamiquement -->
+            <!-- Les actualités seront chargées dynamiquement -->
         </div>
     </section>
 
     <!-- Section Pasteur -->
     <section id="pasteur">
-        <span class="section-tag">Notre Berger</span>
-        <h2 class="section-title">Pasteur Obed Kahozi</h2>
+        <span class="section-tag" data-aos="fade-up">Notre Berger</span>
+        <h2 class="section-title" data-aos="fade-up">Pasteur Obed Kahozi</h2>
         
         <div class="pasteur-grid">
-            <div class="pasteur-image">
-                <img src="Pasteur Obed Kahozi entrain de precher.jpeg" alt="Pasteur Obed Kahozi">
+            <div class="pasteur-image" data-aos="fade-right">
+                <img src="" alt="Pasteur Obed Kahozi en train de prêcher" id="pasteur-preaching">
             </div>
-            <div class="pasteur-content">
-                <h3>Un homme selon le cœur de Dieu</h3>
-                <h4>Fondateur de la Paroisse Pain de Vie</h4>
-                <p>
-                    Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
-                </p>
-                <p>
-                    Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
-                </p>
-                <div class="pasteur-quote">
-                    <i class="fas fa-quote-left"></i>
-                    Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine.
-                </div>
+            <div class="pasteur-content" data-aos="fade-left" id="pasteur-content">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Section Galerie -->
     <section id="galerie">
-        <span class="section-tag">Médiathèque</span>
-        <h2 class="section-title">Galerie Photos</h2>
+        <span class="section-tag" data-aos="fade-up">Médiathèque</span>
+        <h2 class="section-title" data-aos="fade-up">Galerie Photos</h2>
         
         <div class="gallery-grid" id="gallery-grid">
-            <!-- Images chargées dynamiquement -->
+            <!-- Les images seront chargées dynamiquement -->
         </div>
     </section>
 
     <!-- Footer -->
     <footer id="contacts">
         <div class="footer-grid">
-            <div>
+            <div data-aos="fade-up">
                 <h4>PAIN DE VIE</h4>
-                <p><i class="fas fa-map-marker-alt"></i> 44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi, RDC</p>
-                <p><i class="fas fa-phone"></i> +243 123 456 789</p>
-                <p><i class="fas fa-envelope"></i> contact@paindevie.org</p>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--accent); margin-right: 10px;"></i> <span id="address">44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi, RDC</span></p>
+                <p><i class="fas fa-phone" style="color: var(--accent); margin-right: 10px;"></i> <span id="phone">+243 123 456 789</span></p>
+                <p><i class="fas fa-envelope" style="color: var(--accent); margin-right: 10px;"></i> <span id="email">contact@paindevie.org</span></p>
             </div>
-            <div>
+            <div data-aos="fade-up" data-aos-delay="100">
                 <h4>Horaires des Cultes</h4>
-                <p><i class="fas fa-sun"></i> Lundi-Vendredi : 05h30 - 06h30</p>
-                <p><i class="fas fa-cloud"></i> Mardi & Vendredi : 16h00 - 18h00</p>
-                <p><i class="fas fa-star"></i> Dimanche : 08h30 - 11h00</p>
+                <div id="schedules"></div>
             </div>
-            <div>
+            <div data-aos="fade-up" data-aos-delay="200">
                 <h4>Suivez-nous</h4>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                <div class="social-links" id="social-links">
+                    <!-- Will be populated by JavaScript -->
                 </div>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2025 Église Évangélique des Ambassadeurs pour Christ – Paroisse Pain de Vie</p>
-            <p>"Vous êtes la lumière du monde" – Matthieu 5:14</p>
+            <p>&copy; 2025 Église Évangélique des Ambassadeurs pour Christ – Paroisse Pain de Vie. Développé pour la gloire de Dieu.</p>
+            <p style="margin-top: 10px; color: var(--accent);">"Vous êtes la lumière du monde" – Matthieu 5:14</p>
         </div>
     </footer>
 
     <!-- Admin Login Modal -->
-    <div id="admin-login-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h2>⚡ Administration</h2>
-                <span class="modal-close" onclick="closeModal('admin-login-modal')">&times;</span>
+    <div id="admin-panel">
+        <div class="admin-modal">
+            <h2>⚡ Accès Administrateur</h2>
+            <input type="email" id="admin-email" placeholder="Email" value="admin@paindevie.org">
+            <input type="password" id="admin-password" placeholder="Mot de passe" value="Admin123!">
+            <button onclick="handleAdminLogin()">Se connecter</button>
+            <button onclick="hideAdminLogin()" style="background: #666;">Annuler</button>
+            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+                <a href="#" onclick="showRegisterForm()">Créer un compte admin</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Register Modal -->
+    <div id="admin-register" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 5001; align-items: center; justify-content: center;">
+        <div class="admin-modal">
+            <h2>📝 Créer un compte admin</h2>
+            <input type="email" id="reg-email" placeholder="Email" value="newadmin@paindevie.org">
+            <input type="password" id="reg-password" placeholder="Mot de passe (min. 6 caractères)" value="Admin123!">
+            <input type="password" id="reg-confirm" placeholder="Confirmer le mot de passe" value="Admin123!">
+            <input type="text" id="reg-name" placeholder="Nom complet" value="Administrateur">
+            <button onclick="handleAdminRegister()" class="btn-success">Créer le compte</button>
+            <button onclick="hideRegisterForm()" style="background: #666;">Annuler</button>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dash">
+        <div class="admin-header">
+            <h2><i class="fas fa-crown" style="color: var(--accent); margin-right: 15px;"></i>Tableau de Bord Administrateur</h2>
+            <div>
+                <span id="admin-email-display" style="margin-right: 20px; color: var(--accent);"></span>
+                <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
             </div>
-            <div class="modal-body">
-                <div class="login-container" style="box-shadow: none; padding: 0;">
-                    <input type="email" id="login-email" placeholder="Email" value="adminpaindevie@gmail.com">
-                    <input type="password" id="login-password" placeholder="Mot de passe" value="Admin12345678">
-                    <button onclick="handleAdminLogin()">Se connecter</button>
-                    <div class="login-status">
-                        <a href="#" onclick="showForgotPassword()">Mot de passe oublié ?</a>
-                    </div>
+        </div>
+
+        <div class="admin-grid">
+            <!-- Gestion Contenu Général -->
+            <div class="admin-card">
+                <h3><i class="fas fa-globe" style="color: var(--accent); margin-right: 10px;"></i>Contenu du Site</h3>
+                
+                <h4>Historique</h4>
+                <textarea id="edit-history" placeholder="Contenu de l'historique..." rows="5"></textarea>
+                <button onclick="saveContent('history')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                
+                <h4 style="margin-top: 20px;">Message du Pasteur</h4>
+                <textarea id="edit-pasteur-message" placeholder="Message..." rows="3"></textarea>
+                <button onclick="saveContent('pasteur-message')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                
+                <h4 style="margin-top: 20px;">Vision</h4>
+                <input type="text" id="edit-vision" placeholder="Texte de la vision">
+                <button onclick="saveContent('vision')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                
+                <h4 style="margin-top: 20px;">Mission</h4>
+                <input type="text" id="edit-mission" placeholder="Texte de la mission">
+                <button onclick="saveContent('mission')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                
+                <h4 style="margin-top: 20px;">Valeurs</h4>
+                <input type="text" id="edit-values" placeholder="Texte des valeurs">
+                <button onclick="saveContent('values')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+            </div>
+
+            <!-- Gestion Actualités -->
+            <div class="admin-card">
+                <h3><i class="fas fa-newspaper" style="color: var(--accent); margin-right: 10px;"></i>Actualités</h3>
+                
+                <h4>Ajouter une actualité</h4>
+                <input type="text" id="news-title" placeholder="Titre">
+                <textarea id="news-content" placeholder="Contenu..." rows="4"></textarea>
+                <input type="file" id="news-image" accept="image/*">
+                <input type="text" id="news-author" placeholder="Auteur (optionnel)" value="Pasteur Obed Kahozi">
+                <button onclick="addNews()" class="btn-admin btn-success"><i class="fas fa-plus"></i> Publier</button>
+                
+                <h4 style="margin-top: 30px;">Actualités publiées</h4>
+                <div class="publications-list" id="news-admin-list">
+                    <!-- Les actualités apparaîtront ici -->
                 </div>
+            </div>
+
+            <!-- Gestion Galerie -->
+            <div class="admin-card">
+                <h3><i class="fas fa-images" style="color: var(--accent); margin-right: 10px;"></i>Galerie</h3>
+                
+                <h4>Ajouter des images</h4>
+                <input type="file" id="gallery-upload" accept="image/*" multiple>
+                <input type="text" id="gallery-caption" placeholder="Légende (optionnel)">
+                <button onclick="uploadGalleryImages()" class="btn-admin btn-success"><i class="fas fa-upload"></i> Uploader</button>
+                
+                <h4 style="margin-top: 30px;">Images de la galerie</h4>
+                <div class="publications-list" id="gallery-admin-list">
+                    <!-- Les images apparaîtront ici -->
+                </div>
+            </div>
+
+            <!-- Gestion Programmes -->
+            <div class="admin-card">
+                <h3><i class="fas fa-calendar-alt" style="color: var(--accent); margin-right: 10px;"></i>Programmes</h3>
+                
+                <h4>Culte Matinal</h4>
+                <input type="text" id="program-morning" placeholder="Horaires" value="Lundi-Vendredi: 05h30-06h30">
+                
+                <h4>Enseignement & Prière</h4>
+                <input type="text" id="program-teaching" placeholder="Horaires" value="Mardi & Vendredi: 16h00-18h00">
+                
+                <h4>Culte du Dimanche</h4>
+                <input type="text" id="program-sunday" placeholder="Horaires" value="Dimanche: 08h30-11h00">
+                
+                <button onclick="savePrograms()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les programmes</button>
+            </div>
+
+            <!-- Gestion Contacts -->
+            <div class="admin-card">
+                <h3><i class="fas fa-address-book" style="color: var(--accent); margin-right: 10px;"></i>Coordonnées</h3>
+                
+                <h4>Adresse</h4>
+                <textarea id="contact-address" rows="2">44 Avenue Dilolo, Quartier Hewa Bora, Commune Dilala, Kolwezi, RDC</textarea>
+                
+                <h4>Téléphone</h4>
+                <input type="text" id="contact-phone" value="+243 123 456 789">
+                
+                <h4>Email</h4>
+                <input type="email" id="contact-email" value="contact@paindevie.org">
+                
+                <h4>Liens sociaux</h4>
+                <input type="text" id="social-facebook" placeholder="Facebook URL" value="https://facebook.com/paindevie">
+                <input type="text" id="social-youtube" placeholder="YouTube URL" value="https://youtube.com/paindevie">
+                <input type="text" id="social-instagram" placeholder="Instagram URL" value="https://instagram.com/paindevie">
+                <input type="text" id="social-tiktok" placeholder="TikTok URL" value="https://tiktok.com/@paindevie">
+                
+                <button onclick="saveContacts()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les contacts</button>
+            </div>
+
+            <!-- Gestion des administrateurs -->
+            <div class="admin-card">
+                <h3><i class="fas fa-user-shield" style="color: var(--accent); margin-right: 10px;"></i>Gestion des admins</h3>
+                
+                <h4>Ajouter un administrateur</h4>
+                <input type="email" id="new-admin-email" placeholder="Email du nouvel admin">
+                <button onclick="addAdmin()" class="btn-admin btn-success"><i class="fas fa-user-plus"></i> Ajouter</button>
+                
+                <h4 style="margin-top: 30px;">Administrateurs actuels</h4>
+                <div class="publications-list" id="admins-list">
+                    <!-- Liste des admins -->
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="admin-card">
+                <h3><i class="fas fa-chart-line" style="color: var(--accent); margin-right: 10px;"></i>Statistiques</h3>
+                <p><i class="fas fa-image"></i> Images en galerie: <span id="stats-images">0</span></p>
+                <p><i class="fas fa-newspaper"></i> Actualités: <span id="stats-news">0</span></p>
+                <p><i class="fas fa-users"></i> Admins: <span id="stats-admins">1</span></p>
+                <p><i class="fas fa-calendar"></i> Dernière mise à jour: <span id="last-update">Jamais</span></p>
+                <button onclick="refreshData()" class="btn-admin"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
             </div>
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal -->
-    <div id="admin-dashboard-modal" class="modal">
+    <!-- Modal pour lire les actualités -->
+    <div id="news-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-crown"></i> Tableau de Bord Admin</h2>
-                <span class="modal-close" onclick="closeModal('admin-dashboard-modal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <!-- Statistiques -->
-                <div class="admin-stats">
-                    <div class="stat-card">
-                        <i class="fas fa-newspaper"></i>
-                        <div class="stat-value" id="stat-actualites">0</div>
-                        <div class="stat-label">Actualités</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-images"></i>
-                        <div class="stat-value" id="stat-gallery">0</div>
-                        <div class="stat-label">Photos</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-calendar"></i>
-                        <div class="stat-value" id="stat-programmes">3</div>
-                        <div class="stat-label">Programmes</div>
-                    </div>
-                </div>
-
-                <!-- Tabs -->
-                <div class="admin-tabs">
-                    <div class="admin-tab active" onclick="switchAdminTab('actualites')">Actualités</div>
-                    <div class="admin-tab" onclick="switchAdminTab('galerie')">Galerie</div>
-                    <div class="admin-tab" onclick="switchAdminTab('programmes')">Programmes</div>
-                    <div class="admin-tab" onclick="switchAdminTab('historique')">Historique</div>
-                </div>
-
-                <!-- Panel Actualités -->
-                <div id="panel-actualites" class="admin-panel active">
-                    <h3>Ajouter une actualité</h3>
-                    <div class="admin-form-group">
-                        <label>Titre</label>
-                        <input type="text" id="news-title" placeholder="Titre de l'actualité">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Contenu</label>
-                        <textarea id="news-content" placeholder="Contenu..."></textarea>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Image</label>
-                        <input type="file" id="news-image" accept="image/*">
-                        <div class="image-preview" id="news-image-preview"></div>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Auteur</label>
-                        <input type="text" id="news-author" value="Pasteur Obed Kahozi">
-                    </div>
-                    <button onclick="addNews()" class="btn-success"><i class="fas fa-plus"></i> Publier</button>
-
-                    <h3 style="margin-top: 40px;">Actualités publiées</h3>
-                    <div class="admin-items-list" id="news-list"></div>
-                </div>
-
-                <!-- Panel Galerie -->
-                <div id="panel-galerie" class="admin-panel">
-                    <h3>Ajouter des photos</h3>
-                    <div class="admin-form-group">
-                        <label>Sélectionner des images</label>
-                        <input type="file" id="gallery-upload" accept="image/*" multiple>
-                        <div class="image-preview" id="gallery-preview"></div>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Légende (pour toutes)</label>
-                        <input type="text" id="gallery-caption" placeholder="Légende des photos">
-                    </div>
-                    <button onclick="uploadGalleryImages()" class="btn-success"><i class="fas fa-upload"></i> Uploader</button>
-
-                    <h3 style="margin-top: 40px;">Photos de la galerie</h3>
-                    <div class="admin-items-list" id="gallery-list"></div>
-                </div>
-
-                <!-- Panel Programmes -->
-                <div id="panel-programmes" class="admin-panel">
-                    <h3>Modifier les programmes</h3>
-                    <div id="programmes-list"></div>
-                    <button onclick="saveProgrammes()" class="btn-success"><i class="fas fa-save"></i> Enregistrer</button>
-                </div>
-
-                <!-- Panel Historique -->
-                <div id="panel-historique" class="admin-panel">
-                    <h3>Modifier l'historique</h3>
-                    <div class="admin-form-group">
-                        <textarea id="history-editor" rows="10"></textarea>
-                    </div>
-                    <button onclick="saveHistory()" class="btn-success"><i class="fas fa-save"></i> Enregistrer</button>
-                </div>
-            </div>
+            <h3 id="modal-title"></h3>
+            <p id="modal-date" style="color: var(--accent); margin-bottom: 20px;"></p>
+            <img id="modal-image" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+            <p id="modal-content" style="line-height: 1.8;"></p>
+            <button onclick="closeModal()" class="btn-admin" style="margin-top: 20px;">Fermer</button>
         </div>
-    </div>
-
-    <!-- Admin Badge -->
-    <div class="admin-badge" id="admin-badge" onclick="toggleAdminModal()">
-        <i class="fas fa-crown"></i>
     </div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
     
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (Compat) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <script>
-        // ===== CONFIGURATION FIREBASE =====
+        // Configuration Firebase (gardez la même)
         const firebaseConfig = {
             apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
             authDomain: "eglise-pain-de-vie.firebaseapp.com",
@@ -764,494 +1608,1100 @@
         // Initialisation Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore();
+        const db = firebase.firestore(); // Passage à Firestore
         const storage = firebase.storage();
 
-        // ===== ÉTAT DE L'APPLICATION =====
-        let currentUser = null;
-        let programmesData = [
+        // Activer la persistance hors ligne
+        db.enablePersistence()
+            .catch((err) => {
+                if (err.code == 'failed-precondition') {
+                    console.log('Persistance échouée');
+                } else if (err.code == 'unimplemented') {
+                    console.log('Persistance non disponible');
+                }
+            });
+
+        // Données par défaut
+        const defaultData = {
+            history: [
+                "L'histoire de l'Église Évangélique des Ambassadeurs pour Christ – Paroisse <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.",
+                "Ce ministère s'est forgé à travers un parcours de patience et de consécration intense. De 2004 à 2008 à Kamina, les fondations furent posées. Entre 2008 et 2015 à Kolwezi, une période de formation spirituelle rigoureuse a permis l'éclosion de l'appel, confirmée plus tard au sein de l'EEAC sous la direction du Révérend Pasteur Théophile Mpoyi.",
+                "Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ."
+            ],
+            vision: "Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.",
+            mission: "Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.",
+            values: "Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.",
+            pasteurMessage: "Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine.",
+            pasteurName: "Pasteur Obed Kahozi",
+            pasteurTitle: "Fondateur de la Paroisse Pain de Vie",
+            programs: {
+                morning: "Lundi-Vendredi: 05h30-06h30",
+                teaching: "Mardi & Vendredi: 16h00-18h00",
+                sunday: "Dimanche: 08h30-11h00"
+            },
+            contacts: {
+                address: "44 Avenue Dilolo, Quartier Hewa Bora, Commune Dilala, Kolwezi, RDC",
+                phone: "+243 123 456 789",
+                email: "contact@paindevie.org",
+                social: {
+                    facebook: "https://facebook.com/paindevie",
+                    youtube: "https://youtube.com/paindevie",
+                    instagram: "https://instagram.com/paindevie",
+                    tiktok: "https://tiktok.com/@paindevie"
+                }
+            }
+        };
+
+        // Images par défaut
+        const defaultImages = [
+            'Seance de cilte 1.jpeg',
+            'Seance de cilte 2.jpeg',
+            'Seance de cilte 3.jpeg',
+            'Seance de cilte 4.jpeg',
+            'Seance de cilte 5.jpeg',
+            'Seance de cilte 6.jpeg',
+            'Seance de cilte 7.jpeg',
+            'Seance de cilte 8.jpeg',
+            'Seance de cilte 9.jpeg',
+            'Seance de cilte 10.jpeg',
+            'Seance de cilte 11.jpeg',
+            'Seance de cilte 12.jpeg',
+            'Seance de cilte 13.jpeg'
+        ];
+
+        // Actualités par défaut
+        const defaultNews = [
             {
-                id: 'matinal',
-                title: 'Culte Matinal',
-                days: 'LUNDI au VENDREDI',
-                time: '05h30 - 06h30',
-                desc: 'Commencez votre journée dans la présence de Dieu.',
-                icon: 'sun'
+                title: 'Grande Conférence sur le Réveil',
+                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                image: 'Seance de cilte 1.jpeg',
+                author: 'Pasteur Obed Kahozi',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now()
             },
             {
-                id: 'enseignement',
-                title: 'Enseignement & Prière',
-                days: 'MARDI et VENDREDI',
-                time: '16h00 - 18h00',
-                desc: 'Des enseignements profonds suivis de prière.',
-                icon: 'book-bible'
+                title: 'Camp de Jeunesse 2025',
+                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                image: 'Seance de cilte 5.jpeg',
+                author: 'Département Jeunesse',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now() - 86400000
             },
             {
-                id: 'adoration',
-                title: "Culte d'Adoration",
-                days: 'DIMANCHE',
-                time: '08h30 - 11h00',
-                desc: 'Le grand rassemblement de la famille de Dieu.',
-                icon: 'church',
-                special: true
+                title: 'Baptême Collectif',
+                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                image: 'Seance de cilte 8.jpeg',
+                author: 'Pasteur Obed Kahozi',
+                date: new Date().toLocaleDateString(),
+                timestamp: Date.now() - 172800000
             }
         ];
 
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            AOS.init({ duration: 1000, once: true });
+        // ===== FONCTIONS UTILITAIRES =====
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = type === 'success' ? 'var(--accent)' : '#dc3545';
+            notification.style.color = type === 'success' ? 'var(--primary)' : 'white';
+            notification.style.display = 'block';
             
-            // Hero Swiper
-            new Swiper('.swiper-hero', {
-                loop: true,
-                autoplay: { delay: 4000 },
-                effect: 'fade',
-                speed: 1500
-            });
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
 
-            // Vérifier l'état de l'authentification
-            auth.onAuthStateChanged((user) => {
-                currentUser = user;
-                const badge = document.getElementById('admin-badge');
-                if (user) {
-                    badge.classList.add('logged-in');
-                    badge.innerHTML = '<i class="fas fa-check"></i>';
-                    loadAdminData();
-                } else {
-                    badge.classList.remove('logged-in');
-                    badge.innerHTML = '<i class="fas fa-crown"></i>';
-                }
-            });
-
-            // Charger les données publiques
-            loadPublicData();
+        // ===== INITIALISATION AOS =====
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
         });
 
-        // ===== FONCTIONS PUBLIQUES =====
-        function loadPublicData() {
-            // Charger l'historique
-            db.collection('content').doc('history').get().then((doc) => {
-                if (doc.exists) {
-                    document.getElementById('history-content').innerHTML = doc.data().text.replace(/\n/g, '<br>');
-                }
-            });
+        // ===== NAVIGATION =====
+        const nav = document.getElementById('navbar');
+        const toggle = document.getElementById('nav-toggle');
+        const overlay = document.getElementById('menu-overlay');
 
-            // Charger les programmes
-            displayProgrammes();
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
 
-            // Charger les actualités
-            loadNews();
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : 'auto';
+        });
 
-            // Charger la galerie
-            loadGallery();
-        }
+        window.closeMenu = () => {
+            toggle.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
 
-        function displayProgrammes() {
-            const container = document.getElementById('programmes-container');
-            container.innerHTML = '';
+        // ===== HERO CARROUSEL =====
+        function initHeroSwiper() {
+            const swiperWrapper = document.getElementById('hero-slides');
+            swiperWrapper.innerHTML = '';
             
-            programmesData.forEach((prog, index) => {
-                const card = document.createElement('div');
-                card.className = `programme-card ${prog.special ? 'special-programme' : ''}`;
-                card.setAttribute('data-aos', 'fade-up');
-                card.setAttribute('data-aos-delay', index * 100);
-                card.innerHTML = `
-                    <div class="programme-icon"><i class="fas fa-${prog.icon}"></i></div>
-                    <h3>${prog.title}</h3>
-                    <div class="programme-days">${prog.days}</div>
-                    <div class="programme-time">${prog.time}</div>
-                    <p class="programme-desc">${prog.desc}</p>
-                `;
-                container.appendChild(card);
+            defaultImages.forEach(img => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `<img src="${img}" class="slide-bg" alt="Culte" onerror="this.src='https://via.placeholder.com/1920x1080?text=Image+non+trouvée'">`;
+                swiperWrapper.appendChild(slide);
+            });
+
+            new Swiper('.swiper-hero', {
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+                speed: 1500,
             });
         }
 
-        function loadNews() {
-            db.collection('actualites').orderBy('timestamp', 'desc').get().then((snapshot) => {
-                const grid = document.getElementById('actualites-grid');
-                grid.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const news = doc.data();
-                    displayNewsCard(doc.id, news, grid);
-                });
+        // ===== CHARGEMENT DES DONNÉES =====
+        async function loadAllContent() {
+            try {
+                // Mettre à jour la date
+                document.getElementById('last-update').textContent = new Date().toLocaleString();
 
-                // Mettre à jour les stats si admin
-                if (currentUser) {
-                    document.getElementById('stat-actualites').textContent = snapshot.size;
+                // Charger l'historique
+                const historyDoc = await db.collection('content').doc('history').get();
+                if (historyDoc.exists) {
+                    const historyData = historyDoc.data();
+                    const historyHtml = historyData.texts.map(text => `<p>${text}</p>`).join('');
+                    document.getElementById('history-content').innerHTML = historyHtml;
+                    document.getElementById('edit-history').value = historyData.texts.join('\n\n');
+                } else {
+                    // Données par défaut
+                    const historyHtml = defaultData.history.map(text => `<p>${text}</p>`).join('');
+                    document.getElementById('history-content').innerHTML = historyHtml;
+                    document.getElementById('edit-history').value = defaultData.history.join('\n\n');
                 }
-            });
+
+                // Charger la vision/mission
+                const visionDoc = await db.collection('content').doc('vision').get();
+                if (visionDoc.exists) {
+                    const data = visionDoc.data();
+                    document.getElementById('edit-vision').value = data.vision || '';
+                    document.getElementById('edit-mission').value = data.mission || '';
+                    document.getElementById('edit-values').value = data.values || '';
+                    
+                    // Afficher sur la page
+                    document.getElementById('vision-content').innerHTML = `
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
+                            <i class="fas fa-eye"></i>
+                            <h3>Vision</h3>
+                            <p>${data.vision || defaultData.vision}</p>
+                        </div>
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
+                            <i class="fas fa-scroll"></i>
+                            <h3>Mission</h3>
+                            <p>${data.mission || defaultData.mission}</p>
+                        </div>
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                            <i class="fas fa-star"></i>
+                            <h3>Valeurs</h3>
+                            <p>${data.values || defaultData.values}</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('edit-vision').value = defaultData.vision;
+                    document.getElementById('edit-mission').value = defaultData.mission;
+                    document.getElementById('edit-values').value = defaultData.values;
+                    
+                    document.getElementById('vision-content').innerHTML = `
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
+                            <i class="fas fa-eye"></i>
+                            <h3>Vision</h3>
+                            <p>${defaultData.vision}</p>
+                        </div>
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
+                            <i class="fas fa-scroll"></i>
+                            <h3>Mission</h3>
+                            <p>${defaultData.mission}</p>
+                        </div>
+                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                            <i class="fas fa-star"></i>
+                            <h3>Valeurs</h3>
+                            <p>${defaultData.values}</p>
+                        </div>
+                    `;
+                }
+
+                // Charger les programmes
+                const programsDoc = await db.collection('content').doc('programs').get();
+                if (programsDoc.exists) {
+                    const data = programsDoc.data();
+                    document.getElementById('program-morning').value = data.morning || defaultData.programs.morning;
+                    document.getElementById('program-teaching').value = data.teaching || defaultData.programs.teaching;
+                    document.getElementById('program-sunday').value = data.sunday || defaultData.programs.sunday;
+                    
+                    // Afficher les programmes
+                    document.getElementById('programmes-content').innerHTML = `
+                        <div class="programme-card" data-aos="fade-up">
+                            <div class="programme-icon"><i class="fas fa-sun"></i></div>
+                            <h3>Culte Matinal</h3>
+                            <div class="programme-days">${data.morning?.split(':')[0] || 'Lundi-Vendredi'}</div>
+                            <div class="programme-time">${data.morning?.split(':')[1]?.trim() || '05h30-06h30'}</div>
+                            <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
+                        </div>
+                        <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
+                            <h3>Enseignement & Prière</h3>
+                            <div class="programme-days">${data.teaching?.split(':')[0] || 'Mardi & Vendredi'}</div>
+                            <div class="programme-time">${data.teaching?.split(':')[1]?.trim() || '16h00-18h00'}</div>
+                            <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
+                        </div>
+                        <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
+                            <div class="programme-icon"><i class="fas fa-church"></i></div>
+                            <h3>Culte d'Adoration</h3>
+                            <div class="programme-days">${data.sunday?.split(':')[0] || 'Dimanche'}</div>
+                            <div class="programme-time">${data.sunday?.split(':')[1]?.trim() || '08h30-11h00'}</div>
+                            <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('program-morning').value = defaultData.programs.morning;
+                    document.getElementById('program-teaching').value = defaultData.programs.teaching;
+                    document.getElementById('program-sunday').value = defaultData.programs.sunday;
+                    
+                    document.getElementById('programmes-content').innerHTML = `
+                        <div class="programme-card" data-aos="fade-up">
+                            <div class="programme-icon"><i class="fas fa-sun"></i></div>
+                            <h3>Culte Matinal</h3>
+                            <div class="programme-days">Lundi-Vendredi</div>
+                            <div class="programme-time">05h30-06h30</div>
+                            <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
+                        </div>
+                        <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
+                            <h3>Enseignement & Prière</h3>
+                            <div class="programme-days">Mardi & Vendredi</div>
+                            <div class="programme-time">16h00-18h00</div>
+                            <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
+                        </div>
+                        <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
+                            <div class="programme-icon"><i class="fas fa-church"></i></div>
+                            <h3>Culte d'Adoration</h3>
+                            <div class="programme-days">Dimanche</div>
+                            <div class="programme-time">08h30-11h00</div>
+                            <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
+                        </div>
+                    `;
+                }
+
+                // Charger les contacts
+                const contactsDoc = await db.collection('content').doc('contacts').get();
+                if (contactsDoc.exists) {
+                    const data = contactsDoc.data();
+                    document.getElementById('contact-address').value = data.address || defaultData.contacts.address;
+                    document.getElementById('contact-phone').value = data.phone || defaultData.contacts.phone;
+                    document.getElementById('contact-email').value = data.email || defaultData.contacts.email;
+                    document.getElementById('social-facebook').value = data.social?.facebook || '';
+                    document.getElementById('social-youtube').value = data.social?.youtube || '';
+                    document.getElementById('social-instagram').value = data.social?.instagram || '';
+                    document.getElementById('social-tiktok').value = data.social?.tiktok || '';
+                    
+                    // Afficher les contacts
+                    document.getElementById('address').textContent = data.address || defaultData.contacts.address;
+                    document.getElementById('phone').textContent = data.phone || defaultData.contacts.phone;
+                    document.getElementById('email').textContent = data.email || defaultData.contacts.email;
+                    
+                    // Afficher les horaires
+                    const schedulesHtml = `
+                        <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.morning || defaultData.programs.morning}</p>
+                        <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.teaching || defaultData.programs.teaching}</p>
+                        <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.sunday || defaultData.programs.sunday}</p>
+                    `;
+                    document.getElementById('schedules').innerHTML = schedulesHtml;
+                    
+                    // Afficher les liens sociaux
+                    const socialLinks = data.social || defaultData.contacts.social;
+                    const socialHtml = `
+                        ${socialLinks.facebook ? `<a href="${socialLinks.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
+                        ${socialLinks.youtube ? `<a href="${socialLinks.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
+                        ${socialLinks.instagram ? `<a href="${socialLinks.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                        ${socialLinks.tiktok ? `<a href="${socialLinks.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
+                    `;
+                    document.getElementById('social-links').innerHTML = socialHtml;
+                } else {
+                    document.getElementById('contact-address').value = defaultData.contacts.address;
+                    document.getElementById('contact-phone').value = defaultData.contacts.phone;
+                    document.getElementById('contact-email').value = defaultData.contacts.email;
+                    document.getElementById('social-facebook').value = defaultData.contacts.social.facebook;
+                    document.getElementById('social-youtube').value = defaultData.contacts.social.youtube;
+                    document.getElementById('social-instagram').value = defaultData.contacts.social.instagram;
+                    document.getElementById('social-tiktok').value = defaultData.contacts.social.tiktok;
+                    
+                    document.getElementById('address').textContent = defaultData.contacts.address;
+                    document.getElementById('phone').textContent = defaultData.contacts.phone;
+                    document.getElementById('email').textContent = defaultData.contacts.email;
+                    
+                    const schedulesHtml = `
+                        <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.morning}</p>
+                        <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.teaching}</p>
+                        <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.sunday}</p>
+                    `;
+                    document.getElementById('schedules').innerHTML = schedulesHtml;
+                    
+                    const socialHtml = `
+                        <a href="${defaultData.contacts.social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="${defaultData.contacts.social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="${defaultData.contacts.social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="${defaultData.contacts.social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    `;
+                    document.getElementById('social-links').innerHTML = socialHtml;
+                }
+
+                // Charger le message du pasteur
+                const pasteurDoc = await db.collection('content').doc('pasteur').get();
+                if (pasteurDoc.exists) {
+                    const data = pasteurDoc.data();
+                    document.getElementById('edit-pasteur-message').value = data.message || defaultData.pasteurMessage;
+                    
+                    document.getElementById('pasteur-content').innerHTML = `
+                        <h3>Un homme selon le cœur de Dieu</h3>
+                        <h4>${data.title || defaultData.pasteurTitle}</h4>
+                        <p>
+                            Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
+                        </p>
+                        <p>
+                            Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
+                        </p>
+                        <div class="pasteur-quote">
+                            <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>
+                            ${data.message || defaultData.pasteurMessage}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('edit-pasteur-message').value = defaultData.pasteurMessage;
+                    
+                    document.getElementById('pasteur-content').innerHTML = `
+                        <h3>Un homme selon le cœur de Dieu</h3>
+                        <h4>${defaultData.pasteurTitle}</h4>
+                        <p>
+                            Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
+                        </p>
+                        <p>
+                            Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
+                        </p>
+                        <div class="pasteur-quote">
+                            <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>
+                            ${defaultData.pasteurMessage}
+                        </div>
+                    `;
+                }
+
+                // Charger les images par défaut
+                document.getElementById('pasteur-image').src = 'Pasteur Obed Kahozi.jpeg';
+                document.getElementById('pasteur-preaching').src = 'Pasteur Obed Kahozi entrain de precher.jpeg';
+
+                // Charger la galerie
+                await loadGallery();
+                
+                // Charger les actualités
+                await loadNews();
+                
+                // Charger la liste des admins (si connecté)
+                if (auth.currentUser) {
+                    await loadAdminsList();
+                }
+                
+            } catch (error) {
+                console.error('Erreur chargement contenu:', error);
+                showNotification('Erreur de chargement des données', 'error');
+            }
         }
 
-        function displayNewsCard(id, news, container) {
+        // ===== GESTION DE LA GALERIE =====
+        async function loadGallery() {
+            const galleryGrid = document.getElementById('gallery-grid');
+            const galleryAdminList = document.getElementById('gallery-admin-list');
+            const statsImages = document.getElementById('stats-images');
+            
+            galleryGrid.innerHTML = '';
+            galleryAdminList.innerHTML = '';
+            
+            try {
+                // Charger les images de Firestore
+                const snapshot = await db.collection('gallery')
+                    .orderBy('timestamp', 'desc')
+                    .get();
+                
+                let imageCount = snapshot.size;
+                
+                if (snapshot.empty) {
+                    // Utiliser les images par défaut
+                    defaultImages.forEach((img, index) => {
+                        displayGalleryItem({
+                            id: 'default_' + index,
+                            url: img,
+                            title: `Culte ${index + 1}`,
+                            date: new Date().toLocaleDateString()
+                        }, false);
+                        imageCount++;
+                    });
+                } else {
+                    snapshot.forEach(doc => {
+                        displayGalleryItem({
+                            id: doc.id,
+                            ...doc.data()
+                        }, true);
+                    });
+                }
+                
+                statsImages.textContent = imageCount;
+                
+            } catch (error) {
+                console.error('Erreur chargement galerie:', error);
+                // Fallback aux images par défaut
+                defaultImages.forEach((img, index) => {
+                    displayGalleryItem({
+                        id: 'default_' + index,
+                        url: img,
+                        title: `Culte ${index + 1}`,
+                        date: new Date().toLocaleDateString()
+                    }, false);
+                });
+                statsImages.textContent = defaultImages.length;
+            }
+        }
+
+        function displayGalleryItem(item, isAdmin) {
+            // Afficher dans la galerie principale
+            const galleryGrid = document.getElementById('gallery-grid');
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            galleryItem.setAttribute('data-src', item.url);
+            galleryItem.innerHTML = `
+                <img src="${item.url}" alt="${item.title || 'Image galerie'}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
+                <div class="gallery-caption">
+                    <h4>${item.title || 'Moment de culte'}</h4>
+                    <p>${item.date || ''}</p>
+                </div>
+                <div class="gallery-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+            `;
+            galleryGrid.appendChild(galleryItem);
+
+            // Si admin, afficher dans la liste admin
+            if (isAdmin && auth.currentUser) {
+                const adminList = document.getElementById('gallery-admin-list');
+                const adminItem = document.createElement('div');
+                adminItem.className = 'publication-item';
+                adminItem.innerHTML = `
+                    <div style="display: flex; align-items: center;">
+                        <img src="${item.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+                        <div>
+                            <strong>${item.title || 'Sans titre'}</strong>
+                            <p style="font-size: 0.8rem; color: #666;">${item.date || ''}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button onclick="deleteGalleryItem('${item.id}')" class="btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                    </div>
+                `;
+                adminList.appendChild(adminItem);
+            }
+        }
+
+        // ===== GESTION DES ACTUALITÉS =====
+        async function loadNews() {
+            const newsGrid = document.getElementById('actualites-grid');
+            const newsAdminList = document.getElementById('news-admin-list');
+            const statsNews = document.getElementById('stats-news');
+            
+            newsGrid.innerHTML = '';
+            newsAdminList.innerHTML = '';
+            
+            try {
+                const snapshot = await db.collection('news')
+                    .orderBy('timestamp', 'desc')
+                    .get();
+                
+                let newsCount = snapshot.size;
+                
+                if (snapshot.empty) {
+                    // Utiliser les actualités par défaut
+                    defaultNews.forEach((item, index) => {
+                        displayNewsItem({
+                            id: 'default_' + index,
+                            ...item
+                        }, false);
+                        newsCount++;
+                    });
+                } else {
+                    snapshot.forEach(doc => {
+                        displayNewsItem({
+                            id: doc.id,
+                            ...doc.data()
+                        }, true);
+                    });
+                }
+                
+                statsNews.textContent = newsCount;
+                
+            } catch (error) {
+                console.error('Erreur chargement actualités:', error);
+                defaultNews.forEach((item, index) => {
+                    displayNewsItem({
+                        id: 'default_' + index,
+                        ...item
+                    }, false);
+                });
+                statsNews.textContent = defaultNews.length;
+            }
+        }
+
+        function displayNewsItem(item, isAdmin) {
+            // Afficher dans la grille principale
+            const newsGrid = document.getElementById('actualites-grid');
             const card = document.createElement('div');
             card.className = 'actualite-card';
-            card.onclick = () => openNewsModal(id);
+            card.setAttribute('onclick', `openNewsModal('${item.id}')`);
             card.innerHTML = `
                 <div class="actualite-image">
-                    <img src="${news.image || 'Seance de cilte 1.jpeg'}" alt="${news.title}">
-                    <div class="actualite-date">${news.date || new Date(news.timestamp).toLocaleDateString()}</div>
+                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
+                    <div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div>
                 </div>
                 <div class="actualite-content">
-                    <h3>${news.title}</h3>
-                    <p>${news.content.substring(0, 150)}...</p>
+                    <h3>${item.title}</h3>
+                    <p>${item.content.substring(0, 150)}${item.content.length > 150 ? '...' : ''}</p>
                     <div class="actualite-footer">
                         <div class="actualite-author">
                             <i class="fas fa-user"></i>
-                            <span>${news.author || 'Pasteur Obed Kahozi'}</span>
+                            <span>${item.author || 'Pasteur Obed Kahozi'}</span>
                         </div>
                         <span class="actualite-lire-plus">Lire plus <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </div>
             `;
-            container.appendChild(card);
-        }
+            newsGrid.appendChild(card);
 
-        function loadGallery() {
-            db.collection('gallery').orderBy('timestamp', 'desc').get().then((snapshot) => {
-                const grid = document.getElementById('gallery-grid');
-                grid.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const img = doc.data();
-                    displayGalleryItem(doc.id, img, grid);
-                });
-
-                // Mettre à jour les stats si admin
-                if (currentUser) {
-                    document.getElementById('stat-gallery').textContent = snapshot.size;
-                }
-
-                // Initialiser LightGallery
-                setTimeout(() => {
-                    if (window.lightGallery) {
-                        lightGallery(grid, { selector: '.gallery-item' });
-                    }
-                }, 500);
-            });
-        }
-
-        function displayGalleryItem(id, img, container) {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.setAttribute('data-src', img.url);
-            item.innerHTML = `
-                <img src="${img.url}" alt="${img.title}">
-                <div class="gallery-caption">
-                    <h4>${img.title}</h4>
-                    <p>${img.date || ''}</p>
-                </div>
-                <div class="gallery-icon"><i class="fas fa-search-plus"></i></div>
-            `;
-            container.appendChild(item);
+            // Si admin, afficher dans la liste admin
+            if (isAdmin && auth.currentUser) {
+                const adminList = document.getElementById('news-admin-list');
+                const adminItem = document.createElement('div');
+                adminItem.className = 'publication-item';
+                adminItem.innerHTML = `
+                    <div>
+                        <strong>${item.title}</strong>
+                        <p style="font-size: 0.9rem; color: #666;">${item.date || new Date().toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                        <button onclick="editNews('${item.id}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
+                        <button onclick="deleteNews('${item.id}')" class="btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                    </div>
+                `;
+                adminList.appendChild(adminItem);
+            }
         }
 
         // ===== FONCTIONS ADMIN =====
-        window.openAdminLogin = () => {
-            openModal('admin-login-modal');
+        window.showAdminLogin = () => {
+            document.getElementById('admin-panel').style.display = 'flex';
         };
 
-        window.toggleAdminModal = () => {
-            if (currentUser) {
-                openModal('admin-dashboard-modal');
-                loadAdminData();
-            } else {
-                openAdminLogin();
+        window.hideAdminLogin = () => {
+            document.getElementById('admin-panel').style.display = 'none';
+        };
+
+        window.showRegisterForm = () => {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-register').style.display = 'flex';
+        };
+
+        window.hideRegisterForm = () => {
+            document.getElementById('admin-register').style.display = 'none';
+        };
+
+        window.handleAdminLogin = async () => {
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                hideAdminLogin();
+                showNotification('Connexion réussie !');
+            } catch (error) {
+                console.error('Erreur connexion:', error);
+                showNotification('Erreur de connexion: ' + error.message, 'error');
             }
         };
 
-        window.handleAdminLogin = () => {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    closeModal('admin-login-modal');
-                })
-                .catch((error) => {
-                    alert('Erreur: ' + error.message);
+        window.handleAdminRegister = async () => {
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            const name = document.getElementById('reg-name').value;
+            
+            if (password !== confirm) {
+                showNotification('Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Ajouter aux admins
+                await db.collection('admins').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    createdAt: new Date().toISOString(),
+                    createdBy: auth.currentUser?.uid || 'system'
                 });
+                
+                showNotification('Compte admin créé avec succès !');
+                hideRegisterForm();
+                
+            } catch (error) {
+                console.error('Erreur inscription:', error);
+                showNotification('Erreur: ' + error.message, 'error');
+            }
         };
 
-        function loadAdminData() {
-            // Charger l'historique pour édition
-            db.collection('content').doc('history').get().then((doc) => {
-                if (doc.exists) {
-                    document.getElementById('history-editor').value = doc.data().text;
-                } else {
-                    // Texte par défaut
-                    const defaultText = document.getElementById('history-content').innerText;
-                    document.getElementById('history-editor').value = defaultText;
-                }
-            });
+        window.logout = () => {
+            auth.signOut();
+            document.getElementById('admin-dash').style.display = 'none';
+            showNotification('Déconnexion réussie');
+        };
 
-            // Charger les actualités pour la liste admin
-            db.collection('actualites').orderBy('timestamp', 'desc').get().then((snapshot) => {
-                const list = document.getElementById('news-list');
-                list.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const news = doc.data();
-                    const item = document.createElement('div');
-                    item.className = 'admin-item';
-                    item.innerHTML = `
-                        <div class="admin-item-info">
-                            <h4>${news.title}</h4>
-                            <p>${news.date || new Date(news.timestamp).toLocaleDateString()}</p>
-                        </div>
-                        <div class="admin-item-actions">
-                            <button class="btn-icon btn-edit" onclick="editNews('${doc.id}')"><i class="fas fa-edit"></i></button>
-                            <button class="btn-icon btn-delete" onclick="deleteNews('${doc.id}')"><i class="fas fa-trash"></i></button>
-                        </div>
-                    `;
-                    list.appendChild(item);
-                });
-            });
-
-            // Charger la galerie pour la liste admin
-            db.collection('gallery').orderBy('timestamp', 'desc').get().then((snapshot) => {
-                const list = document.getElementById('gallery-list');
-                list.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const img = doc.data();
-                    const item = document.createElement('div');
-                    item.className = 'admin-item';
-                    item.innerHTML = `
-                        <div style="display: flex; align-items: center;">
-                            <img src="${img.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 15px;">
-                            <div>
-                                <h4>${img.title}</h4>
-                                <p>${img.date || ''}</p>
+        // Sauvegarde du contenu
+        window.saveContent = async (type) => {
+            try {
+                switch(type) {
+                    case 'history':
+                        const historyText = document.getElementById('edit-history').value;
+                        const historyParagraphs = historyText.split('\n\n').filter(p => p.trim());
+                        await db.collection('content').doc('history').set({
+                            texts: historyParagraphs,
+                            updatedAt: new Date().toISOString(),
+                            updatedBy: auth.currentUser?.email
+                        });
+                        
+                        // Mettre à jour l'affichage
+                        const historyHtml = historyParagraphs.map(p => `<p>${p}</p>`).join('');
+                        document.getElementById('history-content').innerHTML = historyHtml;
+                        showNotification('Historique mis à jour !');
+                        break;
+                        
+                    case 'vision':
+                        const vision = document.getElementById('edit-vision').value;
+                        const mission = document.getElementById('edit-mission').value;
+                        const values = document.getElementById('edit-values').value;
+                        
+                        await db.collection('content').doc('vision').set({
+                            vision, mission, values,
+                            updatedAt: new Date().toISOString(),
+                            updatedBy: auth.currentUser?.email
+                        });
+                        
+                        document.getElementById('vision-content').innerHTML = `
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800">
+                                <i class="fas fa-eye"></i>
+                                <h3>Vision</h3>
+                                <p>${vision}</p>
                             </div>
-                        </div>
-                        <div class="admin-item-actions">
-                            <button class="btn-icon btn-delete" onclick="deleteGalleryImage('${doc.id}')"><i class="fas fa-trash"></i></button>
-                        </div>
-                    `;
-                    list.appendChild(item);
-                });
-            });
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
+                                <i class="fas fa-scroll"></i>
+                                <h3>Mission</h3>
+                                <p>${mission}</p>
+                            </div>
+                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                                <i class="fas fa-star"></i>
+                                <h3>Valeurs</h3>
+                                <p>${values}</p>
+                            </div>
+                        `;
+                        showNotification('Vision/Mission mise à jour !');
+                        break;
+                        
+                    case 'pasteur-message':
+                        const message = document.getElementById('edit-pasteur-message').value;
+                        await db.collection('content').doc('pasteur').update({
+                            message: message,
+                            updatedAt: new Date().toISOString()
+                        });
+                        
+                        const pasteurDiv = document.querySelector('.pasteur-quote');
+                        if (pasteurDiv) {
+                            pasteurDiv.innerHTML = `<i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>${message}`;
+                        }
+                        showNotification('Message du pasteur mis à jour !');
+                        break;
+                }
+            } catch (error) {
+                console.error('Erreur sauvegarde:', error);
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
 
-            // Charger les programmes pour édition
-            const programmesList = document.getElementById('programmes-list');
-            programmesList.innerHTML = '';
-            programmesData.forEach((prog, index) => {
-                const item = document.createElement('div');
-                item.className = 'admin-item';
-                item.innerHTML = `
-                    <div>
-                        <h4>${prog.title}</h4>
-                        <p>${prog.days} - ${prog.time}</p>
+        // Sauvegarde des programmes
+        window.savePrograms = async () => {
+            try {
+                const morning = document.getElementById('program-morning').value;
+                const teaching = document.getElementById('program-teaching').value;
+                const sunday = document.getElementById('program-sunday').value;
+                
+                await db.collection('content').doc('programs').set({
+                    morning, teaching, sunday,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: auth.currentUser?.email
+                });
+                
+                // Mettre à jour l'affichage
+                document.getElementById('programmes-content').innerHTML = `
+                    <div class="programme-card" data-aos="fade-up">
+                        <div class="programme-icon"><i class="fas fa-sun"></i></div>
+                        <h3>Culte Matinal</h3>
+                        <div class="programme-days">${morning.split(':')[0]}</div>
+                        <div class="programme-time">${morning.split(':')[1]?.trim()}</div>
+                        <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
                     </div>
-                    <div class="admin-item-actions">
-                        <button class="btn-icon btn-edit" onclick="editProgramme(${index})"><i class="fas fa-edit"></i></button>
+                    <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
+                        <h3>Enseignement & Prière</h3>
+                        <div class="programme-days">${teaching.split(':')[0]}</div>
+                        <div class="programme-time">${teaching.split(':')[1]?.trim()}</div>
+                        <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
+                    </div>
+                    <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
+                        <div class="programme-icon"><i class="fas fa-church"></i></div>
+                        <h3>Culte d'Adoration</h3>
+                        <div class="programme-days">${sunday.split(':')[0]}</div>
+                        <div class="programme-time">${sunday.split(':')[1]?.trim()}</div>
+                        <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
                     </div>
                 `;
-                programmesList.appendChild(item);
-            });
-        }
-
-        // ===== ACTIONS ADMIN =====
-        window.addNews = () => {
-            const title = document.getElementById('news-title').value;
-            const content = document.getElementById('news-content').value;
-            const author = document.getElementById('news-author').value;
-            const file = document.getElementById('news-image').files[0];
-
-            if (!title || !content) {
-                alert('Veuillez remplir tous les champs');
-                return;
-            }
-
-            if (file) {
-                const storageRef = storage.ref('news/' + Date.now() + '_' + file.name);
-                storageRef.put(file).then((snapshot) => {
-                    return snapshot.ref.getDownloadURL();
-                }).then((url) => {
-                    return db.collection('actualites').add({
-                        title: title,
-                        content: content,
-                        image: url,
-                        author: author,
-                        date: new Date().toLocaleDateString(),
-                        timestamp: Date.now()
-                    });
-                }).then(() => {
-                    alert('Actualité publiée !');
-                    document.getElementById('news-title').value = '';
-                    document.getElementById('news-content').value = '';
-                    document.getElementById('news-image').value = '';
-                    document.getElementById('news-image-preview').innerHTML = '';
-                    loadNews();
-                    loadAdminData();
-                }).catch((error) => {
-                    alert('Erreur: ' + error.message);
-                });
-            } else {
-                db.collection('actualites').add({
-                    title: title,
-                    content: content,
-                    image: 'Seance de cilte 1.jpeg',
-                    author: author,
-                    date: new Date().toLocaleDateString(),
-                    timestamp: Date.now()
-                }).then(() => {
-                    alert('Actualité publiée !');
-                    document.getElementById('news-title').value = '';
-                    document.getElementById('news-content').value = '';
-                    loadNews();
-                    loadAdminData();
-                });
+                
+                showNotification('Programmes mis à jour !');
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
             }
         };
 
-        window.uploadGalleryImages = () => {
+        // Sauvegarde des contacts
+        window.saveContacts = async () => {
+            try {
+                const address = document.getElementById('contact-address').value;
+                const phone = document.getElementById('contact-phone').value;
+                const email = document.getElementById('contact-email').value;
+                
+                const social = {
+                    facebook: document.getElementById('social-facebook').value,
+                    youtube: document.getElementById('social-youtube').value,
+                    instagram: document.getElementById('social-instagram').value,
+                    tiktok: document.getElementById('social-tiktok').value
+                };
+                
+                await db.collection('content').doc('contacts').set({
+                    address, phone, email, social,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: auth.currentUser?.email
+                });
+                
+                // Mettre à jour l'affichage
+                document.getElementById('address').textContent = address;
+                document.getElementById('phone').textContent = phone;
+                document.getElementById('email').textContent = email;
+                
+                const socialHtml = `
+                    ${social.facebook ? `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
+                    ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
+                    ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                    ${social.tiktok ? `<a href="${social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
+                `;
+                document.getElementById('social-links').innerHTML = socialHtml;
+                
+                showNotification('Contacts mis à jour !');
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Upload d'images pour la galerie
+        window.uploadGalleryImages = async () => {
             const files = document.getElementById('gallery-upload').files;
             const caption = document.getElementById('gallery-caption').value;
-
+            
             if (files.length === 0) {
-                alert('Sélectionnez des images');
+                showNotification('Veuillez sélectionner des images', 'error');
                 return;
             }
-
+            
             let uploaded = 0;
+            
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 const storageRef = storage.ref('gallery/' + Date.now() + '_' + file.name);
-
-                storageRef.put(file).then((snapshot) => {
-                    return snapshot.ref.getDownloadURL();
-                }).then((url) => {
-                    return db.collection('gallery').add({
+                
+                try {
+                    const snapshot = await storageRef.put(file);
+                    const url = await snapshot.ref.getDownloadURL();
+                    
+                    await db.collection('gallery').add({
                         url: url,
                         title: caption || file.name.split('.')[0],
                         date: new Date().toLocaleDateString(),
-                        timestamp: Date.now()
+                        timestamp: Date.now(),
+                        uploadedBy: auth.currentUser?.email
                     });
-                }).then(() => {
+                    
                     uploaded++;
-                    if (uploaded === files.length) {
-                        alert('Images uploadées !');
-                        document.getElementById('gallery-upload').value = '';
-                        document.getElementById('gallery-caption').value = '';
-                        document.getElementById('gallery-preview').innerHTML = '';
-                        loadGallery();
-                        loadAdminData();
-                    }
-                });
+                } catch (error) {
+                    console.error('Erreur upload:', error);
+                    showNotification('Erreur upload: ' + error.message, 'error');
+                }
+            }
+            
+            if (uploaded === files.length) {
+                showNotification(`${uploaded} image(s) uploadée(s) avec succès !`);
+                document.getElementById('gallery-upload').value = '';
+                document.getElementById('gallery-caption').value = '';
+                await loadGallery(); // Recharger la galerie
             }
         };
 
-        window.saveHistory = () => {
-            const text = document.getElementById('history-editor').value;
-            db.collection('content').doc('history').set({ text: text })
-                .then(() => {
-                    alert('Historique mis à jour !');
-                    document.getElementById('history-content').innerHTML = text.replace(/\n/g, '<br>');
-                });
+        // Supprimer une image de la galerie
+        window.deleteGalleryItem = async (id) => {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) return;
+            
+            try {
+                await db.collection('gallery').doc(id).delete();
+                showNotification('Image supprimée');
+                await loadGallery();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
         };
 
-        window.editNews = (id) => {
+        // Ajouter une actualité
+        window.addNews = async () => {
+            const title = document.getElementById('news-title').value;
+            const content = document.getElementById('news-content').value;
+            const author = document.getElementById('news-author').value || 'Pasteur Obed Kahozi';
+            const file = document.getElementById('news-image').files[0];
+            
+            if (!title || !content) {
+                showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            try {
+                let imageUrl = 'Seance de cilte 1.jpeg';
+                
+                if (file) {
+                    const storageRef = storage.ref('news/' + Date.now() + '_' + file.name);
+                    const snapshot = await storageRef.put(file);
+                    imageUrl = await snapshot.ref.getDownloadURL();
+                }
+                
+                await db.collection('news').add({
+                    title,
+                    content,
+                    image: imageUrl,
+                    author,
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now(),
+                    createdBy: auth.currentUser?.email
+                });
+                
+                showNotification('Actualité publiée !');
+                document.getElementById('news-title').value = '';
+                document.getElementById('news-content').value = '';
+                document.getElementById('news-image').value = '';
+                await loadNews();
+                
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Modifier une actualité
+        window.editNews = async (id) => {
             const newTitle = prompt('Nouveau titre:');
             const newContent = prompt('Nouveau contenu:');
+            
             if (newTitle && newContent) {
-                db.collection('actualites').doc(id).update({
-                    title: newTitle,
-                    content: newContent,
-                    edited: Date.now()
-                }).then(() => {
-                    loadNews();
-                    loadAdminData();
-                });
-            }
-        };
-
-        window.deleteNews = (id) => {
-            if (confirm('Supprimer cette actualité ?')) {
-                db.collection('actualites').doc(id).delete().then(() => {
-                    loadNews();
-                    loadAdminData();
-                });
-            }
-        };
-
-        window.deleteGalleryImage = (id) => {
-            if (confirm('Supprimer cette image ?')) {
-                db.collection('gallery').doc(id).delete().then(() => {
-                    loadGallery();
-                    loadAdminData();
-                });
-            }
-        };
-
-        window.editProgramme = (index) => {
-            const prog = programmesData[index];
-            const newTitle = prompt('Titre:', prog.title);
-            const newDays = prompt('Jours:', prog.days);
-            const newTime = prompt('Horaire:', prog.time);
-            const newDesc = prompt('Description:', prog.desc);
-            
-            if (newTitle && newDays && newTime && newDesc) {
-                programmesData[index] = {
-                    ...prog,
-                    title: newTitle,
-                    days: newDays,
-                    time: newTime,
-                    desc: newDesc
-                };
-                displayProgrammes();
-                loadAdminData();
-            }
-        };
-
-        window.saveProgrammes = () => {
-            // Sauvegarder dans Firestore si nécessaire
-            alert('Programmes mis à jour !');
-        };
-
-        // ===== MODAL FUNCTIONS =====
-        window.openModal = (id) => {
-            document.getElementById(id).classList.add('active');
-        };
-
-        window.closeModal = (id) => {
-            document.getElementById(id).classList.remove('active');
-        };
-
-        window.switchAdminTab = (tab) => {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById('panel-' + tab).classList.add('active');
-        };
-
-        // ===== NEWS MODAL =====
-        window.openNewsModal = (id) => {
-            db.collection('actualites').doc(id).get().then((doc) => {
-                if (doc.exists) {
-                    const news = doc.data();
-                    const modal = document.createElement('div');
-                    modal.className = 'modal active';
-                    modal.id = 'news-reader-modal';
-                    modal.innerHTML = `
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h2>${news.title}</h2>
-                                <span class="modal-close" onclick="closeModal('news-reader-modal')">&times;</span>
-                            </div>
-                            <div class="modal-body">
-                                <p style="color: var(--accent); margin-bottom: 20px;">${news.date} - Par ${news.author}</p>
-                                <img src="${news.image}" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
-                                <p style="line-height: 1.8;">${news.content}</p>
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(modal);
+                try {
+                    await db.collection('news').doc(id).update({
+                        title: newTitle,
+                        content: newContent,
+                        edited: new Date().toISOString()
+                    });
+                    showNotification('Actualité modifiée');
+                    await loadNews();
+                } catch (error) {
+                    showNotification('Erreur: ' + error.message, 'error');
                 }
-            });
+            }
         };
+
+        // Supprimer une actualité
+        window.deleteNews = async (id) => {
+            if (!confirm('Supprimer cette actualité ?')) return;
+            
+            try {
+                await db.collection('news').doc(id).delete();
+                showNotification('Actualité supprimée');
+                await loadNews();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Ajouter un admin
+        window.addAdmin = async () => {
+            const email = document.getElementById('new-admin-email').value;
+            
+            if (!email) {
+                showNotification('Veuillez entrer un email', 'error');
+                return;
+            }
+            
+            try {
+                // Note: Cette fonction nécessite Firebase Functions pour envoyer un email d'invitation
+                // Pour l'instant, on ajoute juste une entrée dans Firestore
+                await db.collection('adminInvites').add({
+                    email: email,
+                    invitedBy: auth.currentUser?.email,
+                    invitedAt: new Date().toISOString(),
+                    status: 'pending'
+                });
+                
+                showNotification('Invitation envoyée à ' + email);
+                document.getElementById('new-admin-email').value = '';
+                await loadAdminsList();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Charger la liste des admins
+        async function loadAdminsList() {
+            const adminsList = document.getElementById('admins-list');
+            const statsAdmins = document.getElementById('stats-admins');
+            
+            try {
+                const snapshot = await db.collection('admins').get();
+                adminsList.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const admin = doc.data();
+                    const adminItem = document.createElement('div');
+                    adminItem.className = 'publication-item';
+                    adminItem.innerHTML = `
+                        <div>
+                            <strong>${admin.name || 'Admin'}</strong>
+                            <p style="font-size: 0.8rem; color: #666;">${admin.email}</p>
+                        </div>
+                        ${auth.currentUser?.uid !== doc.id ? `
+                            <button onclick="removeAdmin('${doc.id}')" class="btn-danger" style="padding: 5px 10px;">Retirer</button>
+                        ` : '<span style="color: var(--accent);">(vous)</span>'}
+                    `;
+                    adminsList.appendChild(adminItem);
+                });
+                
+                statsAdmins.textContent = snapshot.size;
+                
+            } catch (error) {
+                console.error('Erreur chargement admins:', error);
+            }
+        }
+
+        // Retirer un admin
+        window.removeAdmin = async (id) => {
+            if (!confirm('Retirer cet administrateur ?')) return;
+            
+            try {
+                await db.collection('admins').doc(id).delete();
+                showNotification('Administrateur retiré');
+                await loadAdminsList();
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            }
+        };
+
+        // Rafraîchir les données
+        window.refreshData = () => {
+            loadAllContent();
+            showNotification('Données rafraîchies');
+        };
+
+        // ===== MODAL POUR ACTUALITÉS =====
+        window.openNewsModal = async (id) => {
+            if (id.startsWith('default_')) {
+                const index = parseInt(id.split('_')[1]);
+                const news = defaultNews[index];
+                if (news) {
+                    document.getElementById('modal-title').textContent = news.title;
+                    document.getElementById('modal-date').textContent = news.date;
+                    document.getElementById('modal-image').src = news.image;
+                    document.getElementById('modal-content').textContent = news.content;
+                    document.getElementById('news-modal').style.display = 'flex';
+                }
+            } else {
+                try {
+                    const doc = await db.collection('news').doc(id).get();
+                    if (doc.exists) {
+                        const news = doc.data();
+                        document.getElementById('modal-title').textContent = news.title;
+                        document.getElementById('modal-date').textContent = news.date;
+                        document.getElementById('modal-image').src = news.image || 'Seance de cilte 1.jpeg';
+                        document.getElementById('modal-content').textContent = news.content;
+                        document.getElementById('news-modal').style.display = 'flex';
+                    }
+                } catch (error) {
+                    console.error('Erreur ouverture modal:', error);
+                }
+            }
+        };
+
+        window.closeModal = () => {
+            document.getElementById('news-modal').style.display = 'none';
+        };
+
+        // ===== GESTION DE L'AUTHENTIFICATION =====
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('admin-dash').style.display = 'block';
+                document.getElementById('admin-email-display').textContent = user.email;
+                loadAllContent();
+            } else {
+                document.getElementById('admin-dash').style.display = 'none';
+            }
+        });
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeroSwiper();
+            loadAllContent();
+            
+            // Fermer les modals en cliquant en dehors
+            window.onclick = (event) => {
+                if (event.target.classList.contains('modal')) {
+                    closeModal();
+                }
+                if (event.target.id === 'admin-panel') {
+                    hideAdminLogin();
+                }
+                if (event.target.id === 'admin-register') {
+                    hideRegisterForm();
+                }
+            };
+        });
     </script>
 </body>
 </html>
