@@ -1115,6 +1115,8 @@
             margin-top: 20px;
             max-height: 400px;
             overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
         }
 
         .publication-item {
@@ -1129,6 +1131,16 @@
 
         .publication-item button {
             padding: 5px 15px;
+            margin-left: 10px;
+        }
+
+        .default-badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
             margin-left: 10px;
         }
 
@@ -1433,7 +1445,7 @@
         </div>
         <div class="copyright">
             <p>&copy; 2025 Église Évangélique des Ambassadeurs pour Christ – Paroisse Pain de Vie. Développé pour la gloire de Dieu.</p>
-            <p style="margin-top: 10px; color: var(--accent;">"Vous êtes la lumière du monde" – Matthieu 5:14</p>
+            <p style="margin-top: 10px; color: var(--accent);">"Vous êtes la lumière du monde" – Matthieu 5:14</p>
         </div>
     </footer>
 
@@ -1586,7 +1598,7 @@
             speed: 1500,
         });
 
-        // ===== LISTE DES IMAGES DE LA GALERIE =====
+        // ===== LISTE DES IMAGES LOCALES =====
         const galleryImages = [
             { file: 'Seance de cilte 1.jpeg', title: 'Séance de Culte 1' },
             { file: 'Seance de cilte 2.jpeg', title: 'Séance de Culte 2' },
@@ -1600,7 +1612,9 @@
             { file: 'Seance de cilte 10.jpeg', title: 'Séance de Culte 10' },
             { file: 'Seance de cilte 11.jpeg', title: 'Séance de Culte 11' },
             { file: 'Seance de cilte 12.jpeg', title: 'Séance de Culte 12' },
-            { file: 'Seance de cilte 13.jpeg', title: 'Séance de Culte 13' }
+            { file: 'Seance de cilte 13.jpeg', title: 'Séance de Culte 13' },
+            { file: 'Pasteur Obed Kahozi.jpeg', title: 'Pasteur Obed Kahozi' },
+            { file: 'Pasteur Obed Kahozi entrain de precher.jpeg', title: 'Pasteur en train de prêcher' }
         ];
 
         // ===== ACTUALITÉS PAR DÉFAUT =====
@@ -1630,85 +1644,70 @@
 
         // ===== CHARGEMENT DES DONNÉES =====
         function loadContent() {
+            // Mettre à jour la date
+            document.getElementById('last-update').textContent = new Date().toLocaleString();
+
             // Charger l'historique
-            db.ref('content/history').on('value', (snapshot) => {
+            db.ref('content/history').once('value', (snapshot) => {
                 const history = snapshot.val();
                 if (history) {
                     document.getElementById('history-content').innerHTML = history.replace(/\n/g, '<br>');
-                    if (document.getElementById('edit-history')) {
-                        document.getElementById('edit-history').value = history;
-                    }
+                    document.getElementById('edit-history').value = history;
+                } else {
+                    // Historique par défaut
+                    const defaultHistory = document.getElementById('history-content').innerHTML;
+                    document.getElementById('edit-history').value = defaultHistory.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '');
                 }
             });
 
             // Charger la galerie
-            db.ref('gallery').on('value', (snapshot) => {
+            loadGallery();
+            
+            // Charger les actualités
+            loadNews();
+        }
+
+        function loadGallery() {
+            const galleryGrid = document.getElementById('gallery-grid');
+            const galleryAdminList = document.getElementById('gallery-admin-list');
+            const statsImages = document.getElementById('stats-images');
+            
+            galleryGrid.innerHTML = '';
+            galleryAdminList.innerHTML = '';
+            
+            let imageCount = 0;
+            
+            // Afficher d'abord les images locales
+            galleryImages.forEach((img, index) => {
+                displayGalleryImage('local_' + index, {
+                    url: img.file,
+                    title: img.title,
+                    date: 'Locale'
+                }, galleryGrid, false); // false = ne pas ajouter à la liste admin
+                imageCount++;
+            });
+            
+            // Puis charger les images de Firebase
+            db.ref('gallery').once('value', (snapshot) => {
                 const images = snapshot.val() || {};
-                const galleryGrid = document.getElementById('gallery-grid');
-                const galleryAdminList = document.getElementById('gallery-admin-list');
                 
-                galleryGrid.innerHTML = '';
-                galleryAdminList.innerHTML = '';
-                
-                let imageCount = 0;
-                
-                // Utiliser les images locales
-                galleryImages.forEach((img, index) => {
-                    const key = 'local_' + index;
-                    displayGalleryImage(key, {
-                        url: img.file,
-                        title: img.title,
-                        date: new Date().toLocaleDateString()
-                    }, galleryGrid, galleryAdminList);
-                    imageCount++;
-                });
-                
-                // Ajouter aussi les images Firebase s'il y en a
                 Object.keys(images).forEach(key => {
                     const image = images[key];
-                    displayGalleryImage(key, image, galleryGrid, galleryAdminList);
+                    displayGalleryImage(key, image, galleryGrid, true); // true = ajouter à la liste admin
                     imageCount++;
                 });
                 
-                document.getElementById('stats-images').textContent = imageCount;
-            });
-
-            // Charger les actualités
-            db.ref('news').on('value', (snapshot) => {
-                const news = snapshot.val() || {};
-                const newsGrid = document.getElementById('actualites-grid');
-                const newsAdminList = document.getElementById('news-admin-list');
-                
-                newsGrid.innerHTML = '';
-                newsAdminList.innerHTML = '';
-                
-                let newsCount = 0;
-                
-                // Afficher les actualités par défaut
-                defaultNews.forEach((item, index) => {
-                    const key = 'default_' + index;
-                    displayNewsItem(key, item, newsGrid, newsAdminList);
-                    newsCount++;
-                });
-                
-                // Ajouter les actualités Firebase
-                Object.keys(news).forEach(key => {
-                    const item = news[key];
-                    displayNewsItem(key, item, newsGrid, newsAdminList);
-                    newsCount++;
-                });
-                
-                document.getElementById('stats-news').textContent = newsCount;
+                statsImages.textContent = imageCount;
             });
         }
 
-        function displayGalleryImage(key, image, galleryGrid, galleryAdminList) {
+        function displayGalleryImage(key, image, galleryGrid, addToAdminList) {
             // Ajouter à la galerie principale
             const item = document.createElement('div');
             item.className = 'gallery-item';
             item.setAttribute('data-src', image.url);
             item.innerHTML = `
-                <img src="${image.url}" alt="${image.title || 'Image galerie'}">
+                <img src="${image.url}" alt="${image.title || 'Image galerie'}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
                 <div class="gallery-caption">
                     <h4>${image.title || 'Moment de culte'}</h4>
                     <p>${image.date || ''}</p>
@@ -1719,31 +1718,62 @@
             `;
             galleryGrid.appendChild(item);
 
-            // Ajouter à la liste admin si ce n'est pas une image locale
-            if (!key.startsWith('local_')) {
+            // Ajouter à la liste admin si demandé
+            if (addToAdminList) {
+                const adminList = document.getElementById('gallery-admin-list');
                 const adminItem = document.createElement('div');
                 adminItem.className = 'publication-item';
                 adminItem.innerHTML = `
                     <div style="display: flex; align-items: center;">
-                        <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+                        <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;" onerror="this.src='https://via.placeholder.com/50?text=?'">
                         <span>${image.title || 'Sans titre'}</span>
                     </div>
                     <div>
                         <button onclick="deleteImage('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
                     </div>
                 `;
-                galleryAdminList.appendChild(adminItem);
+                adminList.appendChild(adminItem);
             }
         }
 
-        function displayNewsItem(key, item, newsGrid, newsAdminList) {
+        function loadNews() {
+            const newsGrid = document.getElementById('actualites-grid');
+            const newsAdminList = document.getElementById('news-admin-list');
+            const statsNews = document.getElementById('stats-news');
+            
+            newsGrid.innerHTML = '';
+            newsAdminList.innerHTML = '';
+            
+            let newsCount = 0;
+            
+            // Afficher d'abord les actualités par défaut
+            defaultNews.forEach((item, index) => {
+                displayNewsItem('default_' + index, item, newsGrid, false);
+                newsCount++;
+            });
+            
+            // Puis charger les actualités de Firebase
+            db.ref('news').once('value', (snapshot) => {
+                const news = snapshot.val() || {};
+                
+                Object.keys(news).forEach(key => {
+                    const item = news[key];
+                    displayNewsItem(key, item, newsGrid, true);
+                    newsCount++;
+                });
+                
+                statsNews.textContent = newsCount;
+            });
+        }
+
+        function displayNewsItem(key, item, newsGrid, addToAdminList) {
             // Ajouter à la grille principale
             const card = document.createElement('div');
             card.className = 'actualite-card';
             card.setAttribute('onclick', `openNewsModal('${key}')`);
             card.innerHTML = `
                 <div class="actualite-image">
-                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}">
+                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
                     <div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div>
                 </div>
                 <div class="actualite-content">
@@ -1760,8 +1790,8 @@
             `;
             newsGrid.appendChild(card);
 
-            // Ajouter à la liste admin si ce n'est pas une actualité par défaut
-            if (!key.startsWith('default_')) {
+            // Ajouter à la liste admin si demandé
+            if (addToAdminList) {
                 const adminItem = document.createElement('div');
                 adminItem.className = 'publication-item';
                 adminItem.innerHTML = `
@@ -1804,7 +1834,6 @@
             if (user) {
                 document.getElementById('admin-dash').style.display = 'block';
                 loadContent();
-                document.getElementById('last-update').textContent = new Date().toLocaleString();
             } else {
                 document.getElementById('admin-dash').style.display = 'none';
             }
@@ -1820,6 +1849,7 @@
                 db.ref('content/history').set(content)
                     .then(() => {
                         alert('Historique mis à jour avec succès !');
+                        document.getElementById('history-content').innerHTML = content.replace(/\n/g, '<br>');
                     })
                     .catch((error) => {
                         alert('Erreur: ' + error.message);
@@ -1836,6 +1866,8 @@
                 return;
             }
 
+            let uploaded = 0;
+            
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 const storageRef = storage.ref('gallery/' + Date.now() + '_' + file.name);
@@ -1851,10 +1883,12 @@
                         timestamp: Date.now()
                     });
                 }).then(() => {
-                    if (i === files.length - 1) {
+                    uploaded++;
+                    if (uploaded === files.length) {
                         alert('Images uploadées avec succès !');
                         document.getElementById('new-photo').value = '';
                         document.getElementById('photo-caption').value = '';
+                        loadGallery(); // Recharger la galerie
                     }
                 }).catch((error) => {
                     alert('Erreur upload: ' + error.message);
@@ -1891,6 +1925,7 @@
                     document.getElementById('news-title').value = '';
                     document.getElementById('news-content').value = '';
                     document.getElementById('news-image').value = '';
+                    loadNews(); // Recharger les actualités
                 }).catch((error) => {
                     alert('Erreur: ' + error.message);
                 });
@@ -1906,19 +1941,17 @@
                     alert('Actualité publiée !');
                     document.getElementById('news-title').value = '';
                     document.getElementById('news-content').value = '';
+                    loadNews(); // Recharger les actualités
                 });
             }
         };
 
         window.deleteImage = (key) => {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
-                if (key.startsWith('local_')) {
-                    alert('Les images locales ne peuvent pas être supprimées. Utilisez l\'upload pour ajouter vos propres images.');
-                    return;
-                }
                 db.ref('gallery/' + key).remove()
                     .then(() => {
                         alert('Image supprimée');
+                        loadGallery(); // Recharger la galerie
                     })
                     .catch((error) => {
                         alert('Erreur: ' + error.message);
@@ -1928,23 +1961,15 @@
 
         window.deleteNews = (key) => {
             if (confirm('Supprimer cette actualité ?')) {
-                if (key.startsWith('default_')) {
-                    alert('Les actualités par défaut ne peuvent pas être supprimées. Ajoutez vos propres actualités pour les remplacer.');
-                    return;
-                }
                 db.ref('news/' + key).remove()
                     .then(() => {
                         alert('Actualité supprimée');
+                        loadNews(); // Recharger les actualités
                     });
             }
         };
 
         window.editNews = (key) => {
-            if (key.startsWith('default_')) {
-                alert('Pour modifier, créez d\'abord votre propre actualité.');
-                return;
-            }
-            
             const newTitle = prompt('Nouveau titre:');
             const newContent = prompt('Nouveau contenu:');
             
@@ -1953,6 +1978,9 @@
                     title: newTitle,
                     content: newContent,
                     edited: Date.now()
+                }).then(() => {
+                    alert('Actualité modifiée');
+                    loadNews();
                 });
             }
         };
@@ -1987,21 +2015,25 @@
             document.getElementById('news-modal').style.display = 'none';
         };
 
-        // Initialisation
-        loadContent();
-
-        // LightGallery pour la galerie
-        setTimeout(() => {
-            if (typeof lightGallery !== 'undefined') {
-                lightGallery(document.getElementById('gallery-grid'), {
-                    selector: '.gallery-item',
-                    plugins: [],
-                    speed: 500,
-                    download: false,
-                    counter: true
-                });
-            }
-        }, 1000);
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialiser la galerie même sans être admin
+            loadGallery();
+            loadNews();
+            
+            // LightGallery pour la galerie
+            setTimeout(() => {
+                if (typeof lightGallery !== 'undefined') {
+                    lightGallery(document.getElementById('gallery-grid'), {
+                        selector: '.gallery-item',
+                        plugins: [],
+                        speed: 500,
+                        download: false,
+                        counter: true
+                    });
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>
