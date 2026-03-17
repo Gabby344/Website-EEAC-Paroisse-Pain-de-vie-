@@ -8,11 +8,14 @@
     <!-- Polices premium -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome 6 (pro icons) -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Swiper.js pour carrousels avancés -->
+    <!-- Swiper.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- LightGallery pour galerie lightbox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css">
     
     <!-- AOS animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -29,7 +32,6 @@
             --off-white: #faf9f7;
             --light-bg: #f5f3f0;
             --glass-bg: rgba(255, 255, 255, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.2);
             --shadow-sm: 0 10px 30px -15px rgba(0, 0, 0, 0.2);
             --shadow-md: 0 20px 40px -20px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
@@ -51,7 +53,7 @@
             scroll-behavior: smooth;
         }
 
-        /* ===== SCROLLBAR PERSONNALISÉE ===== */
+        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -66,7 +68,7 @@
             background: #b8960c;
         }
 
-        /* ===== NAVIGATION AVEC EFFET DE VERRE ===== */
+        /* ===== NAVIGATION ===== */
         nav {
             display: flex;
             justify-content: space-between;
@@ -98,6 +100,7 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 2px;
             position: relative;
+            cursor: pointer;
         }
 
         .logo::after {
@@ -118,7 +121,7 @@
             transform-origin: left;
         }
 
-        /* ===== MENU BURGER ANIMÉ ===== */
+        /* ===== MENU BURGER ===== */
         .nav-toggle {
             cursor: pointer;
             display: flex;
@@ -150,7 +153,7 @@
             background: var(--accent);
         }
 
-        /* ===== MENU OVERLAY AVEC ANIMATION ===== */
+        /* ===== MENU OVERLAY ===== */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -203,7 +206,7 @@
             left: 0;
         }
 
-        /* ===== HERO SECTION AVEC CARROUSEL ===== */
+        /* ===== HERO SECTION ===== */
         #accueil {
             height: 100vh;
             position: relative;
@@ -323,7 +326,7 @@
             60% {transform: translateX(-50%) translateY(-15px);}
         }
 
-        /* ===== SECTIONS GÉNÉRALES ===== */
+        /* ===== SECTIONS ===== */
         section {
             padding: 140px 10%;
             position: relative;
@@ -367,10 +370,9 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            position: relative;
         }
 
-        /* ===== HISTORIQUE AVEC EFFETS ===== */
+        /* ===== HISTORIQUE ===== */
         .history-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -427,7 +429,7 @@
             opacity: 0.3;
         }
 
-        /* ===== CARTES VISION AVEC EFFETS 3D ===== */
+        /* ===== CARTES VISION ===== */
         .vision-mission {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -495,7 +497,125 @@
             font-size: 1.05rem;
         }
 
-        /* ===== GALERIE AVEC SWIPER AVANCÉ ===== */
+        /* ===== ACTUALITÉS ===== */
+        #actualites {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-bg) 100%);
+        }
+
+        .actualites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .actualite-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .actualite-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .actualite-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .actualite-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+
+        .actualite-card:hover .actualite-image img {
+            transform: scale(1.1);
+        }
+
+        .actualite-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .actualite-card:hover .actualite-image::after {
+            opacity: 1;
+        }
+
+        .actualite-date {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .actualite-content {
+            padding: 30px;
+        }
+
+        .actualite-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .actualite-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .actualite-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .actualite-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .actualite-author i {
+            color: var(--accent);
+        }
+
+        .actualite-lire-plus {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+
+        .actualite-lire-plus:hover {
+            transform: translateX(10px);
+        }
+
+        /* ===== GALERIE ===== */
         #galerie {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: var(--white);
@@ -507,86 +627,98 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .gallery-swiper {
-            width: 100%;
-            height: 600px;
-            padding: 40px 0;
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
         }
 
-        .gallery-swiper .swiper-slide {
-            width: 400px;
-            height: 500px;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            opacity: 0.6;
-            transition: var(--transition);
+        .gallery-item {
             position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
             cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
         }
 
-        .gallery-swiper .swiper-slide-active {
-            opacity: 1;
-            transform: scale(1.1);
+        .gallery-item:hover {
+            transform: scale(1.05);
             z-index: 10;
         }
 
-        .gallery-swiper .swiper-slide img {
+        .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 1.2s ease;
+            transition: transform 0.8s ease;
         }
 
-        .gallery-swiper .swiper-slide:hover img {
+        .gallery-item:hover img {
             transform: scale(1.1);
         }
 
-        .gallery-swiper .swiper-slide::after {
+        .gallery-item::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
             opacity: 0;
             transition: var(--transition);
+            z-index: 1;
         }
 
-        .gallery-swiper .swiper-slide:hover::after {
+        .gallery-item:hover::before {
             opacity: 1;
         }
 
-        .slide-caption {
+        .gallery-caption {
             position: absolute;
-            bottom: -50px;
+            bottom: 0;
             left: 0;
             right: 0;
             padding: 20px;
             color: var(--white);
-            z-index: 2;
+            transform: translateY(100%);
             transition: var(--transition);
-            text-align: center;
+            z-index: 2;
         }
 
-        .gallery-swiper .swiper-slide:hover .slide-caption {
-            bottom: 20px;
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
         }
 
-        .swiper-pagination-bullet {
-            background: var(--white) !important;
-            opacity: 0.5;
+        .gallery-caption h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
         }
 
-        .swiper-pagination-bullet-active {
-            background: var(--accent) !important;
+        .gallery-caption p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .gallery-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--white);
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-icon {
             opacity: 1;
+            transform: scale(1);
         }
 
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: var(--accent) !important;
-        }
-
-        /* ===== FOOTER AVEC DÉGRADÉS ===== */
+        /* ===== FOOTER ===== */
         footer {
             background: linear-gradient(135deg, var(--primary) 0%, #1a1a1a 100%);
             color: #aaa;
@@ -652,6 +784,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
         }
 
         .social-links a:hover {
@@ -668,7 +801,7 @@
             font-size: 0.9rem;
         }
 
-        /* ===== ADMIN PANEL AVANCÉ ===== */
+        /* ===== ADMIN PANEL ===== */
         #admin-panel {
             display: none;
             position: fixed;
@@ -740,7 +873,7 @@
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
         }
 
-        /* ===== DASHBOARD ADMIN AVEC GRILLE ===== */
+        /* ===== DASHBOARD ADMIN ===== */
         #admin-dash {
             display: none;
             position: fixed;
@@ -803,12 +936,14 @@
             resize: vertical;
         }
 
+        .admin-card input[type="text"],
         .admin-card input[type="file"] {
             width: 100%;
             padding: 15px;
             background: #f5f5f5;
             border-radius: 10px;
             margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
         }
 
         .btn-admin {
@@ -857,6 +992,32 @@
             margin-left: 10px;
         }
 
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 6000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1200px) {
             section {
@@ -876,6 +1037,9 @@
             }
             .menu-overlay a {
                 font-size: 2rem;
+            }
+            .actualites-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -906,26 +1070,27 @@
         <a href="#accueil" onclick="closeMenu()">Accueil</a>
         <a href="#historique" onclick="closeMenu()">Notre Histoire</a>
         <a href="#vision" onclick="closeMenu()">Vision & Mission</a>
+        <a href="#actualites" onclick="closeMenu()">Actualités</a>
         <a href="#galerie" onclick="closeMenu()">Galerie</a>
         <a href="#contacts" onclick="closeMenu()">Contacts</a>
         <a href="javascript:void(0)" onclick="showAdmin()" style="font-size: 1.5rem; color: var(--accent);">⚡ Portail Admin</a>
     </div>
 
-    <!-- Hero avec carrousel Swiper -->
+    <!-- Hero avec carrousel -->
     <section id="accueil">
         <div class="swiper-hero swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="Seance de cilte 6.jpeg" class="slide-bg" alt="Culte 1">
+                    <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80" class="slide-bg" alt="Culte 1">
                 </div>
                 <div class="swiper-slide">
-                    <img src="Pasteur Obed Kahozi entrain de precher.jpeg" class="slide-bg" alt="Pasteur prêchant">
+                    <img src="https://images.unsplash.com/photo-1548625149-fc4a29cf7092?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" class="slide-bg" alt="Pasteur prêchant">
                 </div>
                 <div class="swiper-slide">
-                    <img src="Seance de cilte 1.jpeg" class="slide-bg" alt="Culte 2">
+                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80" class="slide-bg" alt="Culte 2">
                 </div>
                 <div class="swiper-slide">
-                    <img src="Seance de cilte 10.jpeg" class="slide-bg" alt="Culte 3">
+                    <img src="https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" class="slide-bg" alt="Culte 3">
                 </div>
             </div>
         </div>
@@ -958,7 +1123,7 @@
                 </p>
             </div>
             <div class="history-image" data-aos="fade-left" data-aos-delay="200">
-                <img src="Pasteur Obed Kahozi.jpeg" alt="Pasteur Obed Kahozi">
+                <img src="https://images.unsplash.com/photo-1545454677-6c3c4e0b44b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Pasteur">
             </div>
         </div>
     </section>
@@ -986,18 +1151,23 @@
         </div>
     </section>
 
-    <!-- Galerie avec carrousel 3D -->
+    <!-- Section Actualités -->
+    <section id="actualites">
+        <span class="section-tag" data-aos="fade-up">Restez Informés</span>
+        <h2 class="section-title" data-aos="fade-up">Dernières Actualités</h2>
+        
+        <div class="actualites-grid" id="actualites-grid">
+            <!-- Les actualités seront chargées dynamiquement -->
+        </div>
+    </section>
+
+    <!-- Section Galerie -->
     <section id="galerie">
         <span class="section-tag" data-aos="fade-up">Médiathèque</span>
-        <h2 class="section-title" data-aos="fade-up">Instantanés de Foi</h2>
+        <h2 class="section-title" data-aos="fade-up">Galerie Photos</h2>
         
-        <div class="gallery-swiper swiper-container" id="gallerySwiper">
-            <div class="swiper-wrapper" id="gallery-wrapper">
-                <!-- Les images seront chargées dynamiquement -->
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Les images seront chargées dynamiquement -->
         </div>
     </section>
 
@@ -1019,10 +1189,10 @@
             <div data-aos="fade-up" data-aos-delay="200">
                 <h4>Suivez-nous</h4>
                 <div class="social-links">
-                    <a href="https://facebook.com/paindevie"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://youtube.com/paindevie"><i class="fab fa-youtube"></i></a>
-                    <a href="https://instagram.com/paindevie"><i class="fab fa-instagram"></i></a>
-                    <a href="https://tiktok.com/@paindevie"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
@@ -1058,27 +1228,31 @@
                 <button onclick="saveContent('history')" class="btn-admin"><i class="fas fa-save"></i> Publier</button>
             </div>
 
-            <!-- Gestion Galerie -->
+            <!-- Gestion Actualités -->
             <div class="admin-card">
-                <h3><i class="fas fa-images" style="color: var(--accent); margin-right: 10px;"></i>Gestion Galerie</h3>
-                <input type="file" id="new-photo" accept="image/*" multiple>
-                <p style="margin: 10px 0; color: #666;">Sélectionnez une ou plusieurs images</p>
-                <button onclick="uploadImages()" class="btn-admin"><i class="fas fa-upload"></i> Uploader</button>
+                <h3><i class="fas fa-newspaper" style="color: var(--accent); margin-right: 10px;"></i>Ajouter une Actualité</h3>
+                <input type="text" id="news-title" placeholder="Titre de l'actualité">
+                <textarea id="news-content" placeholder="Contenu de l'actualité..." style="height: 150px;"></textarea>
+                <input type="file" id="news-image" accept="image/*">
+                <input type="text" id="news-author" placeholder="Auteur (optionnel)" value="Pasteur Obed Kahozi">
+                <button onclick="addNews()" class="btn-admin"><i class="fas fa-plus"></i> Publier l'actualité</button>
                 
-                <div class="publications-list" id="gallery-admin-list">
-                    <!-- Les images existantes apparaîtront ici -->
+                <h3 style="margin-top: 30px;">Actualités publiées</h3>
+                <div class="publications-list" id="news-admin-list">
+                    <!-- Les actualités apparaîtront ici -->
                 </div>
             </div>
 
-            <!-- Gestion Publications -->
+            <!-- Gestion Galerie -->
             <div class="admin-card">
-                <h3><i class="fas fa-newspaper" style="color: var(--accent); margin-right: 10px;"></i>Publications</h3>
-                <input type="text" id="pub-title" placeholder="Titre de la publication" style="width: 100%; padding: 10px; margin-bottom: 10px;">
-                <textarea id="pub-content" placeholder="Contenu de la publication..." style="height: 150px;"></textarea>
-                <button onclick="addPublication()" class="btn-admin"><i class="fas fa-plus"></i> Ajouter</button>
+                <h3><i class="fas fa-images" style="color: var(--accent); margin-right: 10px;"></i>Ajouter à la Galerie</h3>
+                <input type="file" id="new-photo" accept="image/*" multiple>
+                <input type="text" id="photo-caption" placeholder="Légende (optionnel)">
+                <button onclick="uploadImages()" class="btn-admin"><i class="fas fa-upload"></i> Uploader</button>
                 
-                <div class="publications-list" id="publications-list">
-                    <!-- Les publications apparaîtront ici -->
+                <h3 style="margin-top: 30px;">Images de la galerie</h3>
+                <div class="publications-list" id="gallery-admin-list">
+                    <!-- Les images apparaîtront ici -->
                 </div>
             </div>
 
@@ -1086,15 +1260,27 @@
             <div class="admin-card">
                 <h3><i class="fas fa-chart-line" style="color: var(--accent); margin-right: 10px;"></i>Statistiques</h3>
                 <p><i class="fas fa-image"></i> Images en galerie: <span id="stats-images">0</span></p>
-                <p><i class="fas fa-file-alt"></i> Publications: <span id="stats-pubs">0</span></p>
-                <p><i class="fas fa-calendar"></i> Dernière modification: <span id="last-update">Jamais</span></p>
+                <p><i class="fas fa-newspaper"></i> Actualités: <span id="stats-news">0</span></p>
+                <p><i class="fas fa-calendar"></i> Dernière mise à jour: <span id="last-update">Jamais</span></p>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal pour lire les actualités -->
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-date" style="color: var(--accent); margin-bottom: 20px;"></p>
+            <img id="modal-image" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+            <p id="modal-content" style="line-height: 1.8;"></p>
+            <button onclick="closeModal()" class="btn-admin" style="margin-top: 20px;">Fermer</button>
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -1131,7 +1317,6 @@
         const toggle = document.getElementById('nav-toggle');
         const overlay = document.getElementById('menu-overlay');
 
-        // Effet de scroll sur la navbar
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 nav.classList.add('scrolled');
@@ -1140,7 +1325,6 @@
             }
         });
 
-        // Menu toggle
         toggle.addEventListener('click', () => {
             toggle.classList.toggle('active');
             overlay.classList.toggle('active');
@@ -1167,51 +1351,113 @@
             speed: 1500,
         });
 
-        // ===== GALERIE SWIPER =====
-        let gallerySwiper;
+        // ===== GALERIE D'IMAGES PAR DÉFAUT =====
+        const defaultGalleryImages = [
+            {
+                url: 'https://images.unsplash.com/photo-1545454677-6c3c4e0b44b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Culte du Dimanche',
+                date: '2025-03-15'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
+                title: 'Groupe de Louange',
+                date: '2025-03-10'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Étude Biblique',
+                date: '2025-03-05'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1548625149-fc4a29cf7092?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80',
+                title: 'Conférence',
+                date: '2025-02-28'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
+                title: 'Baptême',
+                date: '2025-02-20'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1490126125528-a0c8ebf1e0f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Jeunesse en Prière',
+                date: '2025-02-15'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Mariage',
+                date: '2025-02-10'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
+                title: 'Camp de Jeunes',
+                date: '2025-02-01'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1470119693884-47d3a1d1f180?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Culte de Louange',
+                date: '2025-01-25'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1508672019048-805af876b754?ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80',
+                title: 'Formation des Leaders',
+                date: '2025-01-20'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Évangélisation',
+                date: '2025-01-15'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1507692049790-de58290c433e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                title: 'Réveil Spirituel',
+                date: '2025-01-10'
+            }
+        ];
 
-        function initGallerySwiper() {
-            gallerySwiper = new Swiper('#gallerySwiper', {
-                slidesPerView: 'auto',
-                centeredSlides: true,
-                spaceBetween: 30,
-                loop: true,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                effect: 'coverflow',
-                coverflowEffect: {
-                    rotate: 0,
-                    stretch: 0,
-                    depth: 200,
-                    modifier: 1,
-                    slideShadows: true,
-                },
-                breakpoints: {
-                    320: {
-                        slidesPerView: 1,
-                        spaceBetween: 20
-                    },
-                    768: {
-                        slidesPerView: 2,
-                        spaceBetween: 30
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 40
-                    }
-                }
-            });
-        }
+        // ===== ACTUALITÉS PAR DÉFAUT =====
+        const defaultNews = [
+            {
+                title: 'Grande Conférence sur le Réveil',
+                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester !',
+                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
+                author: 'Pasteur Obed Kahozi',
+                date: '2025-03-20',
+                timestamp: Date.now() - 86400000
+            },
+            {
+                title: 'Camp de Jeunesse 2025',
+                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans.',
+                image: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
+                author: 'Département Jeunesse',
+                date: '2025-03-18',
+                timestamp: Date.now() - 172800000
+            },
+            {
+                title: 'Baptême Collectif',
+                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ.',
+                image: 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
+                author: 'Pasteur Obed Kahozi',
+                date: '2025-03-15',
+                timestamp: Date.now() - 259200000
+            },
+            {
+                title: 'Séminaire sur le Mariage',
+                content: 'Séminaire "Fonder un Foyer Selon Dieu" pour les couples mariés et fiancés. Thèmes abordés : communication, finances, éducation des enfants. Inscription obligatoire.',
+                image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                author: 'Département Famille',
+                date: '2025-03-12',
+                timestamp: Date.now() - 345600000
+            },
+            {
+                title: 'Nouveau Groupe de Louange',
+                content: 'Recrutement de musiciens et choristes pour le nouveau groupe de louange. Auditions ouvertes à tous. Si vous avez un talent musical, venez le mettre au service du Seigneur.',
+                image: 'https://images.unsplash.com/photo-1508672019048-805af876b754?ixlib=rb-4.0.3&auto=format&fit=crop&w=2076&q=80',
+                author: 'Département Musique',
+                date: '2025-03-10',
+                timestamp: Date.now() - 432000000
+            }
+        ];
 
         // ===== CHARGEMENT DES DONNÉES =====
         function loadContent() {
@@ -1229,83 +1475,132 @@
             // Charger la galerie
             db.ref('gallery').on('value', (snapshot) => {
                 const images = snapshot.val() || {};
-                const galleryWrapper = document.getElementById('gallery-wrapper');
+                const galleryGrid = document.getElementById('gallery-grid');
                 const galleryAdminList = document.getElementById('gallery-admin-list');
                 
-                galleryWrapper.innerHTML = '';
+                galleryGrid.innerHTML = '';
                 galleryAdminList.innerHTML = '';
                 
                 let imageCount = 0;
                 
-                Object.keys(images).forEach(key => {
-                    const image = images[key];
-                    imageCount++;
-                    
-                    // Ajouter à la galerie principale
-                    const slide = document.createElement('div');
-                    slide.className = 'swiper-slide';
-                    slide.innerHTML = `
-                        <img src="${image.url}" alt="${image.title || 'Image galerie'}">
-                        <div class="slide-caption">
-                            <h4>${image.title || 'Moment de culte'}</h4>
-                            <p>${image.date || ''}</p>
-                        </div>
-                    `;
-                    galleryWrapper.appendChild(slide);
-                    
-                    // Ajouter à la liste admin
-                    const item = document.createElement('div');
-                    item.className = 'publication-item';
-                    item.innerHTML = `
-                        <div style="display: flex; align-items: center;">
-                            <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
-                            <span>${image.title || 'Sans titre'}</span>
-                        </div>
-                        <div>
-                            <button onclick="deleteImage('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                        </div>
-                    `;
-                    galleryAdminList.appendChild(item);
-                });
+                // Si pas d'images, utiliser les images par défaut
+                if (Object.keys(images).length === 0) {
+                    defaultGalleryImages.forEach((img, index) => {
+                        const key = 'default_' + index;
+                        displayGalleryImage(key, img, galleryGrid, galleryAdminList);
+                        imageCount++;
+                    });
+                } else {
+                    Object.keys(images).forEach(key => {
+                        const image = images[key];
+                        displayGalleryImage(key, image, galleryGrid, galleryAdminList);
+                        imageCount++;
+                    });
+                }
                 
                 document.getElementById('stats-images').textContent = imageCount;
-                
-                // Réinitialiser le swiper
-                if (gallerySwiper) {
-                    gallerySwiper.destroy(true, true);
-                }
-                initGallerySwiper();
             });
 
-            // Charger les publications
-            db.ref('publications').on('value', (snapshot) => {
-                const pubs = snapshot.val() || {};
-                const pubsList = document.getElementById('publications-list');
-                pubsList.innerHTML = '';
+            // Charger les actualités
+            db.ref('news').on('value', (snapshot) => {
+                const news = snapshot.val() || {};
+                const newsGrid = document.getElementById('actualites-grid');
+                const newsAdminList = document.getElementById('news-admin-list');
                 
-                let pubCount = 0;
+                newsGrid.innerHTML = '';
+                newsAdminList.innerHTML = '';
                 
-                Object.keys(pubs).sort((a, b) => pubs[b].timestamp - pubs[a].timestamp).forEach(key => {
-                    const pub = pubs[key];
-                    pubCount++;
-                    
-                    const item = document.createElement('div');
-                    item.className = 'publication-item';
-                    item.innerHTML = `
-                        <div>
-                            <strong>${pub.title || 'Sans titre'}</strong>
-                            <p style="font-size: 0.9rem; color: #666;">${new Date(pub.timestamp).toLocaleDateString()}</p>
-                        </div>
-                        <div>
-                            <button onclick="editPublication('${key}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
-                            <button onclick="deletePublication('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                        </div>
-                    `;
-                    pubsList.appendChild(item);
-                });
+                let newsCount = 0;
                 
-                document.getElementById('stats-pubs').textContent = pubCount;
+                // Si pas d'actualités, utiliser les actualités par défaut
+                if (Object.keys(news).length === 0) {
+                    defaultNews.forEach((item, index) => {
+                        const key = 'default_' + index;
+                        displayNewsItem(key, item, newsGrid, newsAdminList);
+                        newsCount++;
+                    });
+                } else {
+                    Object.keys(news).sort((a, b) => news[b].timestamp - news[a].timestamp).forEach(key => {
+                        const item = news[key];
+                        displayNewsItem(key, item, newsGrid, newsAdminList);
+                        newsCount++;
+                    });
+                }
+                
+                document.getElementById('stats-news').textContent = newsCount;
             });
+        }
+
+        function displayGalleryImage(key, image, galleryGrid, galleryAdminList) {
+            // Ajouter à la galerie principale
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.setAttribute('data-src', image.url);
+            item.innerHTML = `
+                <img src="${image.url}" alt="${image.title || 'Image galerie'}">
+                <div class="gallery-caption">
+                    <h4>${image.title || 'Moment de culte'}</h4>
+                    <p>${image.date || ''}</p>
+                </div>
+                <div class="gallery-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+            `;
+            galleryGrid.appendChild(item);
+
+            // Ajouter à la liste admin
+            const adminItem = document.createElement('div');
+            adminItem.className = 'publication-item';
+            adminItem.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <img src="${image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
+                    <span>${image.title || 'Sans titre'}</span>
+                </div>
+                <div>
+                    <button onclick="deleteImage('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                </div>
+            `;
+            galleryAdminList.appendChild(adminItem);
+        }
+
+        function displayNewsItem(key, item, newsGrid, newsAdminList) {
+            // Ajouter à la grille principale
+            const card = document.createElement('div');
+            card.className = 'actualite-card';
+            card.setAttribute('onclick', `openNewsModal('${key}')`);
+            card.innerHTML = `
+                <div class="actualite-image">
+                    <img src="${item.image || 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80'}" alt="${item.title}">
+                    <div class="actualite-date">${item.date || new Date(item.timestamp).toLocaleDateString()}</div>
+                </div>
+                <div class="actualite-content">
+                    <h3>${item.title}</h3>
+                    <p>${item.content.substring(0, 150)}${item.content.length > 150 ? '...' : ''}</p>
+                    <div class="actualite-footer">
+                        <div class="actualite-author">
+                            <i class="fas fa-user"></i>
+                            <span>${item.author || 'Pasteur Obed Kahozi'}</span>
+                        </div>
+                        <span class="actualite-lire-plus">Lire plus <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            `;
+            newsGrid.appendChild(card);
+
+            // Ajouter à la liste admin
+            const adminItem = document.createElement('div');
+            adminItem.className = 'publication-item';
+            adminItem.innerHTML = `
+                <div>
+                    <strong>${item.title}</strong>
+                    <p style="font-size: 0.9rem; color: #666;">${item.date || new Date(item.timestamp).toLocaleDateString()}</p>
+                </div>
+                <div>
+                    <button onclick="editNews('${key}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
+                    <button onclick="deleteNews('${key}')" class="btn-admin btn-danger" style="padding: 5px 10px;">Supprimer</button>
+                </div>
+            `;
+            newsAdminList.appendChild(adminItem);
         }
 
         // ===== FONCTIONS ADMIN =====
@@ -1330,7 +1625,6 @@
                 });
         };
 
-        // État de l'authentification
         auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('admin-dash').style.display = 'block';
@@ -1345,7 +1639,6 @@
             auth.signOut();
         };
 
-        // Sauvegarder le contenu
         window.saveContent = (type) => {
             if (type === 'history') {
                 const content = document.getElementById('edit-history').value;
@@ -1359,9 +1652,9 @@
             }
         };
 
-        // Upload d'images
         window.uploadImages = () => {
             const files = document.getElementById('new-photo').files;
+            const caption = document.getElementById('photo-caption').value;
             
             if (files.length === 0) {
                 alert('Veuillez sélectionner des images');
@@ -1378,14 +1671,15 @@
                     const imageRef = db.ref('gallery').push();
                     return imageRef.set({
                         url: url,
-                        title: file.name,
-                        date: new Date().toISOString(),
+                        title: caption || file.name.split('.')[0],
+                        date: new Date().toLocaleDateString(),
                         timestamp: Date.now()
                     });
                 }).then(() => {
                     if (i === files.length - 1) {
                         alert('Images uploadées avec succès !');
                         document.getElementById('new-photo').value = '';
+                        document.getElementById('photo-caption').value = '';
                     }
                 }).catch((error) => {
                     alert('Erreur upload: ' + error.message);
@@ -1393,9 +1687,60 @@
             }
         };
 
-        // Supprimer une image
+        window.addNews = () => {
+            const title = document.getElementById('news-title').value;
+            const content = document.getElementById('news-content').value;
+            const author = document.getElementById('news-author').value || 'Pasteur Obed Kahozi';
+            const file = document.getElementById('news-image').files[0];
+            
+            if (!title || !content) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+
+            if (file) {
+                const storageRef = storage.ref('news/' + Date.now() + '_' + file.name);
+                storageRef.put(file).then((snapshot) => {
+                    return snapshot.ref.getDownloadURL();
+                }).then((url) => {
+                    return db.ref('news').push({
+                        title: title,
+                        content: content,
+                        image: url,
+                        author: author,
+                        date: new Date().toLocaleDateString(),
+                        timestamp: Date.now()
+                    });
+                }).then(() => {
+                    alert('Actualité publiée !');
+                    document.getElementById('news-title').value = '';
+                    document.getElementById('news-content').value = '';
+                    document.getElementById('news-image').value = '';
+                }).catch((error) => {
+                    alert('Erreur: ' + error.message);
+                });
+            } else {
+                db.ref('news').push({
+                    title: title,
+                    content: content,
+                    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80',
+                    author: author,
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now()
+                }).then(() => {
+                    alert('Actualité publiée !');
+                    document.getElementById('news-title').value = '';
+                    document.getElementById('news-content').value = '';
+                });
+            }
+        };
+
         window.deleteImage = (key) => {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
+                if (key.startsWith('default_')) {
+                    alert('Les images par défaut ne peuvent pas être supprimées via cette interface. Utilisez l\'upload d\'images pour ajouter vos propres images.');
+                    return;
+                }
                 db.ref('gallery/' + key).remove()
                     .then(() => {
                         alert('Image supprimée');
@@ -1406,45 +1751,30 @@
             }
         };
 
-        // Ajouter une publication
-        window.addPublication = () => {
-            const title = document.getElementById('pub-title').value;
-            const content = document.getElementById('pub-content').value;
-            
-            if (!title || !content) {
-                alert('Veuillez remplir tous les champs');
-                return;
-            }
-
-            db.ref('publications').push({
-                title: title,
-                content: content,
-                timestamp: Date.now()
-            }).then(() => {
-                alert('Publication ajoutée !');
-                document.getElementById('pub-title').value = '';
-                document.getElementById('pub-content').value = '';
-            }).catch((error) => {
-                alert('Erreur: ' + error.message);
-            });
-        };
-
-        // Supprimer une publication
-        window.deletePublication = (key) => {
-            if (confirm('Supprimer cette publication ?')) {
-                db.ref('publications/' + key).remove()
+        window.deleteNews = (key) => {
+            if (confirm('Supprimer cette actualité ?')) {
+                if (key.startsWith('default_')) {
+                    alert('Les actualités par défaut ne peuvent pas être supprimées. Ajoutez vos propres actualités pour les remplacer.');
+                    return;
+                }
+                db.ref('news/' + key).remove()
                     .then(() => {
-                        alert('Publication supprimée');
+                        alert('Actualité supprimée');
                     });
             }
         };
 
-        window.editPublication = (key) => {
+        window.editNews = (key) => {
+            if (key.startsWith('default_')) {
+                alert('Pour modifier, créez d\'abord votre propre actualité.');
+                return;
+            }
+            
             const newTitle = prompt('Nouveau titre:');
             const newContent = prompt('Nouveau contenu:');
             
             if (newTitle && newContent) {
-                db.ref('publications/' + key).update({
+                db.ref('news/' + key).update({
                     title: newTitle,
                     content: newContent,
                     edited: Date.now()
@@ -1452,32 +1782,39 @@
             }
         };
 
-        // Charger les données au démarrage
+        // ===== MODAL POUR ACTUALITÉS =====
+        window.openNewsModal = (key) => {
+            db.ref('news/' + key).once('value', (snapshot) => {
+                const news = snapshot.val();
+                if (news) {
+                    document.getElementById('modal-title').textContent = news.title;
+                    document.getElementById('modal-date').textContent = news.date || new Date(news.timestamp).toLocaleDateString();
+                    document.getElementById('modal-image').src = news.image || 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2084&q=80';
+                    document.getElementById('modal-content').textContent = news.content;
+                    document.getElementById('news-modal').style.display = 'flex';
+                }
+            });
+        };
+
+        window.closeModal = () => {
+            document.getElementById('news-modal').style.display = 'none';
+        };
+
+        // Initialisation
         loadContent();
 
-        // Ajouter quelques images par défaut si la galerie est vide
-        db.ref('gallery').once('value', (snapshot) => {
-            if (!snapshot.exists()) {
-                const defaultImages = [
-                    'Seance de cilte 1.jpeg',
-                    'Seance de cilte 2.jpeg',
-                    'Seance de cilte 3.jpeg',
-                    'Seance de cilte 4.jpeg',
-                    'Seance de cilte 5.jpeg',
-                    'Seance de cilte 6.jpeg',
-                    'Seance de cilte 10.jpeg'
-                ];
-                
-                defaultImages.forEach(img => {
-                    db.ref('gallery').push({
-                        url: img,
-                        title: 'Culte à Pain de Vie',
-                        date: new Date().toISOString(),
-                        timestamp: Date.now()
-                    });
+        // LightGallery pour la galerie
+        setTimeout(() => {
+            if (typeof lightGallery !== 'undefined') {
+                lightGallery(document.getElementById('gallery-grid'), {
+                    selector: '.gallery-item',
+                    plugins: [],
+                    speed: 500,
+                    download: false,
+                    counter: true
                 });
             }
-        });
+        }, 1000);
     </script>
 </body>
 </html>
