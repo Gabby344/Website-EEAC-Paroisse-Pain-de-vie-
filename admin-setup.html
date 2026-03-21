@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation - Pain de Vie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .install-container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .install-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .install-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .install-header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .install-body {
+            padding: 32px;
+        }
+
+        .step {
+            margin-bottom: 32px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h3 {
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .step p {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .status-pending {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .log-area {
+            background: #1a1a2e;
+            color: #00ff9d;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 24px;
+        }
+
+        .log-entry {
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .log-time {
+            color: #ffd700;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .admin-credentials {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .admin-credentials h4 {
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .credential-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .credential-value {
+            color: #667eea;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="install-container">
+        <div class="install-header">
+            <h1>⚡ Installation de l'Église Pain de Vie</h1>
+            <p>Configuration automatique de la base de données</p>
+        </div>
+        <div class="install-body">
+            <div class="step">
+                <h3>📋 Étape 1 : Configuration Firebase</h3>
+                <p>Vérification et initialisation de la connexion Firebase</p>
+                <div id="firebase-status" class="status status-pending">
+                    <span>🔄</span> En attente...
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>🗄️ Étape 2 : Création des collections Firestore</h3>
+                <p>Création des collections nécessaires pour le site</p>
+                <div id="firestore-status" class="status status-pending">
+                    <span>🔄</span> En attente...
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>👑 Étape 3 : Création du compte administrateur</h3>
+                <p>Création du compte admin principal</p>
+                <div id="admin-status" class="status status-pending">
+                    <span>🔄</span> En attente...
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>📦 Étape 4 : Chargement des données par défaut</h3>
+                <p>Insertion des contenus par défaut (historique, programmes, actualités)</p>
+                <div id="data-status" class="status status-pending">
+                    <span>🔄</span> En attente...
+                </div>
+            </div>
+
+            <button id="install-btn" class="btn btn-primary" onclick="runInstallation()">
+                🚀 Démarrer l'installation
+            </button>
+
+            <div class="admin-credentials" id="credentials-area" style="display: none;">
+                <h4>🔐 Informations de connexion administrateur</h4>
+                <div class="credential-item">
+                    <span class="credential-label">Email :</span>
+                    <span class="credential-value" id="admin-email">admin@paindevie.org</span>
+                </div>
+                <div class="credential-item">
+                    <span class="credential-label">Mot de passe :</span>
+                    <span class="credential-value" id="admin-password">Admin123!</span>
+                </div>
+                <p style="margin-top: 12px; font-size: 12px; color: #6c757d;">
+                    ⚠️ Conservez ces identifiants précieusement. Vous pourrez les modifier après la première connexion.
+                </p>
+            </div>
+
+            <div class="log-area" id="log-area">
+                <div class="log-entry">📋 Console d'installation prête...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script>
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
+            authDomain: "eglise-pain-de-vie.firebaseapp.com",
+            projectId: "eglise-pain-de-vie",
+            storageBucket: "eglise-pain-de-vie.appspot.com",
+            appId: "1:623268173333:web:4e8d3005ec93b90fe5e01c"
+        };
+
+        let app, auth, db, storage;
+        let installationRunning = false;
+
+        function addLog(message, type = 'info') {
+            const logArea = document.getElementById('log-area');
+            const time = new Date().toLocaleTimeString();
+            const icons = {
+                info: '📝',
+                success: '✅',
+                error: '❌',
+                warning: '⚠️'
+            };
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `<span class="log-time">[${time}]</span> ${icons[type] || '📝'} ${message}`;
+            logArea.appendChild(logEntry);
+            logArea.scrollTop = logArea.scrollHeight;
+            console.log(message);
+        }
+
+        async function initFirebase() {
+            try {
+                addLog('Initialisation de Firebase...', 'info');
+                app = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                storage = firebase.storage();
+                
+                // Activer la persistance
+                await db.enablePersistence().catch(err => {
+                    addLog('Persistance limitée: ' + err.message, 'warning');
+                });
+                
+                addLog('Firebase initialisé avec succès', 'success');
+                document.getElementById('firebase-status').innerHTML = '<span>✅</span> Connecté à Firebase';
+                document.getElementById('firebase-status').className = 'status status-success';
+                return true;
+            } catch (error) {
+                addLog('Erreur Firebase: ' + error.message, 'error');
+                document.getElementById('firebase-status').innerHTML = '<span>❌</span> Erreur de connexion';
+                document.getElementById('firebase-status').className = 'status status-error';
+                return false;
+            }
+        }
+
+        async function createFirestoreCollections() {
+            addLog('Création des collections Firestore...', 'info');
+            const collections = [
+                'content', 'news', 'gallery', 'admins', 'settings', 'adminInvites'
+            ];
+            
+            try {
+                for (const collection of collections) {
+                    // Vérifier si la collection existe déjà
+                    const snapshot = await db.collection(collection).limit(1).get();
+                    if (snapshot.empty) {
+                        // Créer un document placeholder pour initialiser la collection
+                        await db.collection(collection).doc('_placeholder').set({
+                            _created: new Date().toISOString()
+                        });
+                        addLog(`Collection "${collection}" créée`, 'success');
+                    } else {
+                        addLog(`Collection "${collection}" existe déjà`, 'info');
+                    }
+                }
+                
+                document.getElementById('firestore-status').innerHTML = '<span>✅</span> Collections créées avec succès';
+                document.getElementById('firestore-status').className = 'status status-success';
+                return true;
+            } catch (error) {
+                addLog('Erreur création collections: ' + error.message, 'error');
+                document.getElementById('firestore-status').innerHTML = '<span>❌</span> Erreur';
+                document.getElementById('firestore-status').className = 'status status-error';
+                return false;
+            }
+        }
+
+        async function createAdminAccount() {
+            addLog('Création du compte administrateur...', 'info');
+            const adminEmail = 'admin@paindevie.org';
+            const adminPassword = 'Admin123!';
+            
+            try {
+                // Vérifier si l'admin existe déjà
+                try {
+                    const userCredential = await auth.createUserWithEmailAndPassword(adminEmail, adminPassword);
+                    const user = userCredential.user;
+                    
+                    // Ajouter aux admins dans Firestore
+                    await db.collection('admins').doc(user.uid).set({
+                        email: adminEmail,
+                        name: 'Administrateur Principal',
+                        role: 'super_admin',
+                        createdAt: new Date().toISOString(),
+                        createdBy: 'system'
+                    });
+                    
+                    addLog(`Compte admin créé: ${adminEmail}`, 'success');
+                    document.getElementById('admin-email').textContent = adminEmail;
+                    document.getElementById('admin-password').textContent = adminPassword;
+                    document.getElementById('credentials-area').style.display = 'block';
+                    
+                } catch (error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        addLog('Compte admin existe déjà', 'warning');
+                        // Récupérer l'utilisateur existant
+                        const user = await auth.signInWithEmailAndPassword(adminEmail, adminPassword);
+                        addLog('Connexion avec le compte existant', 'success');
+                    } else {
+                        throw error;
+                    }
+                }
+                
+                document.getElementById('admin-status').innerHTML = '<span>✅</span> Compte admin configuré';
+                document.getElementById('admin-status').className = 'status status-success';
+                return true;
+            } catch (error) {
+                addLog('Erreur création admin: ' + error.message, 'error');
+                document.getElementById('admin-status').innerHTML = '<span>❌</span> Erreur';
+                document.getElementById('admin-status').className = 'status status-error';
+                return false;
+            }
+        }
+
+        async function loadDefaultData() {
+            addLog('Chargement des données par défaut...', 'info');
+            
+            const defaultData = {
+                // Contenu historique
+                history: {
+                    texts: [
+                        "L'histoire de l'Église Évangélique des Ambassadeurs pour Christ – Eglise <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.",
+                        "Ce ministère s'est forgé à travers un parcours de patience et de consécration intense. De 2004 à 2008 à Kamina, les fondations furent posées. Entre 2008 et 2015 à Kolwezi, une période de formation spirituelle rigoureuse a permis l'éclosion de l'appel, confirmée plus tard au sein de l'EEAC sous la direction du Révérend Pasteur Théophile Mpoyi.",
+                        "Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ."
+                    ],
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: 'system'
+                },
+                
+                // Vision et Mission
+                vision: {
+                    vision: "Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.",
+                    mission: "Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.",
+                    values: "Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.",
+                    updatedAt: new Date().toISOString()
+                },
+                
+                // Programmes
+                programs: {
+                    morning: "Lundi-Vendredi: 05h30-06h30",
+                    teaching: "Mardi & Vendredi: 16h00-18h00",
+                    sunday: "Dimanche: 08h30-11h00",
+                    updatedAt: new Date().toISOString()
+                },
+                
+                // Message du pasteur
+                pasteur: {
+                    message: "Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine. Nous sommes appelés à être la lumière du monde et le sel de la terre. Ensemble, avançons dans la puissance de l'Esprit !",
+                    title: "Fondateur de l'église Pain de Vie",
+                    updatedAt: new Date().toISOString()
+                },
+                
+                // Contacts
+                contacts: {
+                    address: "44 Avenue Dilolo, Quartier Hewa Bora, Commune Dilala, Kolwezi, RDC",
+                    phone: "+243 123 456 789",
+                    email: "contact@paindevie.org",
+                    social: {
+                        facebook: "https://facebook.com/paindevie",
+                        youtube: "https://youtube.com/paindevie",
+                        instagram: "https://instagram.com/paindevie",
+                        tiktok: "https://tiktok.com/@paindevie"
+                    },
+                    updatedAt: new Date().toISOString()
+                },
+                
+                // Paramètres généraux
+                settings: {
+                    siteName: "Pain de Vie - Ambassadeurs pour Christ",
+                    siteDescription: "Église Évangélique des Ambassadeurs pour Christ",
+                    version: "2.0",
+                    updatedAt: new Date().toISOString()
+                }
+            };
+            
+            try {
+                // Charger chaque document
+                await db.collection('content').doc('history').set(defaultData.history, { merge: true });
+                addLog('Historique chargé', 'success');
+                
+                await db.collection('content').doc('vision').set(defaultData.vision, { merge: true });
+                addLog('Vision/Mission chargées', 'success');
+                
+                await db.collection('content').doc('programs').set(defaultData.programs, { merge: true });
+                addLog('Programmes chargés', 'success');
+                
+                await db.collection('content').doc('pasteur').set(defaultData.pasteur, { merge: true });
+                addLog('Message du pasteur chargé', 'success');
+                
+                await db.collection('content').doc('contacts').set(defaultData.contacts, { merge: true });
+                addLog('Contacts chargés', 'success');
+                
+                await db.collection('settings').doc('general').set(defaultData.settings, { merge: true });
+                addLog('Paramètres généraux chargés', 'success');
+                
+                // Actualités par défaut
+                const defaultNews = [
+                    {
+                        title: 'Grande Conférence sur le Réveil',
+                        content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                        image: 'Seance de cilte 1.jpeg',
+                        author: 'Pasteur Obed Kahozi',
+                        date: new Date().toLocaleDateString(),
+                        timestamp: Date.now()
+                    },
+                    {
+                        title: 'Camp de Jeunesse 2025',
+                        content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                        image: 'Seance de cilte 5.jpeg',
+                        author: 'Département Jeunesse',
+                        date: new Date().toLocaleDateString(),
+                        timestamp: Date.now() - 86400000
+                    },
+                    {
+                        title: 'Baptême Collectif',
+                        content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                        image: 'Seance de cilte 8.jpeg',
+                        author: 'Pasteur Obed Kahozi',
+                        date: new Date().toLocaleDateString(),
+                        timestamp: Date.now() - 172800000
+                    }
+                ];
+                
+                const newsSnapshot = await db.collection('news').get();
+                if (newsSnapshot.empty) {
+                    for (const news of defaultNews) {
+                        await db.collection('news').add(news);
+                    }
+                    addLog('Actualités par défaut chargées', 'success');
+                } else {
+                    addLog('Actualités déjà présentes, chargement ignoré', 'info');
+                }
+                
+                document.getElementById('data-status').innerHTML = '<span>✅</span> Données chargées avec succès';
+                document.getElementById('data-status').className = 'status status-success';
+                return true;
+                
+            } catch (error) {
+                addLog('Erreur chargement données: ' + error.message, 'error');
+                document.getElementById('data-status').innerHTML = '<span>❌</span> Erreur';
+                document.getElementById('data-status').className = 'status status-error';
+                return false;
+            }
+        }
+
+        async function runInstallation() {
+            if (installationRunning) {
+                addLog('Une installation est déjà en cours...', 'warning');
+                return;
+            }
+            
+            const btn = document.getElementById('install-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Installation en cours...';
+            installationRunning = true;
+            
+            addLog('🚀 Démarrage de l\'installation...', 'info');
+            
+            const steps = [
+                { name: 'Firebase', fn: initFirebase },
+                { name: 'Collections', fn: createFirestoreCollections },
+                { name: 'Admin', fn: createAdminAccount },
+                { name: 'Données', fn: loadDefaultData }
+            ];
+            
+            let allSuccess = true;
+            
+            for (const step of steps) {
+                addLog(`Exécution de l'étape: ${step.name}...`, 'info');
+                const success = await step.fn();
+                if (!success) {
+                    allSuccess = false;
+                    addLog(`❌ Échec de l'étape: ${step.name}`, 'error');
+                    break;
+                }
+            }
+            
+            if (allSuccess) {
+                addLog('🎉 Installation terminée avec succès !', 'success');
+                addLog('🔐 Vous pouvez maintenant vous connecter avec les identifiants ci-dessus', 'success');
+                btn.innerHTML = '✅ Installation terminée !';
+                btn.style.background = '#28a745';
+            } else {
+                addLog('❌ Installation interrompue à cause d\'une erreur', 'error');
+                btn.innerHTML = '🔄 Réessayer l\'installation';
+                btn.disabled = false;
+            }
+            
+            installationRunning = false;
+        }
+        
+        // Vérifier si l'installation est déjà effectuée
+        async function checkExistingInstall() {
+            try {
+                await initFirebase();
+                const settingsDoc = await db.collection('settings').doc('general').get();
+                if (settingsDoc.exists) {
+                    addLog('ℹ️ Une installation existe déjà. Vous pouvez réinitialiser si nécessaire.', 'info');
+                }
+            } catch (error) {
+                addLog('Aucune installation existante détectée', 'info');
+            }
+        }
+        
+        // Auto-vérification au chargement
+        setTimeout(checkExistingInstall, 1000);
+    </script>
+</body>
+</html>
