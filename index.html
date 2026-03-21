@@ -6,7 +6,7 @@
     <title>Pain de Vie | Ambassadeurs pour Christ</title>
     
     <!-- Polices premium -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@500;600;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,22 +18,28 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ===== VARIABLES ===== */
+        /* ===== VARIABLES MODERNES ===== */
         :root {
-            --primary: #0a0a0a;
-            --secondary: #1a1a1a;
-            --accent: #d4af37;
-            --accent-light: #e9c469;
-            --accent-gradient: linear-gradient(135deg, #d4af37 0%, #f5d742 50%, #d4af37 100%);
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --accent-light: #fbbf24;
+            --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
             --white: #ffffff;
-            --off-white: #faf9f7;
-            --light-bg: #f5f3f0;
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --shadow-sm: 0 10px 30px -15px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 20px 40px -20px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
-            --transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-            --transition-fast: all 0.4s ease;
+            --off-white: #f8fafc;
+            --light-bg: #f1f5f9;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --glass-bg: rgba(255, 255, 255, 0.98);
+            --glass-blur: blur(20px);
+            --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -50,118 +56,103 @@
             scroll-behavior: smooth;
         }
 
-        /* ===== SCROLLBAR ===== */
+        /* ===== SCROLLBAR PERSONNALISÉE ===== */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: var(--light-bg);
         }
         ::-webkit-scrollbar-thumb {
             background: var(--accent);
-            border-radius: 5px;
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #b8960c;
+            background: var(--accent-dark);
         }
 
-        /* ===== NAVIGATION ===== */
+        /* ===== NAVIGATION PREMIUM ===== */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 5%;
+            padding: 1rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            transition: var(--transition-fast);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+            transition: var(--transition);
         }
 
         nav.scrolled {
-            padding: 0.8rem 5%;
+            padding: 0.75rem 5%;
             background: rgba(255, 255, 255, 0.98);
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
             font-weight: 900;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             position: relative;
             cursor: pointer;
         }
 
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent-gradient);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.6s ease;
-        }
-
-        .logo:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        /* ===== MENU BURGER ===== */
+        /* ===== MENU BURGER ANIMÉ ===== */
         .nav-toggle {
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             z-index: 2001;
             background: none;
             border: none;
-            padding: 10px;
-        }
-
-        .nav-toggle span {
-            width: 35px;
-            height: 2px;
-            background: var(--primary);
+            padding: 12px;
             transition: var(--transition);
         }
 
+        .nav-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
         .nav-toggle.active span:nth-child(1) {
-            transform: translateY(10px) rotate(45deg);
+            transform: translateY(8px) rotate(45deg);
             background: var(--accent);
         }
         .nav-toggle.active span:nth-child(2) {
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-15px);
         }
         .nav-toggle.active span:nth-child(3) {
-            transform: translateY(-10px) rotate(-45deg);
+            transform: translateY(-8px) rotate(-45deg);
             background: var(--accent);
         }
 
-        /* ===== MENU OVERLAY ===== */
+        /* ===== MENU OVERLAY LUXE ===== */
         .menu-overlay {
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
             height: 100vh;
-            background: rgba(10, 10, 10, 0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             z-index: 2000;
-            transition: var(--transition);
+            transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -175,41 +166,48 @@
         .menu-overlay a {
             color: var(--white);
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 2.5rem;
             text-decoration: none;
-            margin: 1rem 0;
-            transition: 0.4s;
+            margin: 0.75rem 0;
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .menu-overlay a::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: -100%;
-            width: 100%;
+            bottom: -5px;
+            left: 0;
+            width: 0;
             height: 2px;
             background: var(--accent-gradient);
-            transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: width 0.4s ease;
         }
 
         .menu-overlay a:hover {
             color: var(--accent);
-            transform: translateX(20px);
+            transform: translateX(15px);
         }
 
         .menu-overlay a:hover::before {
-            left: 0;
+            width: 100%;
         }
 
         .admin-link {
-            font-size: 1.5rem !important;
-            color: var(--accent) !important;
-            margin-top: 20px !important;
+            font-size: 1.25rem !important;
+            background: rgba(245, 158, 11, 0.2);
             border: 1px solid var(--accent);
-            padding: 10px 30px !important;
+            padding: 12px 32px !important;
             border-radius: 50px;
+            margin-top: 30px !important;
+        }
+
+        .admin-link:hover {
+            background: var(--accent);
+            color: var(--primary) !important;
+            transform: translateY(-3px) !important;
         }
 
         /* ===== HERO SECTION ===== */
@@ -230,15 +228,11 @@
             z-index: -1;
         }
 
-        .swiper-slide {
-            position: relative;
-        }
-
         .swiper-slide::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
             z-index: 1;
         }
 
@@ -246,8 +240,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.1);
-            transition: transform 8s ease;
+            transform: scale(1.05);
+            transition: transform 12s ease;
         }
 
         .swiper-slide-active .slide-bg {
@@ -257,47 +251,47 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 1200px;
-            padding: 0 20px;
+            max-width: 1000px;
+            padding: 0 24px;
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 8px;
-            margin-bottom: 20px;
+            letter-spacing: 6px;
+            margin-bottom: 24px;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.5s;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+            font-weight: 500;
         }
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 12vw, 7rem);
+            font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 900;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.8s;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-content .subtitle {
-            font-size: 1.1rem;
-            letter-spacing: 4px;
+            font-size: 1rem;
+            letter-spacing: 3px;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 1.1s;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.9s;
+            font-weight: 400;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -307,18 +301,19 @@
 
         .scroll-indicator {
             position: absolute;
-            bottom: 40px;
+            bottom: 32px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
             animation: bounce 2s infinite;
+            cursor: pointer;
         }
 
         .scroll-indicator i {
             color: var(--white);
-            font-size: 2rem;
+            font-size: 1.5rem;
             opacity: 0.7;
-            transition: var(--transition-fast);
+            transition: var(--transition);
         }
 
         .scroll-indicator:hover i {
@@ -328,13 +323,13 @@
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-30px);}
-            60% {transform: translateX(-50%) translateY(-15px);}
+            40% {transform: translateX(-50%) translateY(-20px);}
+            60% {transform: translateX(-50%) translateY(-10px);}
         }
 
-        /* ===== SECTIONS ===== */
+        /* ===== SECTIONS GÉNÉRALES ===== */
         section {
-            padding: 140px 10%;
+            padding: 100px 8%;
             position: relative;
         }
 
@@ -342,40 +337,33 @@
             color: var(--accent);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            font-size: 0.85rem;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-align: center;
             position: relative;
         }
 
-        .section-tag::before,
-        .section-tag::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 50px;
-            height: 1px;
-            background: var(--accent-gradient);
-        }
-
-        .section-tag::before {
-            left: calc(50% - 120px);
-        }
-
-        .section-tag::after {
-            right: calc(50% - 120px);
-        }
-
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3.8rem;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
             text-align: center;
-            margin-bottom: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 48px;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 3px;
         }
 
         /* ===== PROGRAMMES ===== */
@@ -385,34 +373,35 @@
         }
 
         #programmes .section-title {
-            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--white);
+        }
+
+        #programmes .section-title::after {
+            background: var(--accent-gradient);
         }
 
         .programmes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
         }
 
         .programme-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            padding: 40px 30px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 24px;
+            padding: 32px 28px;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
         }
 
         .programme-card:hover {
-            transform: translateY(-15px);
+            transform: translateY(-8px);
             border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .programme-card::before {
@@ -420,128 +409,127 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 5px;
-            height: 100%;
+            width: 100%;
+            height: 4px;
             background: var(--accent-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .programme-card:hover::before {
+            transform: scaleX(1);
         }
 
         .programme-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--accent);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .programme-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 16px;
         }
 
         .programme-days {
             color: var(--accent);
             font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .programme-time {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: var(--white);
         }
 
         .programme-desc {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.7);
             line-height: 1.6;
+            font-size: 0.9rem;
         }
 
         .special-programme {
             background: var(--accent-gradient);
             color: var(--primary);
-            grid-column: span 2;
+            border: none;
         }
 
         .special-programme .programme-icon,
         .special-programme .programme-days,
-        .special-programme h3 {
+        .special-programme h3,
+        .special-programme .programme-time {
             color: var(--primary);
+        }
+
+        .special-programme .programme-desc {
+            color: rgba(0,0,0,0.7);
         }
 
         /* ===== HISTORIQUE ===== */
         .history-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            gap: 60px;
             align-items: center;
         }
 
         .history-text p {
-            font-size: 1.1rem;
-            line-height: 2.2;
-            color: #444;
-            margin-bottom: 30px;
-            position: relative;
-            padding-left: 30px;
-            border-left: 3px solid transparent;
-            border-image: var(--accent-gradient);
-            border-image-slice: 1;
-            transition: var(--transition-fast);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--gray-600);
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent);
+            transition: var(--transition);
         }
 
         .history-text p:hover {
-            transform: translateX(10px);
+            transform: translateX(8px);
+            border-left-color: var(--accent-dark);
         }
 
         .history-image {
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
         }
 
         .history-image img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 1.2s ease;
+            transition: transform 0.8s ease;
         }
 
         .history-image:hover img {
             transform: scale(1.05);
         }
 
-        .history-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, var(--accent) 0%, transparent 70%);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 1;
-        }
-
-        .history-image:hover::before {
-            opacity: 0.3;
-        }
-
-        /* ===== CARTES VISION ===== */
+        /* ===== VISION & MISSION ===== */
         .vision-mission {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
         }
 
         .v-card {
             background: var(--white);
-            padding: 50px 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 40px 32px;
+            border-radius: 24px;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .v-card::before {
@@ -550,17 +538,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: var(--accent-gradient);
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.6s ease;
+            transition: transform 0.5s ease;
         }
 
         .v-card:hover {
-            transform: translateY(-20px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
         }
 
         .v-card:hover::before {
@@ -569,60 +556,58 @@
 
         .v-card i {
             color: var(--accent);
-            font-size: 3rem;
-            margin-bottom: 25px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             transition: var(--transition);
         }
 
         .v-card:hover i {
-            transform: scale(1.2) rotate(360deg);
+            transform: scale(1.1);
         }
 
         .v-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            color: var(--primary);
         }
 
         .v-card p {
-            color: #666;
-            line-height: 1.8;
-            font-size: 1.05rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            font-size: 0.95rem;
         }
 
         /* ===== ACTUALITÉS ===== */
         #actualites {
-            background: linear-gradient(135deg, var(--white) 0%, var(--light-bg) 100%);
+            background: linear-gradient(135deg, var(--off-white) 0%, var(--light-bg) 100%);
         }
 
         .actualites-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
         }
 
         .actualite-card {
             background: var(--white);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
             transition: var(--transition);
-            position: relative;
-            border: 1px solid rgba(212, 175, 55, 0.1);
             cursor: pointer;
+            border: 1px solid rgba(245, 158, 11, 0.1);
         }
 
         .actualite-card:hover {
-            transform: translateY(-15px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent);
         }
 
         .actualite-image {
-            height: 250px;
+            height: 220px;
             overflow: hidden;
             position: relative;
         }
@@ -631,70 +616,60 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 1.2s ease;
+            transition: transform 0.6s ease;
         }
 
         .actualite-card:hover .actualite-image img {
-            transform: scale(1.1);
-        }
-
-        .actualite-image::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .actualite-card:hover .actualite-image::after {
-            opacity: 1;
+            transform: scale(1.05);
         }
 
         .actualite-date {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 16px;
+            right: 16px;
             background: var(--accent);
-            color: var(--white);
-            padding: 10px 15px;
+            color: var(--primary);
+            padding: 6px 12px;
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             font-weight: 600;
             z-index: 2;
             box-shadow: var(--shadow-sm);
         }
 
         .actualite-content {
-            padding: 30px;
+            padding: 24px;
         }
 
         .actualite-content h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
             color: var(--primary);
         }
 
         .actualite-content p {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 20px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
         }
 
         .actualite-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
         }
 
         .actualite-author {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--gray-600);
         }
 
         .actualite-author i {
@@ -705,11 +680,12 @@
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
-            transition: var(--transition-fast);
+            font-size: 0.85rem;
+            transition: var(--transition);
         }
 
         .actualite-lire-plus:hover {
-            transform: translateX(10px);
+            transform: translateX(5px);
         }
 
         /* ===== GALERIE ===== */
@@ -719,38 +695,36 @@
         }
 
         #galerie .section-title {
-            background: linear-gradient(135deg, var(--white) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--white);
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
         }
 
         .gallery-item {
             position: relative;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             aspect-ratio: 1;
             cursor: pointer;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
             transition: var(--transition);
         }
 
         .gallery-item:hover {
-            transform: scale(1.05);
-            z-index: 10;
+            transform: scale(1.02);
+            box-shadow: var(--shadow-2xl);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            transition: transform 0.6s ease;
         }
 
         .gallery-item:hover img {
@@ -761,7 +735,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
             opacity: 0;
             transition: var(--transition);
             z-index: 1;
@@ -779,7 +753,7 @@
             padding: 20px;
             color: var(--white);
             transform: translateY(100%);
-            transition: var(--transition);
+            transition: transform 0.4s ease;
             z-index: 2;
         }
 
@@ -789,12 +763,12 @@
 
         .gallery-caption h4 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            margin-bottom: 4px;
         }
 
         .gallery-caption p {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             opacity: 0.8;
         }
 
@@ -803,7 +777,7 @@
             top: 20px;
             right: 20px;
             color: var(--white);
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             opacity: 0;
             transform: scale(0);
             transition: var(--transition);
@@ -815,72 +789,68 @@
             transform: scale(1);
         }
 
-        /* ===== PASTEUR SECTION ===== */
-        #pasteur {
-            background: linear-gradient(135deg, var(--light-bg) 0%, var(--white) 100%);
-        }
-
+        /* ===== PASTEUR ===== */
         .pasteur-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 60px;
             align-items: center;
         }
 
         .pasteur-image {
             position: relative;
-            border-radius: 30px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-xl);
         }
 
         .pasteur-image img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 1.2s ease;
+            transition: transform 0.8s ease;
         }
 
         .pasteur-image:hover img {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .pasteur-content h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: var(--primary);
         }
 
         .pasteur-content h4 {
             color: var(--accent);
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            font-weight: 500;
         }
 
         .pasteur-content p {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 24px;
         }
 
         .pasteur-quote {
             font-style: italic;
-            font-size: 1.2rem;
-            padding: 30px;
-            background: var(--white);
+            font-size: 1rem;
+            padding: 24px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             border-radius: 20px;
-            border-left: 5px solid var(--accent);
-            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--accent);
+            color: var(--primary);
         }
 
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, var(--primary) 0%, #1a1a1a 100%);
-            color: #aaa;
-            padding: 120px 10% 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
+            color: #94a3b8;
+            padding: 80px 8% 40px;
             position: relative;
-            overflow: hidden;
         }
 
         footer::before {
@@ -889,14 +859,14 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: var(--accent-gradient);
         }
 
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 48px;
             position: relative;
             z-index: 2;
         }
@@ -904,8 +874,8 @@
         .footer-grid h4 {
             color: var(--white);
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
             position: relative;
         }
 
@@ -914,27 +884,28 @@
             position: absolute;
             bottom: -10px;
             left: 0;
-            width: 50px;
+            width: 40px;
             height: 2px;
             background: var(--accent-gradient);
         }
 
         .footer-grid p {
-            line-height: 2;
-            margin-bottom: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
         }
 
         .social-links {
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
 
         .social-links a {
             color: var(--white);
-            font-size: 1.5rem;
-            transition: var(--transition-fast);
-            width: 50px;
-            height: 50px;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(255,255,255,0.1);
             display: flex;
@@ -946,90 +917,18 @@
         .social-links a:hover {
             background: var(--accent);
             color: var(--primary);
-            transform: translateY(-5px) rotate(360deg);
+            transform: translateY(-3px);
         }
 
         .copyright {
             text-align: center;
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            font-size: 0.9rem;
+            margin-top: 60px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
+            font-size: 0.8rem;
         }
 
-        /* ===== ADMIN PANEL ===== */
-        #admin-panel {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(20px);
-            z-index: 5000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .admin-modal {
-            background: linear-gradient(135deg, #fff 0%, var(--light-bg) 100%);
-            padding: 60px;
-            width: 450px;
-            border-radius: 30px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--accent);
-            transform: scale(0.9);
-            animation: modalAppear 0.5s ease forwards;
-        }
-
-        @keyframes modalAppear {
-            to {
-                transform: scale(1);
-            }
-        }
-
-        .admin-modal h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--primary);
-            margin-bottom: 40px;
-            text-align: center;
-            font-size: 2.2rem;
-        }
-
-        .admin-modal input {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: var(--transition-fast);
-        }
-
-        .admin-modal input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .admin-modal button {
-            width: 100%;
-            padding: 15px;
-            background: var(--accent-gradient);
-            color: var(--white);
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            margin-bottom: 10px;
-        }
-
-        .admin-modal button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-        }
-
-        /* ===== DASHBOARD ADMIN ===== */
+        /* ===== DASHBOARD ADMIN PREMIUM ===== */
         #admin-dash {
             display: none;
             position: fixed;
@@ -1037,152 +936,192 @@
             background: var(--light-bg);
             z-index: 4000;
             overflow-y: auto;
-            padding: 40px;
         }
 
-        .admin-header {
+        .admin-dash-header {
             background: var(--white);
-            padding: 30px 40px;
-            border-radius: 20px;
+            padding: 24px 32px;
+            border-radius: 0 0 24px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
             box-shadow: var(--shadow-md);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
-        .admin-header h2 {
+        .admin-dash-header h2 {
             font-family: 'Playfair Display', serif;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 2rem;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
-        .admin-header button {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-fast);
+        .admin-dash-header h2 i {
+            color: var(--accent);
+            margin-right: 12px;
+        }
+
+        .admin-user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
         }
 
-        .admin-header button:hover {
-            background: #c82333;
-            transform: translateY(-3px);
+        .admin-user-info span {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .admin-dash-content {
+            padding: 0 32px 32px;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
         .admin-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 32px;
         }
 
         .admin-card {
             background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-sm);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
             border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .admin-card:hover {
+            box-shadow: var(--shadow-xl);
         }
 
         .admin-card h3 {
             font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 24px;
             color: var(--primary);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .admin-card h3 i {
+            color: var(--accent);
+            font-size: 1.3rem;
         }
 
         .admin-card h4 {
-            margin: 20px 0 15px;
-            color: var(--accent);
+            color: var(--gray-700);
+            margin: 20px 0 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .admin-card textarea,
-        .admin-card input[type="text"],
-        .admin-card input[type="file"] {
+        .admin-card input,
+        .admin-card textarea {
             width: 100%;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            margin-bottom: 16px;
+        }
+
+        .admin-card input:focus,
+        .admin-card textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
         .btn-admin {
             background: var(--accent);
-            color: var(--white);
-            padding: 12px 30px;
+            color: var(--primary);
+            padding: 10px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            transition: var(--transition-fast);
-            margin-right: 10px;
+            transition: var(--transition);
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
         }
 
         .btn-admin:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .btn-danger {
-            background: #dc3545;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
+            background: var(--accent-dark);
+            transform: translateY(-2px);
         }
 
         .btn-success {
-            background: #28a745;
+            background: #10b981;
+            color: white;
         }
 
         .btn-success:hover {
-            background: #218838;
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
         }
 
         .publications-list {
             margin-top: 20px;
             max-height: 400px;
             overflow-y: auto;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
         }
 
         .publication-item {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            background: var(--light-bg);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: var(--transition);
         }
 
-        .publication-item button {
-            padding: 5px 15px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .default-badge {
-            background: var(--accent);
-            color: var(--primary);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: 10px;
+        .publication-item:hover {
+            background: #e2e8f0;
         }
 
         /* ===== MODAL ===== */
@@ -1194,12 +1133,13 @@
             z-index: 6000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
             background: var(--white);
-            padding: 40px;
-            border-radius: 20px;
+            padding: 32px;
+            border-radius: 24px;
             max-width: 600px;
             width: 90%;
             max-height: 80vh;
@@ -1208,22 +1148,24 @@
 
         .modal-content h3 {
             font-family: 'Playfair Display', serif;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
         }
 
-        /* ===== NOTIFICATIONS ===== */
+        /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 25px;
+            padding: 12px 24px;
             background: var(--accent);
             color: var(--primary);
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: var(--shadow-lg);
             z-index: 10000;
             display: none;
             animation: slideIn 0.3s ease;
+            font-weight: 500;
         }
 
         @keyframes slideIn {
@@ -1238,38 +1180,48 @@
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 1200px) {
+        @media (max-width: 1024px) {
             section {
-                padding: 100px 5%;
+                padding: 80px 5%;
             }
             .history-grid,
             .pasteur-grid {
-                gap: 50px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .section-title {
-                font-size: 2.8rem;
-            }
-            .history-grid,
-            .pasteur-grid {
-                grid-template-columns: 1fr;
-            }
-            .menu-overlay a {
-                font-size: 2rem;
-            }
-            .special-programme {
-                grid-column: span 1;
+                gap: 40px;
             }
             .admin-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .history-grid,
+            .pasteur-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-overlay a {
+                font-size: 1.8rem;
+            }
+            .special-programme {
+                grid-column: span 1;
+            }
+            .admin-dash-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            .admin-dash-content {
+                padding: 0 16px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+            .programmes-grid,
+            .vision-mission,
+            .actualites-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1305,15 +1257,13 @@
     <!-- Hero avec carrousel -->
     <section id="accueil">
         <div class="swiper-hero swiper-container">
-            <div class="swiper-wrapper" id="hero-slides">
-                <!-- Slides will be populated by JavaScript -->
-            </div>
+            <div class="swiper-wrapper" id="hero-slides"></div>
         </div>
 
         <div class="hero-content">
-            <p data-aos="fade-up" data-aos-duration="1000">Bienvenue à l'Eglise</p>
-            <h1 data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Pain De Vie</h1>
-            <p class="subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">Eglise Evangelique Des Ambassadeurs Pour Christ</p>
+            <p data-aos="fade-up">Bienvenue à l'Eglise</p>
+            <h1 data-aos="fade-up" data-aos-delay="200">Pain De Vie</h1>
+            <p class="subtitle" data-aos="fade-up" data-aos-delay="400">Eglise Evangelique Des Ambassadeurs Pour Christ</p>
         </div>
 
         <a href="#historique" class="scroll-indicator">
@@ -1336,46 +1286,35 @@
     </section>
 
     <!-- Section Vision & Mission -->
-    <section id="vision" style="background: linear-gradient(135deg, #f0ede8 0%, #e8e1d8 100%);">
+    <section id="vision" style="background: linear-gradient(135deg, #fef9f0 0%, #fef3e2 100%);">
         <span class="section-tag" data-aos="fade-up">Nos Fondements</span>
         <h2 class="section-title" data-aos="fade-up">Vision & Mission</h2>
-        <div class="vision-mission" id="vision-content">
-            <!-- Will be populated by JavaScript -->
-        </div>
+        <div class="vision-mission" id="vision-content"></div>
     </section>
 
     <!-- Section Programmes -->
     <section id="programmes">
         <span class="section-tag" data-aos="fade-up">Nos Rendez-vous</span>
         <h2 class="section-title" data-aos="fade-up">Programmes des Cultes</h2>
-        
-        <div class="programmes-grid" id="programmes-content">
-            <!-- Will be populated by JavaScript -->
-        </div>
+        <div class="programmes-grid" id="programmes-content"></div>
     </section>
 
     <!-- Section Actualités -->
     <section id="actualites">
         <span class="section-tag" data-aos="fade-up">Restez Informés</span>
         <h2 class="section-title" data-aos="fade-up">Dernières Actualités</h2>
-        
-        <div class="actualites-grid" id="actualites-grid">
-            <!-- Les actualités seront chargées dynamiquement -->
-        </div>
+        <div class="actualites-grid" id="actualites-grid"></div>
     </section>
 
     <!-- Section Pasteur -->
     <section id="pasteur">
         <span class="section-tag" data-aos="fade-up">Notre Berger</span>
         <h2 class="section-title" data-aos="fade-up">Pasteur Obed Kahozi</h2>
-        
         <div class="pasteur-grid">
             <div class="pasteur-image" data-aos="fade-right">
                 <img src="" alt="Pasteur Obed Kahozi en train de prêcher" id="pasteur-preaching">
             </div>
-            <div class="pasteur-content" data-aos="fade-left" id="pasteur-content">
-                <!-- Will be populated by JavaScript -->
-            </div>
+            <div class="pasteur-content" data-aos="fade-left" id="pasteur-content"></div>
         </div>
     </section>
 
@@ -1383,10 +1322,7 @@
     <section id="galerie">
         <span class="section-tag" data-aos="fade-up">Médiathèque</span>
         <h2 class="section-title" data-aos="fade-up">Galerie Photos</h2>
-        
-        <div class="gallery-grid" id="gallery-grid">
-            <!-- Les images seront chargées dynamiquement -->
-        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
     </section>
 
     <!-- Footer -->
@@ -1394,9 +1330,9 @@
         <div class="footer-grid">
             <div data-aos="fade-up">
                 <h4>PAIN DE VIE</h4>
-                <p><i class="fas fa-map-marker-alt" style="color: var(--accent); margin-right: 10px;"></i> <span id="address">44 Avenue Dilolo, Quartier Hewa Bora<br>Commune Dilala, Kolwezi, RDC</span></p>
-                <p><i class="fas fa-phone" style="color: var(--accent); margin-right: 10px;"></i> <span id="phone">+243 123 456 789</span></p>
-                <p><i class="fas fa-envelope" style="color: var(--accent); margin-right: 10px;"></i> <span id="email">contact@paindevie.org</span></p>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--accent); margin-right: 10px;"></i> <span id="address"></span></p>
+                <p><i class="fas fa-phone" style="color: var(--accent); margin-right: 10px;"></i> <span id="phone"></span></p>
+                <p><i class="fas fa-envelope" style="color: var(--accent); margin-right: 10px;"></i> <span id="email"></span></p>
             </div>
             <div data-aos="fade-up" data-aos-delay="100">
                 <h4>Horaires des Cultes</h4>
@@ -1404,9 +1340,7 @@
             </div>
             <div data-aos="fade-up" data-aos-delay="200">
                 <h4>Suivez-nous</h4>
-                <div class="social-links" id="social-links">
-                    <!-- Will be populated by JavaScript -->
-                </div>
+                <div class="social-links" id="social-links"></div>
             </div>
         </div>
         <div class="copyright">
@@ -1416,160 +1350,114 @@
     </footer>
 
     <!-- Admin Login Modal -->
-    <div id="admin-panel">
-        <div class="admin-modal">
-            <h2>⚡ Accès Administrateur</h2>
-            <input type="email" id="admin-email" placeholder="Email" value="admin@paindevie.org">
-            <input type="password" id="admin-password" placeholder="Mot de passe" value="Admin123!">
-            <button onclick="handleAdminLogin()">Se connecter</button>
-            <button onclick="hideAdminLogin()" style="background: #666;">Annuler</button>
-            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-                <a href="#" onclick="showRegisterForm()">Créer un compte admin</a>
-            </p>
-        </div>
-    </div>
-
-    <!-- Admin Register Modal -->
-    <div id="admin-register" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 5001; align-items: center; justify-content: center;">
-        <div class="admin-modal">
-            <h2>📝 Créer un compte admin</h2>
-            <input type="email" id="reg-email" placeholder="Email" value="newadmin@paindevie.org">
-            <input type="password" id="reg-password" placeholder="Mot de passe (min. 6 caractères)" value="Admin123!">
-            <input type="password" id="reg-confirm" placeholder="Confirmer le mot de passe" value="Admin123!">
-            <input type="text" id="reg-name" placeholder="Nom complet" value="Administrateur">
-            <button onclick="handleAdminRegister()" class="btn-success">Créer le compte</button>
-            <button onclick="hideRegisterForm()" style="background: #666;">Annuler</button>
+    <div id="admin-panel" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 5000; align-items: center; justify-content: center;">
+        <div style="background: var(--white); padding: 48px; border-radius: 32px; width: 420px; max-width: 90%; box-shadow: var(--shadow-2xl);">
+            <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 32px; text-align: center;">⚡ Accès Admin</h2>
+            <input type="email" id="admin-email" placeholder="Email" style="width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 16px;">
+            <input type="password" id="admin-password" placeholder="Mot de passe" style="width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 24px;">
+            <button onclick="handleAdminLogin()" style="width: 100%; padding: 14px; background: var(--accent-gradient); color: var(--primary); border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-bottom: 12px;">Se connecter</button>
+            <button onclick="hideAdminLogin()" style="width: 100%; padding: 14px; background: #64748b; color: white; border: none; border-radius: 12px; cursor: pointer;">Annuler</button>
         </div>
     </div>
 
     <!-- Admin Dashboard -->
     <div id="admin-dash">
-        <div class="admin-header">
-            <h2><i class="fas fa-crown" style="color: var(--accent); margin-right: 15px;"></i>Tableau de Bord Administrateur</h2>
-            <div>
-                <span id="admin-email-display" style="margin-right: 20px; color: var(--accent);"></span>
-                <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+        <div class="admin-dash-header">
+            <h2><i class="fas fa-crown"></i> Tableau de Bord Administrateur</h2>
+            <div class="admin-user-info">
+                <span id="admin-email-display"></span>
+                <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
             </div>
         </div>
-
-        <div class="admin-grid">
-            <!-- Gestion Contenu Général -->
-            <div class="admin-card">
-                <h3><i class="fas fa-globe" style="color: var(--accent); margin-right: 10px;"></i>Contenu du Site</h3>
-                
-                <h4>Historique</h4>
-                <textarea id="edit-history" placeholder="Contenu de l'historique..." rows="5"></textarea>
-                <button onclick="saveContent('history')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
-                
-                <h4 style="margin-top: 20px;">Message du Pasteur</h4>
-                <textarea id="edit-pasteur-message" placeholder="Message..." rows="3"></textarea>
-                <button onclick="saveContent('pasteur-message')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
-                
-                <h4 style="margin-top: 20px;">Vision</h4>
-                <input type="text" id="edit-vision" placeholder="Texte de la vision">
-                <button onclick="saveContent('vision')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
-                
-                <h4 style="margin-top: 20px;">Mission</h4>
-                <input type="text" id="edit-mission" placeholder="Texte de la mission">
-                <button onclick="saveContent('mission')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
-                
-                <h4 style="margin-top: 20px;">Valeurs</h4>
-                <input type="text" id="edit-values" placeholder="Texte des valeurs">
-                <button onclick="saveContent('values')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
-            </div>
-
-            <!-- Gestion Actualités -->
-            <div class="admin-card">
-                <h3><i class="fas fa-newspaper" style="color: var(--accent); margin-right: 10px;"></i>Actualités</h3>
-                
-                <h4>Ajouter une actualité</h4>
-                <input type="text" id="news-title" placeholder="Titre">
-                <textarea id="news-content" placeholder="Contenu..." rows="4"></textarea>
-                <input type="file" id="news-image" accept="image/*">
-                <input type="text" id="news-author" placeholder="Auteur (optionnel)" value="Pasteur Obed Kahozi">
-                <button onclick="addNews()" class="btn-admin btn-success"><i class="fas fa-plus"></i> Publier</button>
-                
-                <h4 style="margin-top: 30px;">Actualités publiées</h4>
-                <div class="publications-list" id="news-admin-list">
-                    <!-- Les actualités apparaîtront ici -->
+        <div class="admin-dash-content">
+            <div class="admin-grid">
+                <!-- Gestion Contenu Général -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-globe"></i> Contenu du Site</h3>
+                    <h4>📖 Historique</h4>
+                    <textarea id="edit-history" rows="6" placeholder="Contenu de l'historique..."></textarea>
+                    <button onclick="saveContent('history')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                    
+                    <h4>💬 Message du Pasteur</h4>
+                    <textarea id="edit-pasteur-message" rows="3" placeholder="Message..."></textarea>
+                    <button onclick="saveContent('pasteur-message')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                    
+                    <h4>👁️ Vision</h4>
+                    <input type="text" id="edit-vision" placeholder="Texte de la vision">
+                    <button onclick="saveContent('vision')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                    
+                    <h4>🎯 Mission</h4>
+                    <input type="text" id="edit-mission" placeholder="Texte de la mission">
+                    <button onclick="saveContent('mission')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                    
+                    <h4>⭐ Valeurs</h4>
+                    <input type="text" id="edit-values" placeholder="Texte des valeurs">
+                    <button onclick="saveContent('values')" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
                 </div>
-            </div>
 
-            <!-- Gestion Galerie -->
-            <div class="admin-card">
-                <h3><i class="fas fa-images" style="color: var(--accent); margin-right: 10px;"></i>Galerie</h3>
-                
-                <h4>Ajouter des images</h4>
-                <input type="file" id="gallery-upload" accept="image/*" multiple>
-                <input type="text" id="gallery-caption" placeholder="Légende (optionnel)">
-                <button onclick="uploadGalleryImages()" class="btn-admin btn-success"><i class="fas fa-upload"></i> Uploader</button>
-                
-                <h4 style="margin-top: 30px;">Images de la galerie</h4>
-                <div class="publications-list" id="gallery-admin-list">
-                    <!-- Les images apparaîtront ici -->
+                <!-- Gestion Actualités -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-newspaper"></i> Actualités</h3>
+                    <h4>➕ Ajouter une actualité</h4>
+                    <input type="text" id="news-title" placeholder="Titre">
+                    <textarea id="news-content" rows="4" placeholder="Contenu..."></textarea>
+                    <input type="file" id="news-image" accept="image/*">
+                    <input type="text" id="news-author" placeholder="Auteur">
+                    <button onclick="addNews()" class="btn-admin btn-success"><i class="fas fa-plus"></i> Publier</button>
+                    
+                    <h4>📰 Actualités publiées</h4>
+                    <div class="publications-list" id="news-admin-list"></div>
                 </div>
-            </div>
 
-            <!-- Gestion Programmes -->
-            <div class="admin-card">
-                <h3><i class="fas fa-calendar-alt" style="color: var(--accent); margin-right: 10px;"></i>Programmes</h3>
-                
-                <h4>Culte Matinal</h4>
-                <input type="text" id="program-morning" placeholder="Horaires" value="Lundi-Vendredi: 05h30-06h30">
-                
-                <h4>Enseignement & Prière</h4>
-                <input type="text" id="program-teaching" placeholder="Horaires" value="Mardi & Vendredi: 16h00-18h00">
-                
-                <h4>Culte du Dimanche</h4>
-                <input type="text" id="program-sunday" placeholder="Horaires" value="Dimanche: 08h30-11h00">
-                
-                <button onclick="savePrograms()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les programmes</button>
-            </div>
-
-            <!-- Gestion Contacts -->
-            <div class="admin-card">
-                <h3><i class="fas fa-address-book" style="color: var(--accent); margin-right: 10px;"></i>Coordonnées</h3>
-                
-                <h4>Adresse</h4>
-                <textarea id="contact-address" rows="2">44 Avenue Dilolo, Quartier Hewa Bora, Commune Dilala, Kolwezi, RDC</textarea>
-                
-                <h4>Téléphone</h4>
-                <input type="text" id="contact-phone" value="+243 123 456 789">
-                
-                <h4>Email</h4>
-                <input type="email" id="contact-email" value="contact@paindevie.org">
-                
-                <h4>Liens sociaux</h4>
-                <input type="text" id="social-facebook" placeholder="Facebook URL" value="https://facebook.com/paindevie">
-                <input type="text" id="social-youtube" placeholder="YouTube URL" value="https://youtube.com/paindevie">
-                <input type="text" id="social-instagram" placeholder="Instagram URL" value="https://instagram.com/paindevie">
-                <input type="text" id="social-tiktok" placeholder="TikTok URL" value="https://tiktok.com/@paindevie">
-                
-                <button onclick="saveContacts()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder les contacts</button>
-            </div>
-
-            <!-- Gestion des administrateurs -->
-            <div class="admin-card">
-                <h3><i class="fas fa-user-shield" style="color: var(--accent); margin-right: 10px;"></i>Gestion des admins</h3>
-                
-                <h4>Ajouter un administrateur</h4>
-                <input type="email" id="new-admin-email" placeholder="Email du nouvel admin">
-                <button onclick="addAdmin()" class="btn-admin btn-success"><i class="fas fa-user-plus"></i> Ajouter</button>
-                
-                <h4 style="margin-top: 30px;">Administrateurs actuels</h4>
-                <div class="publications-list" id="admins-list">
-                    <!-- Liste des admins -->
+                <!-- Gestion Galerie -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-images"></i> Galerie</h3>
+                    <h4>➕ Ajouter des images</h4>
+                    <input type="file" id="gallery-upload" accept="image/*" multiple>
+                    <input type="text" id="gallery-caption" placeholder="Légende">
+                    <button onclick="uploadGalleryImages()" class="btn-admin btn-success"><i class="fas fa-upload"></i> Uploader</button>
+                    
+                    <h4>🖼️ Images de la galerie</h4>
+                    <div class="publications-list" id="gallery-admin-list"></div>
                 </div>
-            </div>
 
-            <!-- Statistiques -->
-            <div class="admin-card">
-                <h3><i class="fas fa-chart-line" style="color: var(--accent); margin-right: 10px;"></i>Statistiques</h3>
-                <p><i class="fas fa-image"></i> Images en galerie: <span id="stats-images">0</span></p>
-                <p><i class="fas fa-newspaper"></i> Actualités: <span id="stats-news">0</span></p>
-                <p><i class="fas fa-users"></i> Admins: <span id="stats-admins">1</span></p>
-                <p><i class="fas fa-calendar"></i> Dernière mise à jour: <span id="last-update">Jamais</span></p>
-                <button onclick="refreshData()" class="btn-admin"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
+                <!-- Gestion Programmes -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-calendar-alt"></i> Programmes</h3>
+                    <h4>🌅 Culte Matinal</h4>
+                    <input type="text" id="program-morning" placeholder="Horaires">
+                    <h4>📖 Enseignement & Prière</h4>
+                    <input type="text" id="program-teaching" placeholder="Horaires">
+                    <h4>⛪ Culte du Dimanche</h4>
+                    <input type="text" id="program-sunday" placeholder="Horaires">
+                    <button onclick="savePrograms()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                </div>
+
+                <!-- Gestion Contacts -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-address-book"></i> Coordonnées</h3>
+                    <h4>📍 Adresse</h4>
+                    <textarea id="contact-address" rows="2"></textarea>
+                    <h4>📞 Téléphone</h4>
+                    <input type="text" id="contact-phone">
+                    <h4>✉️ Email</h4>
+                    <input type="email" id="contact-email">
+                    <h4>🌐 Réseaux sociaux</h4>
+                    <input type="text" id="social-facebook" placeholder="Facebook URL">
+                    <input type="text" id="social-youtube" placeholder="YouTube URL">
+                    <input type="text" id="social-instagram" placeholder="Instagram URL">
+                    <input type="text" id="social-tiktok" placeholder="TikTok URL">
+                    <button onclick="saveContacts()" class="btn-admin"><i class="fas fa-save"></i> Sauvegarder</button>
+                </div>
+
+                <!-- Statistiques -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-chart-line"></i> Statistiques</h3>
+                    <p><i class="fas fa-image"></i> Images en galerie: <strong id="stats-images">0</strong></p>
+                    <p><i class="fas fa-newspaper"></i> Actualités: <strong id="stats-news">0</strong></p>
+                    <p><i class="fas fa-calendar"></i> Dernière mise à jour: <strong id="last-update">Jamais</strong></p>
+                    <button onclick="refreshData()" class="btn-admin"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1578,8 +1466,8 @@
     <div id="news-modal" class="modal">
         <div class="modal-content">
             <h3 id="modal-title"></h3>
-            <p id="modal-date" style="color: var(--accent); margin-bottom: 20px;"></p>
-            <img id="modal-image" style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+            <p id="modal-date" style="color: var(--accent); margin-bottom: 16px;"></p>
+            <img id="modal-image" style="width: 100%; border-radius: 16px; margin-bottom: 20px;">
             <p id="modal-content" style="line-height: 1.8;"></p>
             <button onclick="closeModal()" class="btn-admin" style="margin-top: 20px;">Fermer</button>
         </div>
@@ -1588,15 +1476,13 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    
-    <!-- Firebase SDK (Compat) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <script>
-        // Configuration Firebase (gardez la même)
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD77Tq2rnGs4cDaHOrZOUB6-LUXGGA0CFg",
             authDomain: "eglise-pain-de-vie.firebaseapp.com",
@@ -1608,18 +1494,8 @@
         // Initialisation Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore(); // Passage à Firestore
+        const db = firebase.firestore();
         const storage = firebase.storage();
-
-        // Activer la persistance hors ligne
-        db.enablePersistence()
-            .catch((err) => {
-                if (err.code == 'failed-precondition') {
-                    console.log('Persistance échouée');
-                } else if (err.code == 'unimplemented') {
-                    console.log('Persistance non disponible');
-                }
-            });
 
         // Données par défaut
         const defaultData = {
@@ -1632,7 +1508,6 @@
             mission: "Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.",
             values: "Intégrité, Sainteté, Amour et Excellence. Nous marchons dans la vérité pour honorer Dieu par la qualité de notre service.",
             pasteurMessage: "Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine.",
-            pasteurName: "Pasteur Obed Kahozi",
             pasteurTitle: "Fondateur de l'église Pain de Vie",
             programs: {
                 morning: "Lundi-Vendredi: 05h30-06h30",
@@ -1652,27 +1527,17 @@
             }
         };
 
-        // Images par défaut
         const defaultImages = [
-            'Seance de cilte 1.jpeg',
-            'Seance de cilte 2.jpeg',
-            'Seance de cilte 3.jpeg',
-            'Seance de cilte 4.jpeg',
-            'Seance de cilte 5.jpeg',
-            'Seance de cilte 6.jpeg',
-            'Seance de cilte 7.jpeg',
-            'Seance de cilte 8.jpeg',
-            'Seance de cilte 9.jpeg',
-            'Seance de cilte 10.jpeg',
-            'Seance de cilte 11.jpeg',
-            'Seance de cilte 13.jpeg'
+            'Seance de cilte 1.jpeg', 'Seance de cilte 2.jpeg', 'Seance de cilte 3.jpeg',
+            'Seance de cilte 4.jpeg', 'Seance de cilte 5.jpeg', 'Seance de cilte 6.jpeg',
+            'Seance de cilte 7.jpeg', 'Seance de cilte 8.jpeg', 'Seance de cilte 9.jpeg',
+            'Seance de cilte 10.jpeg', 'Seance de cilte 11.jpeg', 'Seance de cilte 13.jpeg'
         ];
 
-        // Actualités par défaut
         const defaultNews = [
             {
                 title: 'Grande Conférence sur le Réveil',
-                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent.',
                 image: 'Seance de cilte 1.jpeg',
                 author: 'Pasteur Obed Kahozi',
                 date: new Date().toLocaleDateString(),
@@ -1680,7 +1545,7 @@
             },
             {
                 title: 'Camp de Jeunesse 2025',
-                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités.',
                 image: 'Seance de cilte 5.jpeg',
                 author: 'Département Jeunesse',
                 date: new Date().toLocaleDateString(),
@@ -1688,7 +1553,7 @@
             },
             {
                 title: 'Baptême Collectif',
-                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat.',
                 image: 'Seance de cilte 8.jpeg',
                 author: 'Pasteur Obed Kahozi',
                 date: new Date().toLocaleDateString(),
@@ -1696,210 +1561,113 @@
             }
         ];
 
-        // ===== FONCTIONS UTILITAIRES =====
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             notification.textContent = message;
-            notification.style.background = type === 'success' ? 'var(--accent)' : '#dc3545';
-            notification.style.color = type === 'success' ? 'var(--primary)' : 'white';
+            notification.style.background = type === 'success' ? '#f59e0b' : '#ef4444';
+            notification.style.color = type === 'success' ? '#0f172a' : 'white';
             notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { notification.style.display = 'none'; }, 3000);
         }
 
-        // ===== INITIALISATION AOS =====
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
+        function closeMenu() {
+            document.getElementById('nav-toggle').classList.remove('active');
+            document.getElementById('menu-overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
-        // ===== NAVIGATION =====
-        const nav = document.getElementById('navbar');
-        const toggle = document.getElementById('nav-toggle');
-        const overlay = document.getElementById('menu-overlay');
+        // Navigation toggle
+        document.getElementById('nav-toggle').addEventListener('click', () => {
+            document.getElementById('nav-toggle').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('menu-overlay').classList.contains('active') ? 'hidden' : 'auto';
+        });
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 100) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
         });
 
-        toggle.addEventListener('click', () => {
-            toggle.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : 'auto';
-        });
+        // Initialisation AOS
+        AOS.init({ duration: 800, once: true, offset: 100 });
 
-        window.closeMenu = () => {
-            toggle.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        };
-
-        // ===== HERO CARROUSEL =====
+        // Hero Swiper
         function initHeroSwiper() {
-            const swiperWrapper = document.getElementById('hero-slides');
-            swiperWrapper.innerHTML = '';
-            
+            const wrapper = document.getElementById('hero-slides');
+            wrapper.innerHTML = '';
             defaultImages.forEach(img => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
-                slide.innerHTML = `<img src="${img}" class="slide-bg" alt="Culte" onerror="this.src='https://via.placeholder.com/1920x1080?text=Image+non+trouvée'">`;
-                swiperWrapper.appendChild(slide);
+                slide.innerHTML = `<img src="${img}" class="slide-bg" onerror="this.src='https://via.placeholder.com/1920x1080?text=Image'">`;
+                wrapper.appendChild(slide);
             });
-
-            new Swiper('.swiper-hero', {
-                loop: true,
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false,
-                },
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
-                speed: 1500,
-            });
+            new Swiper('.swiper-hero', { loop: true, autoplay: { delay: 4000, disableOnInteraction: false }, effect: 'fade', speed: 1500 });
         }
 
-        // ===== CHARGEMENT DES DONNÉES =====
+        // Chargement des données
         async function loadAllContent() {
             try {
-                // Mettre à jour la date
                 document.getElementById('last-update').textContent = new Date().toLocaleString();
 
-                // Charger l'historique
+                // Historique
                 const historyDoc = await db.collection('content').doc('history').get();
                 if (historyDoc.exists) {
-                    const historyData = historyDoc.data();
-                    const historyHtml = historyData.texts.map(text => `<p>${text}</p>`).join('');
-                    document.getElementById('history-content').innerHTML = historyHtml;
-                    document.getElementById('edit-history').value = historyData.texts.join('\n\n');
+                    const texts = historyDoc.data().texts;
+                    document.getElementById('history-content').innerHTML = texts.map(t => `<p>${t}</p>`).join('');
+                    document.getElementById('edit-history').value = texts.join('\n\n');
                 } else {
-                    // Données par défaut
-                    const historyHtml = defaultData.history.map(text => `<p>${text}</p>`).join('');
-                    document.getElementById('history-content').innerHTML = historyHtml;
+                    document.getElementById('history-content').innerHTML = defaultData.history.map(t => `<p>${t}</p>`).join('');
                     document.getElementById('edit-history').value = defaultData.history.join('\n\n');
                 }
 
-                // Charger la vision/mission
+                // Vision/Mission
                 const visionDoc = await db.collection('content').doc('vision').get();
                 if (visionDoc.exists) {
                     const data = visionDoc.data();
                     document.getElementById('edit-vision').value = data.vision || '';
                     document.getElementById('edit-mission').value = data.mission || '';
                     document.getElementById('edit-values').value = data.values || '';
-                    
-                    // Afficher sur la page
                     document.getElementById('vision-content').innerHTML = `
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
-                            <i class="fas fa-eye"></i>
-                            <h3>Vision</h3>
-                            <p>${data.vision || defaultData.vision}</p>
-                        </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
-                            <i class="fas fa-scroll"></i>
-                            <h3>Mission</h3>
-                            <p>${data.mission || defaultData.mission}</p>
-                        </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
-                            <i class="fas fa-star"></i>
-                            <h3>Valeurs</h3>
-                            <p>${data.values || defaultData.values}</p>
-                        </div>
+                        <div class="v-card"><i class="fas fa-eye"></i><h3>Vision</h3><p>${data.vision || defaultData.vision}</p></div>
+                        <div class="v-card"><i class="fas fa-scroll"></i><h3>Mission</h3><p>${data.mission || defaultData.mission}</p></div>
+                        <div class="v-card"><i class="fas fa-star"></i><h3>Valeurs</h3><p>${data.values || defaultData.values}</p></div>
                     `;
                 } else {
                     document.getElementById('edit-vision').value = defaultData.vision;
                     document.getElementById('edit-mission').value = defaultData.mission;
                     document.getElementById('edit-values').value = defaultData.values;
-                    
                     document.getElementById('vision-content').innerHTML = `
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800">
-                            <i class="fas fa-eye"></i>
-                            <h3>Vision</h3>
-                            <p>${defaultData.vision}</p>
-                        </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
-                            <i class="fas fa-scroll"></i>
-                            <h3>Mission</h3>
-                            <p>${defaultData.mission}</p>
-                        </div>
-                        <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
-                            <i class="fas fa-star"></i>
-                            <h3>Valeurs</h3>
-                            <p>${defaultData.values}</p>
-                        </div>
+                        <div class="v-card"><i class="fas fa-eye"></i><h3>Vision</h3><p>${defaultData.vision}</p></div>
+                        <div class="v-card"><i class="fas fa-scroll"></i><h3>Mission</h3><p>${defaultData.mission}</p></div>
+                        <div class="v-card"><i class="fas fa-star"></i><h3>Valeurs</h3><p>${defaultData.values}</p></div>
                     `;
                 }
 
-                // Charger les programmes
+                // Programmes
                 const programsDoc = await db.collection('content').doc('programs').get();
                 if (programsDoc.exists) {
                     const data = programsDoc.data();
                     document.getElementById('program-morning').value = data.morning || defaultData.programs.morning;
                     document.getElementById('program-teaching').value = data.teaching || defaultData.programs.teaching;
                     document.getElementById('program-sunday').value = data.sunday || defaultData.programs.sunday;
-                    
-                    // Afficher les programmes
                     document.getElementById('programmes-content').innerHTML = `
-                        <div class="programme-card" data-aos="fade-up">
-                            <div class="programme-icon"><i class="fas fa-sun"></i></div>
-                            <h3>Culte Matinal</h3>
-                            <div class="programme-days">${data.morning?.split(':')[0] || 'Lundi-Vendredi'}</div>
-                            <div class="programme-time">${data.morning?.split(':')[1]?.trim() || '05h30-06h30'}</div>
-                            <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
-                        </div>
-                        <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
-                            <h3>Enseignement & Prière</h3>
-                            <div class="programme-days">${data.teaching?.split(':')[0] || 'Mardi & Vendredi'}</div>
-                            <div class="programme-time">${data.teaching?.split(':')[1]?.trim() || '16h00-18h00'}</div>
-                            <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
-                        </div>
-                        <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
-                            <div class="programme-icon"><i class="fas fa-church"></i></div>
-                            <h3>Culte d'Adoration</h3>
-                            <div class="programme-days">${data.sunday?.split(':')[0] || 'Dimanche'}</div>
-                            <div class="programme-time">${data.sunday?.split(':')[1]?.trim() || '08h30-11h00'}</div>
-                            <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
-                        </div>
+                        <div class="programme-card"><div class="programme-icon"><i class="fas fa-sun"></i></div><h3>Culte Matinal</h3><div class="programme-days">${data.morning?.split(':')[0] || 'Lundi-Vendredi'}</div><div class="programme-time">${data.morning?.split(':')[1]?.trim() || '05h30-06h30'}</div><p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p></div>
+                        <div class="programme-card"><div class="programme-icon"><i class="fas fa-book-bible"></i></div><h3>Enseignement & Prière</h3><div class="programme-days">${data.teaching?.split(':')[0] || 'Mardi & Vendredi'}</div><div class="programme-time">${data.teaching?.split(':')[1]?.trim() || '16h00-18h00'}</div><p class="programme-desc">Enseignements profonds et temps de prière intense.</p></div>
+                        <div class="programme-card special-programme"><div class="programme-icon"><i class="fas fa-church"></i></div><h3>Culte d'Adoration</h3><div class="programme-days">${data.sunday?.split(':')[0] || 'Dimanche'}</div><div class="programme-time">${data.sunday?.split(':')[1]?.trim() || '08h30-11h00'}</div><p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p></div>
                     `;
                 } else {
                     document.getElementById('program-morning').value = defaultData.programs.morning;
                     document.getElementById('program-teaching').value = defaultData.programs.teaching;
                     document.getElementById('program-sunday').value = defaultData.programs.sunday;
-                    
                     document.getElementById('programmes-content').innerHTML = `
-                        <div class="programme-card" data-aos="fade-up">
-                            <div class="programme-icon"><i class="fas fa-sun"></i></div>
-                            <h3>Culte Matinal</h3>
-                            <div class="programme-days">Lundi-Vendredi</div>
-                            <div class="programme-time">05h30-06h30</div>
-                            <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
-                        </div>
-                        <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
-                            <h3>Enseignement & Prière</h3>
-                            <div class="programme-days">Mardi & Vendredi</div>
-                            <div class="programme-time">16h00-18h00</div>
-                            <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
-                        </div>
-                        <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
-                            <div class="programme-icon"><i class="fas fa-church"></i></div>
-                            <h3>Culte d'Adoration</h3>
-                            <div class="programme-days">Dimanche</div>
-                            <div class="programme-time">08h30-11h00</div>
-                            <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
-                        </div>
+                        <div class="programme-card"><div class="programme-icon"><i class="fas fa-sun"></i></div><h3>Culte Matinal</h3><div class="programme-days">Lundi-Vendredi</div><div class="programme-time">05h30-06h30</div><p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p></div>
+                        <div class="programme-card"><div class="programme-icon"><i class="fas fa-book-bible"></i></div><h3>Enseignement & Prière</h3><div class="programme-days">Mardi & Vendredi</div><div class="programme-time">16h00-18h00</div><p class="programme-desc">Enseignements profonds et temps de prière intense.</p></div>
+                        <div class="programme-card special-programme"><div class="programme-icon"><i class="fas fa-church"></i></div><h3>Culte d'Adoration</h3><div class="programme-days">Dimanche</div><div class="programme-time">08h30-11h00</div><p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p></div>
                     `;
                 }
 
-                // Charger les contacts
+                // Contacts
                 const contactsDoc = await db.collection('content').doc('contacts').get();
                 if (contactsDoc.exists) {
                     const data = contactsDoc.data();
@@ -1910,29 +1678,22 @@
                     document.getElementById('social-youtube').value = data.social?.youtube || '';
                     document.getElementById('social-instagram').value = data.social?.instagram || '';
                     document.getElementById('social-tiktok').value = data.social?.tiktok || '';
-                    
-                    // Afficher les contacts
                     document.getElementById('address').textContent = data.address || defaultData.contacts.address;
                     document.getElementById('phone').textContent = data.phone || defaultData.contacts.phone;
                     document.getElementById('email').textContent = data.email || defaultData.contacts.email;
-                    
-                    // Afficher les horaires
                     const schedulesHtml = `
-                        <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.morning || defaultData.programs.morning}</p>
-                        <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.teaching || defaultData.programs.teaching}</p>
-                        <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> ${data.programs?.sunday || defaultData.programs.sunday}</p>
+                        <p><i class="fas fa-sun" style="color: var(--accent);"></i> ${data.programs?.morning || defaultData.programs.morning}</p>
+                        <p><i class="fas fa-cloud" style="color: var(--accent);"></i> ${data.programs?.teaching || defaultData.programs.teaching}</p>
+                        <p><i class="fas fa-star" style="color: var(--accent);"></i> ${data.programs?.sunday || defaultData.programs.sunday}</p>
                     `;
                     document.getElementById('schedules').innerHTML = schedulesHtml;
-                    
-                    // Afficher les liens sociaux
-                    const socialLinks = data.social || defaultData.contacts.social;
-                    const socialHtml = `
-                        ${socialLinks.facebook ? `<a href="${socialLinks.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
-                        ${socialLinks.youtube ? `<a href="${socialLinks.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
-                        ${socialLinks.instagram ? `<a href="${socialLinks.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
-                        ${socialLinks.tiktok ? `<a href="${socialLinks.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
+                    const social = data.social || defaultData.contacts.social;
+                    document.getElementById('social-links').innerHTML = `
+                        ${social.facebook ? `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
+                        ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
+                        ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+                        ${social.tiktok ? `<a href="${social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
                     `;
-                    document.getElementById('social-links').innerHTML = socialHtml;
                 } else {
                     document.getElementById('contact-address').value = defaultData.contacts.address;
                     document.getElementById('contact-phone').value = defaultData.contacts.phone;
@@ -1941,705 +1702,296 @@
                     document.getElementById('social-youtube').value = defaultData.contacts.social.youtube;
                     document.getElementById('social-instagram').value = defaultData.contacts.social.instagram;
                     document.getElementById('social-tiktok').value = defaultData.contacts.social.tiktok;
-                    
                     document.getElementById('address').textContent = defaultData.contacts.address;
                     document.getElementById('phone').textContent = defaultData.contacts.phone;
                     document.getElementById('email').textContent = defaultData.contacts.email;
-                    
-                    const schedulesHtml = `
-                        <p><i class="fas fa-sun" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.morning}</p>
-                        <p><i class="fas fa-cloud" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.teaching}</p>
-                        <p><i class="fas fa-star" style="color: var(--accent); margin-right: 10px;"></i> ${defaultData.programs.sunday}</p>
+                    document.getElementById('schedules').innerHTML = `
+                        <p><i class="fas fa-sun" style="color: var(--accent);"></i> ${defaultData.programs.morning}</p>
+                        <p><i class="fas fa-cloud" style="color: var(--accent);"></i> ${defaultData.programs.teaching}</p>
+                        <p><i class="fas fa-star" style="color: var(--accent);"></i> ${defaultData.programs.sunday}</p>
                     `;
-                    document.getElementById('schedules').innerHTML = schedulesHtml;
-                    
-                    const socialHtml = `
+                    document.getElementById('social-links').innerHTML = `
                         <a href="${defaultData.contacts.social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="${defaultData.contacts.social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>
                         <a href="${defaultData.contacts.social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="${defaultData.contacts.social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>
                     `;
-                    document.getElementById('social-links').innerHTML = socialHtml;
                 }
 
-                // Charger le message du pasteur
+                // Pasteur
                 const pasteurDoc = await db.collection('content').doc('pasteur').get();
                 if (pasteurDoc.exists) {
                     const data = pasteurDoc.data();
                     document.getElementById('edit-pasteur-message').value = data.message || defaultData.pasteurMessage;
-                    
                     document.getElementById('pasteur-content').innerHTML = `
                         <h3>Un homme selon le cœur de Dieu</h3>
                         <h4>${data.title || defaultData.pasteurTitle}</h4>
-                        <p>
-                            Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
-                        </p>
-                        <p>
-                            Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
-                        </p>
-                        <div class="pasteur-quote">
-                            <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>
-                            ${data.message || defaultData.pasteurMessage}
-                        </div>
+                        <p>Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.</p>
+                        <p>Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.</p>
+                        <div class="pasteur-quote"><i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>${data.message || defaultData.pasteurMessage}</div>
                     `;
                 } else {
                     document.getElementById('edit-pasteur-message').value = defaultData.pasteurMessage;
-                    
                     document.getElementById('pasteur-content').innerHTML = `
                         <h3>Un homme selon le cœur de Dieu</h3>
                         <h4>${defaultData.pasteurTitle}</h4>
-                        <p>
-                            Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.
-                        </p>
-                        <p>
-                            Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.
-                        </p>
-                        <div class="pasteur-quote">
-                            <i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>
-                            ${defaultData.pasteurMessage}
-                        </div>
+                        <p>Le Pasteur Obed Kahozi est un serviteur de Dieu passionné par la Parole et la prière. Appelé depuis sa jeunesse, il a répondu à la voix du Seigneur le 27 juin 2005, recevant la vision de fonder une église qui nourrirait le peuple de Dieu avec la profondeur des Écritures.</p>
+                        <p>Formé spirituellement à Kamina puis à Kolwezi, il a été confirmé dans son ministère par le Révérend Pasteur Théophile Mpoyi. Aujourd'hui, il continue de marcher dans l'onction, guidant le troupeau avec amour, sagesse et intégrité.</p>
+                        <div class="pasteur-quote"><i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>${defaultData.pasteurMessage}</div>
                     `;
                 }
 
-                // Charger les images par défaut
                 document.getElementById('pasteur-image').src = 'Pasteur Obed Kahozi.jpeg';
                 document.getElementById('pasteur-preaching').src = 'Pasteur Obed Kahozi entrain de precher.jpeg';
 
-                // Charger la galerie
                 await loadGallery();
-                
-                // Charger les actualités
                 await loadNews();
-                
-                // Charger la liste des admins (si connecté)
-                if (auth.currentUser) {
-                    await loadAdminsList();
-                }
-                
+
             } catch (error) {
-                console.error('Erreur chargement contenu:', error);
-                showNotification('Erreur de chargement des données', 'error');
+                console.error('Erreur:', error);
+                showNotification('Erreur de chargement', 'error');
             }
         }
 
-        // ===== GESTION DE LA GALERIE =====
         async function loadGallery() {
-            const galleryGrid = document.getElementById('gallery-grid');
-            const galleryAdminList = document.getElementById('gallery-admin-list');
-            const statsImages = document.getElementById('stats-images');
-            
-            galleryGrid.innerHTML = '';
-            galleryAdminList.innerHTML = '';
-            
+            const grid = document.getElementById('gallery-grid');
+            const adminList = document.getElementById('gallery-admin-list');
+            grid.innerHTML = '';
+            adminList.innerHTML = '';
             try {
-                // Charger les images de Firestore
-                const snapshot = await db.collection('gallery')
-                    .orderBy('timestamp', 'desc')
-                    .get();
-                
-                let imageCount = snapshot.size;
-                
+                const snapshot = await db.collection('gallery').orderBy('timestamp', 'desc').get();
+                let count = snapshot.size;
                 if (snapshot.empty) {
-                    // Utiliser les images par défaut
-                    defaultImages.forEach((img, index) => {
-                        displayGalleryItem({
-                            id: 'default_' + index,
-                            url: img,
-                            title: `Culte ${index + 1}`,
-                            date: new Date().toLocaleDateString()
-                        }, false);
-                        imageCount++;
+                    defaultImages.forEach((img, i) => {
+                        displayGalleryItem({ id: 'default_' + i, url: img, title: `Culte ${i+1}`, date: new Date().toLocaleDateString() }, false);
+                        count++;
                     });
                 } else {
-                    snapshot.forEach(doc => {
-                        displayGalleryItem({
-                            id: doc.id,
-                            ...doc.data()
-                        }, true);
-                    });
+                    snapshot.forEach(doc => displayGalleryItem({ id: doc.id, ...doc.data() }, true));
                 }
-                
-                statsImages.textContent = imageCount;
-                
+                document.getElementById('stats-images').textContent = count;
             } catch (error) {
-                console.error('Erreur chargement galerie:', error);
-                // Fallback aux images par défaut
-                defaultImages.forEach((img, index) => {
-                    displayGalleryItem({
-                        id: 'default_' + index,
-                        url: img,
-                        title: `Culte ${index + 1}`,
-                        date: new Date().toLocaleDateString()
-                    }, false);
-                });
-                statsImages.textContent = defaultImages.length;
+                defaultImages.forEach((img, i) => displayGalleryItem({ id: 'default_' + i, url: img, title: `Culte ${i+1}`, date: new Date().toLocaleDateString() }, false));
+                document.getElementById('stats-images').textContent = defaultImages.length;
             }
         }
 
         function displayGalleryItem(item, isAdmin) {
-            // Afficher dans la galerie principale
-            const galleryGrid = document.getElementById('gallery-grid');
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.setAttribute('data-src', item.url);
-            galleryItem.innerHTML = `
-                <img src="${item.url}" alt="${item.title || 'Image galerie'}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
-                <div class="gallery-caption">
-                    <h4>${item.title || 'Moment de culte'}</h4>
-                    <p>${item.date || ''}</p>
-                </div>
-                <div class="gallery-icon">
-                    <i class="fas fa-search-plus"></i>
-                </div>
+            const grid = document.getElementById('gallery-grid');
+            const el = document.createElement('div');
+            el.className = 'gallery-item';
+            el.innerHTML = `
+                <img src="${item.url}" onerror="this.src='https://via.placeholder.com/300?text=Image'">
+                <div class="gallery-caption"><h4>${item.title || 'Moment de culte'}</h4><p>${item.date || ''}</p></div>
+                <div class="gallery-icon"><i class="fas fa-search-plus"></i></div>
             `;
-            galleryGrid.appendChild(galleryItem);
-
-            // Si admin, afficher dans la liste admin
+            grid.appendChild(el);
             if (isAdmin && auth.currentUser) {
                 const adminList = document.getElementById('gallery-admin-list');
-                const adminItem = document.createElement('div');
-                adminItem.className = 'publication-item';
-                adminItem.innerHTML = `
-                    <div style="display: flex; align-items: center;">
-                        <img src="${item.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; margin-right: 10px;">
-                        <div>
-                            <strong>${item.title || 'Sans titre'}</strong>
-                            <p style="font-size: 0.8rem; color: #666;">${item.date || ''}</p>
-                        </div>
+                const adminEl = document.createElement('div');
+                adminEl.className = 'publication-item';
+                adminEl.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <img src="${item.url}" style="width:50px;height:50px;object-fit:cover;border-radius:8px;">
+                        <div><strong>${item.title || 'Sans titre'}</strong><br><small>${item.date || ''}</small></div>
                     </div>
-                    <div>
-                        <button onclick="deleteGalleryItem('${item.id}')" class="btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                    </div>
+                    <button onclick="deleteGalleryItem('${item.id}')" class="btn-danger" style="padding:6px 12px;">Supprimer</button>
                 `;
-                adminList.appendChild(adminItem);
+                adminList.appendChild(adminEl);
             }
         }
 
-        // ===== GESTION DES ACTUALITÉS =====
         async function loadNews() {
-            const newsGrid = document.getElementById('actualites-grid');
-            const newsAdminList = document.getElementById('news-admin-list');
-            const statsNews = document.getElementById('stats-news');
-            
-            newsGrid.innerHTML = '';
-            newsAdminList.innerHTML = '';
-            
+            const grid = document.getElementById('actualites-grid');
+            const adminList = document.getElementById('news-admin-list');
+            grid.innerHTML = '';
+            adminList.innerHTML = '';
             try {
-                const snapshot = await db.collection('news')
-                    .orderBy('timestamp', 'desc')
-                    .get();
-                
-                let newsCount = snapshot.size;
-                
+                const snapshot = await db.collection('news').orderBy('timestamp', 'desc').get();
+                let count = snapshot.size;
                 if (snapshot.empty) {
-                    // Utiliser les actualités par défaut
-                    defaultNews.forEach((item, index) => {
-                        displayNewsItem({
-                            id: 'default_' + index,
-                            ...item
-                        }, false);
-                        newsCount++;
-                    });
+                    defaultNews.forEach((item, i) => displayNewsItem({ id: 'default_' + i, ...item }, false));
+                    count = defaultNews.length;
                 } else {
-                    snapshot.forEach(doc => {
-                        displayNewsItem({
-                            id: doc.id,
-                            ...doc.data()
-                        }, true);
-                    });
+                    snapshot.forEach(doc => displayNewsItem({ id: doc.id, ...doc.data() }, true));
                 }
-                
-                statsNews.textContent = newsCount;
-                
+                document.getElementById('stats-news').textContent = count;
             } catch (error) {
-                console.error('Erreur chargement actualités:', error);
-                defaultNews.forEach((item, index) => {
-                    displayNewsItem({
-                        id: 'default_' + index,
-                        ...item
-                    }, false);
-                });
-                statsNews.textContent = defaultNews.length;
+                defaultNews.forEach((item, i) => displayNewsItem({ id: 'default_' + i, ...item }, false));
+                document.getElementById('stats-news').textContent = defaultNews.length;
             }
         }
 
         function displayNewsItem(item, isAdmin) {
-            // Afficher dans la grille principale
-            const newsGrid = document.getElementById('actualites-grid');
+            const grid = document.getElementById('actualites-grid');
             const card = document.createElement('div');
             card.className = 'actualite-card';
             card.setAttribute('onclick', `openNewsModal('${item.id}')`);
             card.innerHTML = `
-                <div class="actualite-image">
-                    <img src="${item.image || 'Seance de cilte 1.jpeg'}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300?text=Image+non+trouvée'">
-                    <div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div>
-                </div>
-                <div class="actualite-content">
-                    <h3>${item.title}</h3>
-                    <p>${item.content.substring(0, 150)}${item.content.length > 150 ? '...' : ''}</p>
-                    <div class="actualite-footer">
-                        <div class="actualite-author">
-                            <i class="fas fa-user"></i>
-                            <span>${item.author || 'Pasteur Obed Kahozi'}</span>
-                        </div>
-                        <span class="actualite-lire-plus">Lire plus <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </div>
+                <div class="actualite-image"><img src="${item.image || 'Seance de cilte 1.jpeg'}" onerror="this.src='https://via.placeholder.com/300'"><div class="actualite-date">${item.date || new Date().toLocaleDateString()}</div></div>
+                <div class="actualite-content"><h3>${item.title}</h3><p>${item.content.substring(0, 120)}${item.content.length > 120 ? '...' : ''}</p>
+                <div class="actualite-footer"><div class="actualite-author"><i class="fas fa-user"></i><span>${item.author || 'Pasteur'}</span></div><span class="actualite-lire-plus">Lire plus <i class="fas fa-arrow-right"></i></span></div></div>
             `;
-            newsGrid.appendChild(card);
-
-            // Si admin, afficher dans la liste admin
+            grid.appendChild(card);
             if (isAdmin && auth.currentUser) {
                 const adminList = document.getElementById('news-admin-list');
-                const adminItem = document.createElement('div');
-                adminItem.className = 'publication-item';
-                adminItem.innerHTML = `
-                    <div>
-                        <strong>${item.title}</strong>
-                        <p style="font-size: 0.9rem; color: #666;">${item.date || new Date().toLocaleDateString()}</p>
-                    </div>
-                    <div>
-                        <button onclick="editNews('${item.id}')" class="btn-admin" style="padding: 5px 10px;">Modifier</button>
-                        <button onclick="deleteNews('${item.id}')" class="btn-danger" style="padding: 5px 10px;">Supprimer</button>
-                    </div>
+                const adminEl = document.createElement('div');
+                adminEl.className = 'publication-item';
+                adminEl.innerHTML = `
+                    <div><strong>${item.title}</strong><br><small>${item.date || ''}</small></div>
+                    <div><button onclick="editNews('${item.id}')" class="btn-admin" style="padding:6px 12px;">Modifier</button><button onclick="deleteNews('${item.id}')" class="btn-danger" style="padding:6px 12px;">Supprimer</button></div>
                 `;
-                adminList.appendChild(adminItem);
+                adminList.appendChild(adminEl);
             }
         }
 
-        // ===== FONCTIONS ADMIN =====
-        window.showAdminLogin = () => {
-            document.getElementById('admin-panel').style.display = 'flex';
-        };
-
-        window.hideAdminLogin = () => {
-            document.getElementById('admin-panel').style.display = 'none';
-        };
-
-        window.showRegisterForm = () => {
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('admin-register').style.display = 'flex';
-        };
-
-        window.hideRegisterForm = () => {
-            document.getElementById('admin-register').style.display = 'none';
-        };
+        window.showAdminLogin = () => document.getElementById('admin-panel').style.display = 'flex';
+        window.hideAdminLogin = () => document.getElementById('admin-panel').style.display = 'none';
 
         window.handleAdminLogin = async () => {
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
-            
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 hideAdminLogin();
                 showNotification('Connexion réussie !');
             } catch (error) {
-                console.error('Erreur connexion:', error);
-                showNotification('Erreur de connexion: ' + error.message, 'error');
-            }
-        };
-
-        window.handleAdminRegister = async () => {
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const confirm = document.getElementById('reg-confirm').value;
-            const name = document.getElementById('reg-name').value;
-            
-            if (password !== confirm) {
-                showNotification('Les mots de passe ne correspondent pas', 'error');
-                return;
-            }
-            
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                // Ajouter aux admins
-                await db.collection('admins').doc(user.uid).set({
-                    email: email,
-                    name: name,
-                    createdAt: new Date().toISOString(),
-                    createdBy: auth.currentUser?.uid || 'system'
-                });
-                
-                showNotification('Compte admin créé avec succès !');
-                hideRegisterForm();
-                
-            } catch (error) {
-                console.error('Erreur inscription:', error);
                 showNotification('Erreur: ' + error.message, 'error');
             }
         };
 
-        window.logout = () => {
-            auth.signOut();
-            document.getElementById('admin-dash').style.display = 'none';
-            showNotification('Déconnexion réussie');
-        };
+        window.logout = () => { auth.signOut(); document.getElementById('admin-dash').style.display = 'none'; showNotification('Déconnexion réussie'); };
 
-        // Sauvegarde du contenu
         window.saveContent = async (type) => {
             try {
-                switch(type) {
-                    case 'history':
-                        const historyText = document.getElementById('edit-history').value;
-                        const historyParagraphs = historyText.split('\n\n').filter(p => p.trim());
-                        await db.collection('content').doc('history').set({
-                            texts: historyParagraphs,
-                            updatedAt: new Date().toISOString(),
-                            updatedBy: auth.currentUser?.email
-                        });
-                        
-                        // Mettre à jour l'affichage
-                        const historyHtml = historyParagraphs.map(p => `<p>${p}</p>`).join('');
-                        document.getElementById('history-content').innerHTML = historyHtml;
-                        showNotification('Historique mis à jour !');
-                        break;
-                        
-                    case 'vision':
-                        const vision = document.getElementById('edit-vision').value;
-                        const mission = document.getElementById('edit-mission').value;
-                        const values = document.getElementById('edit-values').value;
-                        
-                        await db.collection('content').doc('vision').set({
-                            vision, mission, values,
-                            updatedAt: new Date().toISOString(),
-                            updatedBy: auth.currentUser?.email
-                        });
-                        
-                        document.getElementById('vision-content').innerHTML = `
-                            <div class="v-card" data-aos="flip-left" data-aos-duration="800">
-                                <i class="fas fa-eye"></i>
-                                <h3>Vision</h3>
-                                <p>${vision}</p>
-                            </div>
-                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
-                                <i class="fas fa-scroll"></i>
-                                <h3>Mission</h3>
-                                <p>${mission}</p>
-                            </div>
-                            <div class="v-card" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
-                                <i class="fas fa-star"></i>
-                                <h3>Valeurs</h3>
-                                <p>${values}</p>
-                            </div>
-                        `;
-                        showNotification('Vision/Mission mise à jour !');
-                        break;
-                        
-                    case 'pasteur-message':
-                        const message = document.getElementById('edit-pasteur-message').value;
-                        await db.collection('content').doc('pasteur').update({
-                            message: message,
-                            updatedAt: new Date().toISOString()
-                        });
-                        
-                        const pasteurDiv = document.querySelector('.pasteur-quote');
-                        if (pasteurDiv) {
-                            pasteurDiv.innerHTML = `<i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>${message}`;
-                        }
-                        showNotification('Message du pasteur mis à jour !');
-                        break;
+                if (type === 'history') {
+                    const texts = document.getElementById('edit-history').value.split('\n\n').filter(p => p.trim());
+                    await db.collection('content').doc('history').set({ texts, updatedAt: new Date().toISOString(), updatedBy: auth.currentUser?.email });
+                    document.getElementById('history-content').innerHTML = texts.map(p => `<p>${p}</p>`).join('');
+                    showNotification('Historique mis à jour');
+                } else if (type === 'vision') {
+                    const vision = document.getElementById('edit-vision').value;
+                    const mission = document.getElementById('edit-mission').value;
+                    const values = document.getElementById('edit-values').value;
+                    await db.collection('content').doc('vision').set({ vision, mission, values, updatedAt: new Date().toISOString() });
+                    document.getElementById('vision-content').innerHTML = `
+                        <div class="v-card"><i class="fas fa-eye"></i><h3>Vision</h3><p>${vision}</p></div>
+                        <div class="v-card"><i class="fas fa-scroll"></i><h3>Mission</h3><p>${mission}</p></div>
+                        <div class="v-card"><i class="fas fa-star"></i><h3>Valeurs</h3><p>${values}</p></div>
+                    `;
+                    showNotification('Vision/Mission mise à jour');
+                } else if (type === 'pasteur-message') {
+                    const message = document.getElementById('edit-pasteur-message').value;
+                    await db.collection('content').doc('pasteur').update({ message, updatedAt: new Date().toISOString() });
+                    document.querySelector('.pasteur-quote').innerHTML = `<i class="fas fa-quote-left" style="color: var(--accent); margin-right: 10px;"></i>${message}`;
+                    showNotification('Message mis à jour');
                 }
-            } catch (error) {
-                console.error('Erreur sauvegarde:', error);
-                showNotification('Erreur: ' + error.message, 'error');
-            }
+            } catch (error) { showNotification('Erreur: ' + error.message, 'error'); }
         };
 
-        // Sauvegarde des programmes
         window.savePrograms = async () => {
             try {
                 const morning = document.getElementById('program-morning').value;
                 const teaching = document.getElementById('program-teaching').value;
                 const sunday = document.getElementById('program-sunday').value;
-                
-                await db.collection('content').doc('programs').set({
-                    morning, teaching, sunday,
-                    updatedAt: new Date().toISOString(),
-                    updatedBy: auth.currentUser?.email
-                });
-                
-                // Mettre à jour l'affichage
+                await db.collection('content').doc('programs').set({ morning, teaching, sunday, updatedAt: new Date().toISOString() });
                 document.getElementById('programmes-content').innerHTML = `
-                    <div class="programme-card" data-aos="fade-up">
-                        <div class="programme-icon"><i class="fas fa-sun"></i></div>
-                        <h3>Culte Matinal</h3>
-                        <div class="programme-days">${morning.split(':')[0]}</div>
-                        <div class="programme-time">${morning.split(':')[1]?.trim()}</div>
-                        <p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p>
-                    </div>
-                    <div class="programme-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="programme-icon"><i class="fas fa-book-bible"></i></div>
-                        <h3>Enseignement & Prière</h3>
-                        <div class="programme-days">${teaching.split(':')[0]}</div>
-                        <div class="programme-time">${teaching.split(':')[1]?.trim()}</div>
-                        <p class="programme-desc">Enseignements profonds et temps de prière intense.</p>
-                    </div>
-                    <div class="programme-card special-programme" data-aos="fade-up" data-aos-delay="200">
-                        <div class="programme-icon"><i class="fas fa-church"></i></div>
-                        <h3>Culte d'Adoration</h3>
-                        <div class="programme-days">${sunday.split(':')[0]}</div>
-                        <div class="programme-time">${sunday.split(':')[1]?.trim()}</div>
-                        <p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p>
-                    </div>
+                    <div class="programme-card"><div class="programme-icon"><i class="fas fa-sun"></i></div><h3>Culte Matinal</h3><div class="programme-days">${morning.split(':')[0]}</div><div class="programme-time">${morning.split(':')[1]?.trim()}</div><p class="programme-desc">Commencez votre journée dans la présence de Dieu.</p></div>
+                    <div class="programme-card"><div class="programme-icon"><i class="fas fa-book-bible"></i></div><h3>Enseignement & Prière</h3><div class="programme-days">${teaching.split(':')[0]}</div><div class="programme-time">${teaching.split(':')[1]?.trim()}</div><p class="programme-desc">Enseignements profonds et temps de prière intense.</p></div>
+                    <div class="programme-card special-programme"><div class="programme-icon"><i class="fas fa-church"></i></div><h3>Culte d'Adoration</h3><div class="programme-days">${sunday.split(':')[0]}</div><div class="programme-time">${sunday.split(':')[1]?.trim()}</div><p class="programme-desc">Le grand rassemblement de la famille de Dieu.</p></div>
                 `;
-                
-                showNotification('Programmes mis à jour !');
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
+                showNotification('Programmes mis à jour');
+            } catch (error) { showNotification('Erreur: ' + error.message, 'error'); }
         };
 
-        // Sauvegarde des contacts
         window.saveContacts = async () => {
             try {
                 const address = document.getElementById('contact-address').value;
                 const phone = document.getElementById('contact-phone').value;
                 const email = document.getElementById('contact-email').value;
-                
                 const social = {
                     facebook: document.getElementById('social-facebook').value,
                     youtube: document.getElementById('social-youtube').value,
                     instagram: document.getElementById('social-instagram').value,
                     tiktok: document.getElementById('social-tiktok').value
                 };
-                
-                await db.collection('content').doc('contacts').set({
-                    address, phone, email, social,
-                    updatedAt: new Date().toISOString(),
-                    updatedBy: auth.currentUser?.email
-                });
-                
-                // Mettre à jour l'affichage
+                await db.collection('content').doc('contacts').set({ address, phone, email, social, updatedAt: new Date().toISOString() });
                 document.getElementById('address').textContent = address;
                 document.getElementById('phone').textContent = phone;
                 document.getElementById('email').textContent = email;
-                
-                const socialHtml = `
+                document.getElementById('social-links').innerHTML = `
                     ${social.facebook ? `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>` : ''}
                     ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
                     ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
                     ${social.tiktok ? `<a href="${social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>` : ''}
                 `;
-                document.getElementById('social-links').innerHTML = socialHtml;
-                
-                showNotification('Contacts mis à jour !');
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
+                showNotification('Contacts mis à jour');
+            } catch (error) { showNotification('Erreur: ' + error.message, 'error'); }
         };
 
-        // Upload d'images pour la galerie
         window.uploadGalleryImages = async () => {
             const files = document.getElementById('gallery-upload').files;
             const caption = document.getElementById('gallery-caption').value;
-            
-            if (files.length === 0) {
-                showNotification('Veuillez sélectionner des images', 'error');
-                return;
+            if (files.length === 0) return showNotification('Sélectionnez des images', 'error');
+            for (let file of files) {
+                const ref = storage.ref('gallery/' + Date.now() + '_' + file.name);
+                const snapshot = await ref.put(file);
+                const url = await snapshot.ref.getDownloadURL();
+                await db.collection('gallery').add({ url, title: caption || file.name.split('.')[0], date: new Date().toLocaleDateString(), timestamp: Date.now(), uploadedBy: auth.currentUser?.email });
             }
-            
-            let uploaded = 0;
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const storageRef = storage.ref('gallery/' + Date.now() + '_' + file.name);
-                
-                try {
-                    const snapshot = await storageRef.put(file);
-                    const url = await snapshot.ref.getDownloadURL();
-                    
-                    await db.collection('gallery').add({
-                        url: url,
-                        title: caption || file.name.split('.')[0],
-                        date: new Date().toLocaleDateString(),
-                        timestamp: Date.now(),
-                        uploadedBy: auth.currentUser?.email
-                    });
-                    
-                    uploaded++;
-                } catch (error) {
-                    console.error('Erreur upload:', error);
-                    showNotification('Erreur upload: ' + error.message, 'error');
-                }
-            }
-            
-            if (uploaded === files.length) {
-                showNotification(`${uploaded} image(s) uploadée(s) avec succès !`);
-                document.getElementById('gallery-upload').value = '';
-                document.getElementById('gallery-caption').value = '';
-                await loadGallery(); // Recharger la galerie
-            }
+            showNotification('Images uploadées');
+            document.getElementById('gallery-upload').value = '';
+            document.getElementById('gallery-caption').value = '';
+            await loadGallery();
         };
 
-        // Supprimer une image de la galerie
         window.deleteGalleryItem = async (id) => {
-            if (!confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) return;
-            
-            try {
-                await db.collection('gallery').doc(id).delete();
-                showNotification('Image supprimée');
-                await loadGallery();
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
+            if (!confirm('Supprimer cette image ?')) return;
+            await db.collection('gallery').doc(id).delete();
+            showNotification('Image supprimée');
+            await loadGallery();
         };
 
-        // Ajouter une actualité
         window.addNews = async () => {
             const title = document.getElementById('news-title').value;
             const content = document.getElementById('news-content').value;
             const author = document.getElementById('news-author').value || 'Pasteur Obed Kahozi';
             const file = document.getElementById('news-image').files[0];
-            
-            if (!title || !content) {
-                showNotification('Veuillez remplir tous les champs', 'error');
-                return;
+            if (!title || !content) return showNotification('Remplissez tous les champs', 'error');
+            let imageUrl = 'Seance de cilte 1.jpeg';
+            if (file) {
+                const ref = storage.ref('news/' + Date.now() + '_' + file.name);
+                const snapshot = await ref.put(file);
+                imageUrl = await snapshot.ref.getDownloadURL();
             }
-            
-            try {
-                let imageUrl = 'Seance de cilte 1.jpeg';
-                
-                if (file) {
-                    const storageRef = storage.ref('news/' + Date.now() + '_' + file.name);
-                    const snapshot = await storageRef.put(file);
-                    imageUrl = await snapshot.ref.getDownloadURL();
-                }
-                
-                await db.collection('news').add({
-                    title,
-                    content,
-                    image: imageUrl,
-                    author,
-                    date: new Date().toLocaleDateString(),
-                    timestamp: Date.now(),
-                    createdBy: auth.currentUser?.email
-                });
-                
-                showNotification('Actualité publiée !');
-                document.getElementById('news-title').value = '';
-                document.getElementById('news-content').value = '';
-                document.getElementById('news-image').value = '';
-                await loadNews();
-                
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
+            await db.collection('news').add({ title, content, image: imageUrl, author, date: new Date().toLocaleDateString(), timestamp: Date.now(), createdBy: auth.currentUser?.email });
+            showNotification('Actualité publiée');
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-content').value = '';
+            document.getElementById('news-image').value = '';
+            await loadNews();
         };
 
-        // Modifier une actualité
         window.editNews = async (id) => {
             const newTitle = prompt('Nouveau titre:');
             const newContent = prompt('Nouveau contenu:');
-            
             if (newTitle && newContent) {
-                try {
-                    await db.collection('news').doc(id).update({
-                        title: newTitle,
-                        content: newContent,
-                        edited: new Date().toISOString()
-                    });
-                    showNotification('Actualité modifiée');
-                    await loadNews();
-                } catch (error) {
-                    showNotification('Erreur: ' + error.message, 'error');
-                }
+                await db.collection('news').doc(id).update({ title: newTitle, content: newContent, edited: new Date().toISOString() });
+                showNotification('Actualité modifiée');
+                await loadNews();
             }
         };
 
-        // Supprimer une actualité
         window.deleteNews = async (id) => {
-            if (!confirm('Supprimer cette actualité ?')) return;
-            
-            try {
+            if (confirm('Supprimer cette actualité ?')) {
                 await db.collection('news').doc(id).delete();
                 showNotification('Actualité supprimée');
                 await loadNews();
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
             }
         };
 
-        // Ajouter un admin
-        window.addAdmin = async () => {
-            const email = document.getElementById('new-admin-email').value;
-            
-            if (!email) {
-                showNotification('Veuillez entrer un email', 'error');
-                return;
-            }
-            
-            try {
-                // Note: Cette fonction nécessite Firebase Functions pour envoyer un email d'invitation
-                // Pour l'instant, on ajoute juste une entrée dans Firestore
-                await db.collection('adminInvites').add({
-                    email: email,
-                    invitedBy: auth.currentUser?.email,
-                    invitedAt: new Date().toISOString(),
-                    status: 'pending'
-                });
-                
-                showNotification('Invitation envoyée à ' + email);
-                document.getElementById('new-admin-email').value = '';
-                await loadAdminsList();
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
-        };
+        window.refreshData = () => { loadAllContent(); showNotification('Données rafraîchies'); };
 
-        // Charger la liste des admins
-        async function loadAdminsList() {
-            const adminsList = document.getElementById('admins-list');
-            const statsAdmins = document.getElementById('stats-admins');
-            
-            try {
-                const snapshot = await db.collection('admins').get();
-                adminsList.innerHTML = '';
-                
-                snapshot.forEach(doc => {
-                    const admin = doc.data();
-                    const adminItem = document.createElement('div');
-                    adminItem.className = 'publication-item';
-                    adminItem.innerHTML = `
-                        <div>
-                            <strong>${admin.name || 'Admin'}</strong>
-                            <p style="font-size: 0.8rem; color: #666;">${admin.email}</p>
-                        </div>
-                        ${auth.currentUser?.uid !== doc.id ? `
-                            <button onclick="removeAdmin('${doc.id}')" class="btn-danger" style="padding: 5px 10px;">Retirer</button>
-                        ` : '<span style="color: var(--accent);">(vous)</span>'}
-                    `;
-                    adminsList.appendChild(adminItem);
-                });
-                
-                statsAdmins.textContent = snapshot.size;
-                
-            } catch (error) {
-                console.error('Erreur chargement admins:', error);
-            }
-        }
-
-        // Retirer un admin
-        window.removeAdmin = async (id) => {
-            if (!confirm('Retirer cet administrateur ?')) return;
-            
-            try {
-                await db.collection('admins').doc(id).delete();
-                showNotification('Administrateur retiré');
-                await loadAdminsList();
-            } catch (error) {
-                showNotification('Erreur: ' + error.message, 'error');
-            }
-        };
-
-        // Rafraîchir les données
-        window.refreshData = () => {
-            loadAllContent();
-            showNotification('Données rafraîchies');
-        };
-
-        // ===== MODAL POUR ACTUALITÉS =====
         window.openNewsModal = async (id) => {
             if (id.startsWith('default_')) {
                 const index = parseInt(id.split('_')[1]);
@@ -2652,27 +2004,20 @@
                     document.getElementById('news-modal').style.display = 'flex';
                 }
             } else {
-                try {
-                    const doc = await db.collection('news').doc(id).get();
-                    if (doc.exists) {
-                        const news = doc.data();
-                        document.getElementById('modal-title').textContent = news.title;
-                        document.getElementById('modal-date').textContent = news.date;
-                        document.getElementById('modal-image').src = news.image || 'Seance de cilte 1.jpeg';
-                        document.getElementById('modal-content').textContent = news.content;
-                        document.getElementById('news-modal').style.display = 'flex';
-                    }
-                } catch (error) {
-                    console.error('Erreur ouverture modal:', error);
+                const doc = await db.collection('news').doc(id).get();
+                if (doc.exists) {
+                    const news = doc.data();
+                    document.getElementById('modal-title').textContent = news.title;
+                    document.getElementById('modal-date').textContent = news.date;
+                    document.getElementById('modal-image').src = news.image || 'Seance de cilte 1.jpeg';
+                    document.getElementById('modal-content').textContent = news.content;
+                    document.getElementById('news-modal').style.display = 'flex';
                 }
             }
         };
 
-        window.closeModal = () => {
-            document.getElementById('news-modal').style.display = 'none';
-        };
+        window.closeModal = () => document.getElementById('news-modal').style.display = 'none';
 
-        // ===== GESTION DE L'AUTHENTIFICATION =====
         auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('admin-dash').style.display = 'block';
@@ -2683,24 +2028,13 @@
             }
         });
 
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            initHeroSwiper();
-            loadAllContent();
-            
-            // Fermer les modals en cliquant en dehors
-            window.onclick = (event) => {
-                if (event.target.classList.contains('modal')) {
-                    closeModal();
-                }
-                if (event.target.id === 'admin-panel') {
-                    hideAdminLogin();
-                }
-                if (event.target.id === 'admin-register') {
-                    hideRegisterForm();
-                }
-            };
-        });
+        window.onclick = (event) => {
+            if (event.target.classList.contains('modal')) closeModal();
+            if (event.target.id === 'admin-panel') hideAdminLogin();
+        };
+
+        initHeroSwiper();
+        loadAllContent();
     </script>
 </body>
 </html>
