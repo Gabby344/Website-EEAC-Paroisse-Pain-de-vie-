@@ -25,7 +25,7 @@
             background: white;
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            max-width: 600px;
+            max-width: 750px;
             width: 100%;
             overflow: hidden;
         }
@@ -52,8 +52,8 @@
         }
 
         .step {
-            margin-bottom: 32px;
-            padding: 20px;
+            margin-bottom: 20px;
+            padding: 16px 20px;
             background: #f8f9fa;
             border-radius: 16px;
             border-left: 4px solid #667eea;
@@ -61,26 +61,24 @@
 
         .step h3 {
             color: #1a1a2e;
-            margin-bottom: 12px;
-            font-size: 18px;
+            margin-bottom: 6px;
+            font-size: 16px;
         }
 
         .step p {
             color: #6c757d;
-            font-size: 14px;
-            margin-bottom: 16px;
-            line-height: 1.6;
+            font-size: 12px;
+            margin-bottom: 10px;
         }
 
         .status {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
+            padding: 5px 12px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
-            margin-top: 12px;
         }
 
         .status-pending {
@@ -96,6 +94,11 @@
         .status-error {
             background: #f8d7da;
             color: #721c24;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
         }
 
         .btn {
@@ -114,15 +117,14 @@
             width: 100%;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
         }
 
         .btn-primary:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
         .log-area {
@@ -131,15 +133,18 @@
             padding: 16px;
             border-radius: 12px;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
-            height: 200px;
+            font-size: 11px;
+            height: 280px;
             overflow-y: auto;
             margin-top: 24px;
         }
 
         .log-entry {
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             line-height: 1.4;
+            word-break: break-word;
+            border-bottom: 1px solid rgba(0,255,157,0.1);
+            padding-bottom: 4px;
         }
 
         .log-time {
@@ -148,8 +153,8 @@
 
         .spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border: 2px solid #f3f3f3;
             border-top: 2px solid #667eea;
             border-radius: 50%;
@@ -162,14 +167,15 @@
         }
 
         .admin-credentials {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
+            border: 1px solid #4caf50;
         }
 
         .admin-credentials h4 {
-            color: #1a1a2e;
+            color: #2e7d32;
             margin-bottom: 12px;
         }
 
@@ -182,12 +188,33 @@
 
         .credential-label {
             font-weight: 600;
-            color: #495057;
+            color: #2e7d32;
         }
 
         .credential-value {
-            color: #667eea;
+            color: #1b5e20;
             font-family: monospace;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #0c5460;
         }
     </style>
 </head>
@@ -198,6 +225,11 @@
             <p>Configuration automatique de la base de données</p>
         </div>
         <div class="install-body">
+            <div class="info-box">
+                ℹ️ Cette installation va créer le compte administrateur et les données par défaut.
+                <br>Assurez-vous que les règles Firebase sont correctement configurées.
+            </div>
+
             <div class="step">
                 <h3>📋 Étape 1 : Configuration Firebase</h3>
                 <p>Vérification et initialisation de la connexion Firebase</p>
@@ -207,15 +239,7 @@
             </div>
 
             <div class="step">
-                <h3>🗄️ Étape 2 : Création des collections Firestore</h3>
-                <p>Création des collections nécessaires pour le site</p>
-                <div id="firestore-status" class="status status-pending">
-                    <span>🔄</span> En attente...
-                </div>
-            </div>
-
-            <div class="step">
-                <h3>👑 Étape 3 : Création du compte administrateur</h3>
+                <h3>👑 Étape 2 : Création du compte administrateur</h3>
                 <p>Création du compte admin principal</p>
                 <div id="admin-status" class="status status-pending">
                     <span>🔄</span> En attente...
@@ -223,7 +247,7 @@
             </div>
 
             <div class="step">
-                <h3>📦 Étape 4 : Chargement des données par défaut</h3>
+                <h3>📦 Étape 3 : Chargement des données par défaut</h3>
                 <p>Insertion des contenus par défaut (historique, programmes, actualités)</p>
                 <div id="data-status" class="status status-pending">
                     <span>🔄</span> En attente...
@@ -244,8 +268,8 @@
                     <span class="credential-label">Mot de passe :</span>
                     <span class="credential-value" id="admin-password">Admin123!</span>
                 </div>
-                <p style="margin-top: 12px; font-size: 12px; color: #6c757d;">
-                    ⚠️ Conservez ces identifiants précieusement. Vous pourrez les modifier après la première connexion.
+                <p style="margin-top: 12px; font-size: 12px; color: #2e7d32;">
+                    ✅ Conservez ces identifiants précieusement. Vous pourrez les modifier après la première connexion.
                 </p>
             </div>
 
@@ -273,6 +297,7 @@
 
         let app, auth, db, storage;
         let installationRunning = false;
+        let currentUser = null;
 
         function addLog(message, type = 'info') {
             const logArea = document.getElementById('log-area');
@@ -294,56 +319,37 @@
         async function initFirebase() {
             try {
                 addLog('Initialisation de Firebase...', 'info');
-                app = firebase.initializeApp(firebaseConfig);
+                
+                if (!firebase.apps.length) {
+                    app = firebase.initializeApp(firebaseConfig);
+                } else {
+                    app = firebase.app();
+                }
+                
                 auth = firebase.auth();
                 db = firebase.firestore();
                 storage = firebase.storage();
                 
-                // Activer la persistance
-                await db.enablePersistence().catch(err => {
-                    addLog('Persistance limitée: ' + err.message, 'warning');
-                });
+                // Activer la persistance avec gestion d'erreur
+                try {
+                    await db.enablePersistence({ synchronizeTabs: true });
+                    addLog('Persistance Firestore activée', 'success');
+                } catch (err) {
+                    if (err.code === 'failed-precondition') {
+                        addLog('Persistance limitée: plusieurs onglets ouverts', 'warning');
+                    } else if (err.code === 'unimplemented') {
+                        addLog('Persistance non supportée', 'warning');
+                    }
+                }
                 
                 addLog('Firebase initialisé avec succès', 'success');
-                document.getElementById('firebase-status').innerHTML = '<span>✅</span> Connecté à Firebase';
+                document.getElementById('firebase-status').innerHTML = '<span>✅</span> Firebase connecté';
                 document.getElementById('firebase-status').className = 'status status-success';
                 return true;
             } catch (error) {
                 addLog('Erreur Firebase: ' + error.message, 'error');
-                document.getElementById('firebase-status').innerHTML = '<span>❌</span> Erreur de connexion';
+                document.getElementById('firebase-status').innerHTML = '<span>❌</span> Erreur';
                 document.getElementById('firebase-status').className = 'status status-error';
-                return false;
-            }
-        }
-
-        async function createFirestoreCollections() {
-            addLog('Création des collections Firestore...', 'info');
-            const collections = [
-                'content', 'news', 'gallery', 'admins', 'settings', 'adminInvites'
-            ];
-            
-            try {
-                for (const collection of collections) {
-                    // Vérifier si la collection existe déjà
-                    const snapshot = await db.collection(collection).limit(1).get();
-                    if (snapshot.empty) {
-                        // Créer un document placeholder pour initialiser la collection
-                        await db.collection(collection).doc('_placeholder').set({
-                            _created: new Date().toISOString()
-                        });
-                        addLog(`Collection "${collection}" créée`, 'success');
-                    } else {
-                        addLog(`Collection "${collection}" existe déjà`, 'info');
-                    }
-                }
-                
-                document.getElementById('firestore-status').innerHTML = '<span>✅</span> Collections créées avec succès';
-                document.getElementById('firestore-status').className = 'status status-success';
-                return true;
-            } catch (error) {
-                addLog('Erreur création collections: ' + error.message, 'error');
-                document.getElementById('firestore-status').innerHTML = '<span>❌</span> Erreur';
-                document.getElementById('firestore-status').className = 'status status-error';
                 return false;
             }
         }
@@ -354,42 +360,45 @@
             const adminPassword = 'Admin123!';
             
             try {
-                // Vérifier si l'admin existe déjà
+                // Essayer de créer le compte
+                let userCredential;
                 try {
-                    const userCredential = await auth.createUserWithEmailAndPassword(adminEmail, adminPassword);
-                    const user = userCredential.user;
-                    
-                    // Ajouter aux admins dans Firestore
-                    await db.collection('admins').doc(user.uid).set({
-                        email: adminEmail,
-                        name: 'Administrateur Principal',
-                        role: 'super_admin',
-                        createdAt: new Date().toISOString(),
-                        createdBy: 'system'
-                    });
-                    
-                    addLog(`Compte admin créé: ${adminEmail}`, 'success');
-                    document.getElementById('admin-email').textContent = adminEmail;
-                    document.getElementById('admin-password').textContent = adminPassword;
-                    document.getElementById('credentials-area').style.display = 'block';
-                    
+                    userCredential = await auth.createUserWithEmailAndPassword(adminEmail, adminPassword);
+                    addLog('Compte admin créé avec succès', 'success');
+                    currentUser = userCredential.user;
                 } catch (error) {
                     if (error.code === 'auth/email-already-in-use') {
-                        addLog('Compte admin existe déjà', 'warning');
-                        // Récupérer l'utilisateur existant
-                        const user = await auth.signInWithEmailAndPassword(adminEmail, adminPassword);
-                        addLog('Connexion avec le compte existant', 'success');
+                        addLog('Le compte existe déjà, tentative de connexion...', 'info');
+                        userCredential = await auth.signInWithEmailAndPassword(adminEmail, adminPassword);
+                        addLog('Connecté avec le compte existant', 'success');
+                        currentUser = userCredential.user;
                     } else {
                         throw error;
                     }
                 }
                 
+                // Ajouter aux admins dans Firestore
+                await db.collection('admins').doc(currentUser.uid).set({
+                    email: adminEmail,
+                    name: 'Administrateur Principal',
+                    role: 'super_admin',
+                    createdAt: new Date().toISOString(),
+                    createdBy: 'system'
+                }, { merge: true });
+                
+                addLog('Profil admin enregistré dans Firestore', 'success');
+                
+                document.getElementById('admin-email').textContent = adminEmail;
+                document.getElementById('admin-password').textContent = adminPassword;
+                document.getElementById('credentials-area').style.display = 'block';
+                
                 document.getElementById('admin-status').innerHTML = '<span>✅</span> Compte admin configuré';
                 document.getElementById('admin-status').className = 'status status-success';
                 return true;
+                
             } catch (error) {
                 addLog('Erreur création admin: ' + error.message, 'error');
-                document.getElementById('admin-status').innerHTML = '<span>❌</span> Erreur';
+                document.getElementById('admin-status').innerHTML = '<span>❌</span> Erreur: ' + error.message;
                 document.getElementById('admin-status').className = 'status status-error';
                 return false;
             }
@@ -399,7 +408,6 @@
             addLog('Chargement des données par défaut...', 'info');
             
             const defaultData = {
-                // Contenu historique
                 history: {
                     texts: [
                         "L'histoire de l'Église Évangélique des Ambassadeurs pour Christ – Eglise <strong>Pain de Vie</strong> trouve sa source dans une révélation divine reçue le 27 juin 2005. Ce jour-là, le Seigneur confia à Son serviteur une mission sacrée : nourrir le peuple de Dieu par la profondeur de Sa Parole afin de restaurer la vie au sein des nations.",
@@ -407,10 +415,9 @@
                         "Aujourd'hui, portée par une soif d'excellence et de sainteté, la paroisse Pain de Vie se dresse à Kolwezi comme un phare spirituel, guidant les âmes vers leur destinée prophétique en Jésus-Christ."
                     ],
                     updatedAt: new Date().toISOString(),
-                    updatedBy: 'system'
+                    updatedBy: currentUser?.email || 'system'
                 },
                 
-                // Vision et Mission
                 vision: {
                     vision: "Être une communauté vivante qui communique la Vie divine, formant des leaders transformés et enracinés en Christ pour impacter les générations.",
                     mission: "Nourrir les croyants par un enseignement authentique, conduire les âmes au salut et étendre le Royaume de Dieu par l'implantation d'églises fortes.",
@@ -418,7 +425,6 @@
                     updatedAt: new Date().toISOString()
                 },
                 
-                // Programmes
                 programs: {
                     morning: "Lundi-Vendredi: 05h30-06h30",
                     teaching: "Mardi & Vendredi: 16h00-18h00",
@@ -426,14 +432,12 @@
                     updatedAt: new Date().toISOString()
                 },
                 
-                // Message du pasteur
                 pasteur: {
                     message: "Ma passion est de voir chaque croyant découvrir sa destinée en Christ et marcher dans la plénitude de la vie divine. Nous sommes appelés à être la lumière du monde et le sel de la terre. Ensemble, avançons dans la puissance de l'Esprit !",
                     title: "Fondateur de l'église Pain de Vie",
                     updatedAt: new Date().toISOString()
                 },
                 
-                // Contacts
                 contacts: {
                     address: "44 Avenue Dilolo, Quartier Hewa Bora, Commune Dilala, Kolwezi, RDC",
                     phone: "+243 123 456 789",
@@ -447,17 +451,55 @@
                     updatedAt: new Date().toISOString()
                 },
                 
-                // Paramètres généraux
                 settings: {
                     siteName: "Pain de Vie - Ambassadeurs pour Christ",
                     siteDescription: "Église Évangélique des Ambassadeurs pour Christ",
                     version: "2.0",
+                    installedAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 }
             };
             
+            const defaultNews = [
+                {
+                    title: 'Grande Conférence sur le Réveil',
+                    content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
+                    image: 'Seance de cilte 1.jpeg',
+                    author: 'Pasteur Obed Kahozi',
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now(),
+                    createdBy: currentUser?.email || 'system'
+                },
+                {
+                    title: 'Camp de Jeunesse 2025',
+                    content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
+                    image: 'Seance de cilte 5.jpeg',
+                    author: 'Département Jeunesse',
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now() - 86400000,
+                    createdBy: currentUser?.email || 'system'
+                },
+                {
+                    title: 'Baptême Collectif',
+                    content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
+                    image: 'Seance de cilte 8.jpeg',
+                    author: 'Pasteur Obed Kahozi',
+                    date: new Date().toLocaleDateString(),
+                    timestamp: Date.now() - 172800000,
+                    createdBy: currentUser?.email || 'system'
+                }
+            ];
+            
             try {
-                // Charger chaque document
+                // Vérifier si l'installation existe déjà
+                const settingsDoc = await db.collection('settings').doc('general').get();
+                const isNewInstall = !settingsDoc.exists;
+                
+                if (!isNewInstall) {
+                    addLog('Installation existante détectée, mise à jour partielle...', 'info');
+                }
+                
+                // Charger les documents avec merge
                 await db.collection('content').doc('history').set(defaultData.history, { merge: true });
                 addLog('Historique chargé', 'success');
                 
@@ -476,42 +518,17 @@
                 await db.collection('settings').doc('general').set(defaultData.settings, { merge: true });
                 addLog('Paramètres généraux chargés', 'success');
                 
-                // Actualités par défaut
-                const defaultNews = [
-                    {
-                        title: 'Grande Conférence sur le Réveil',
-                        content: 'Rejoignez-nous pour une semaine de réveil spirituel avec le Pasteur Marcello Tunasi. Des soirées de louange et d\'enseignement exceptionnelles vous attendent. La puissance de Dieu va se manifester ! Inscriptions au secrétariat de l\'église.',
-                        image: 'Seance de cilte 1.jpeg',
-                        author: 'Pasteur Obed Kahozi',
-                        date: new Date().toLocaleDateString(),
-                        timestamp: Date.now()
-                    },
-                    {
-                        title: 'Camp de Jeunesse 2025',
-                        content: 'Inscriptions ouvertes pour le camp de jeunesse "Génération Impact". 3 jours de communion, d\'enseignements et d\'activités. Transport et nourriture inclus. Âge : 15-30 ans. Départ prévu le 15 avril.',
-                        image: 'Seance de cilte 5.jpeg',
-                        author: 'Département Jeunesse',
-                        date: new Date().toLocaleDateString(),
-                        timestamp: Date.now() - 86400000
-                    },
-                    {
-                        title: 'Baptême Collectif',
-                        content: 'Préparez-vous pour le grand baptême du mois d\'avril. Les inscriptions sont ouvertes au secrétariat. C\'est l\'occasion de témoigner publiquement de votre foi en Jésus-Christ. Sessions de préparation chaque mercredi.',
-                        image: 'Seance de cilte 8.jpeg',
-                        author: 'Pasteur Obed Kahozi',
-                        date: new Date().toLocaleDateString(),
-                        timestamp: Date.now() - 172800000
+                // Actualités - uniquement si nouvelle installation
+                if (isNewInstall) {
+                    const newsSnapshot = await db.collection('news').limit(1).get();
+                    if (newsSnapshot.empty) {
+                        for (const news of defaultNews) {
+                            await db.collection('news').add(news);
+                        }
+                        addLog('Actualités par défaut chargées', 'success');
+                    } else {
+                        addLog('Actualités déjà présentes', 'info');
                     }
-                ];
-                
-                const newsSnapshot = await db.collection('news').get();
-                if (newsSnapshot.empty) {
-                    for (const news of defaultNews) {
-                        await db.collection('news').add(news);
-                    }
-                    addLog('Actualités par défaut chargées', 'success');
-                } else {
-                    addLog('Actualités déjà présentes, chargement ignoré', 'info');
                 }
                 
                 document.getElementById('data-status').innerHTML = '<span>✅</span> Données chargées avec succès';
@@ -520,7 +537,7 @@
                 
             } catch (error) {
                 addLog('Erreur chargement données: ' + error.message, 'error');
-                document.getElementById('data-status').innerHTML = '<span>❌</span> Erreur';
+                document.getElementById('data-status').innerHTML = '<span>❌</span> Erreur: ' + error.message;
                 document.getElementById('data-status').className = 'status status-error';
                 return false;
             }
@@ -539,32 +556,42 @@
             
             addLog('🚀 Démarrage de l\'installation...', 'info');
             
-            const steps = [
-                { name: 'Firebase', fn: initFirebase },
-                { name: 'Collections', fn: createFirestoreCollections },
-                { name: 'Admin', fn: createAdminAccount },
-                { name: 'Données', fn: loadDefaultData }
-            ];
-            
-            let allSuccess = true;
-            
-            for (const step of steps) {
-                addLog(`Exécution de l'étape: ${step.name}...`, 'info');
-                const success = await step.fn();
-                if (!success) {
-                    allSuccess = false;
-                    addLog(`❌ Échec de l'étape: ${step.name}`, 'error');
-                    break;
-                }
+            // Étape 1: Firebase
+            addLog('Exécution de l\'étape: Firebase...', 'info');
+            const firebaseSuccess = await initFirebase();
+            if (!firebaseSuccess) {
+                addLog('❌ Échec de l\'étape: Firebase', 'error');
+                btn.innerHTML = '🔄 Réessayer l\'installation';
+                btn.disabled = false;
+                installationRunning = false;
+                return;
             }
+            await new Promise(resolve => setTimeout(resolve, 500));
             
-            if (allSuccess) {
+            // Étape 2: Admin
+            addLog('Exécution de l\'étape: Admin...', 'info');
+            const adminSuccess = await createAdminAccount();
+            if (!adminSuccess) {
+                addLog('❌ Échec de l\'étape: Admin', 'error');
+                btn.innerHTML = '🔄 Réessayer l\'installation';
+                btn.disabled = false;
+                installationRunning = false;
+                return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Étape 3: Données
+            addLog('Exécution de l\'étape: Données...', 'info');
+            const dataSuccess = await loadDefaultData();
+            
+            if (dataSuccess) {
                 addLog('🎉 Installation terminée avec succès !', 'success');
                 addLog('🔐 Vous pouvez maintenant vous connecter avec les identifiants ci-dessus', 'success');
-                btn.innerHTML = '✅ Installation terminée !';
+                btn.innerHTML = '✅ Installation terminée avec succès !';
                 btn.style.background = '#28a745';
+                btn.disabled = true;
             } else {
-                addLog('❌ Installation interrompue à cause d\'une erreur', 'error');
+                addLog('❌ Échec de l\'étape: Données', 'error');
                 btn.innerHTML = '🔄 Réessayer l\'installation';
                 btn.disabled = false;
             }
@@ -572,21 +599,25 @@
             installationRunning = false;
         }
         
-        // Vérifier si l'installation est déjà effectuée
-        async function checkExistingInstall() {
+        // Vérifier l'état au chargement
+        async function checkExisting() {
             try {
-                await initFirebase();
-                const settingsDoc = await db.collection('settings').doc('general').get();
-                if (settingsDoc.exists) {
-                    addLog('ℹ️ Une installation existe déjà. Vous pouvez réinitialiser si nécessaire.', 'info');
+                const initSuccess = await initFirebase();
+                if (initSuccess) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    const settingsDoc = await db.collection('settings').doc('general').get();
+                    if (settingsDoc.exists) {
+                        addLog('ℹ️ Une installation existe déjà.', 'info');
+                    } else {
+                        addLog('Aucune installation existante. Prêt pour l\'installation.', 'info');
+                    }
                 }
             } catch (error) {
-                addLog('Aucune installation existante détectée', 'info');
+                addLog('Erreur vérification: ' + error.message, 'warning');
             }
         }
         
-        // Auto-vérification au chargement
-        setTimeout(checkExistingInstall, 1000);
+        setTimeout(checkExisting, 500);
     </script>
 </body>
 </html>
